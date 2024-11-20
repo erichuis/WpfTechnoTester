@@ -1,0 +1,62 @@
+﻿<Window x:Class="WpfTechnoTester.Views.UserLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:local="clr-namespace:WpfTechnoTester.Views"
+        xmlns:styles="clr-namespace:WpfTechnoTester.Views"
+        mc:Ignorable="d"
+        Title="UserLogin" Height="420" Width="320" 
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        AllowsTransparency="true"
+        Background="Transparent"
+        >
+    <Border Style="{StaticResource BorderStyle}">
+        <StackPanel Orientation="Vertical"
+                    Margin="20">
+            <TextBlock Text="Login" 
+                       Style="{StaticResource ResourceKey=LoginTextBlock}"/>
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="User Name" 
+                    Grid.Row="0"
+                    Style="{StaticResource DefaultTextBlock}"/>
+                <TextBox  Grid.Column="1"
+                  Grid.Row="1"
+                  Text="MP Codes"        
+                  Style="{StaticResource LoginTextBox}"/>
+                <TextBlock Text="Password" 
+                   Grid.Row="2"
+                   Style="{StaticResource DefaultTextBlock}"/>
+                <Border BorderBrush="Gray"
+        Grid.Row="3"
+        BorderThickness="0,0,0,1">
+                    <StackPanel Orientation="Horizontal"
+                     HorizontalAlignment="Left">
+                        <iconPacks:PackIconModern Width="16"
+                                    Height="16"
+                                    Margin="0,2,10,0"
+                                    Kind="Lock" />
+                        <PasswordBox Password="mpcodes"                             
+                             Style="{StaticResource LoginPasswordBox}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+            <TextBlock Text="forgot password?" 
+                       HorizontalAlignment="Right"/>
+            <Button x:Name="LoginBtn" 
+                    Style="{StaticResource LoginButtonStyle}"/>
+            <TextBlock Text="Not a member?"
+                       Style="{StaticResource SignUpTextBlock}"/>
+            <TextBlock Text="Sign Up"
+                       Style="{StaticResource SignUpTextBlock}"/>
+        </StackPanel>
+    </Border>
+</Window>
