@@ -3,6 +3,7 @@ using System.Windows.Input;
 using WpfTechnoTester.Commands;
 using WpfTechnoTester.EventArgs;
 using WpfTechnoTester.Models;
+using WpfTechnoTester.Services;
 
 namespace WpfTechnoTester.ViewModels
 {
@@ -13,16 +14,17 @@ namespace WpfTechnoTester.ViewModels
         private string _email = string.Empty;
         private string _emailVerified = string.Empty;
         private SecureString? _password;
+        private IUserService _userService;
         private User _user = new();
 
         public RelayCommand? SaveCommand { get; }
 
-        public event EventHandler<HarvestPasswordEventArgs>? HarvestPassword;
+        //public event EventHandler<HarvestPasswordEventArgs>? HarvestPassword;
 
-        public UserSignupViewModel(/*IUserService userService*/)
+        public UserSignupViewModel(IUserService userService)
         {
-            SaveCommand = new RelayCommand((param) =>  _user.Save(), (param) => _user.CanSave());
-            //_userService = userService;
+            _userService = userService;
+            SaveCommand = new RelayCommand(async (param) =>  await userService.AddUserAsync(_user), (param) => _user.CanSave());
         }
 
         public string UserName
@@ -33,6 +35,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_userName != value)
                 {
                     _userName = value;
+                    _user.UserName = value;
                     OnPropertyChanged(nameof(UserName));
                 }
             }
@@ -45,6 +48,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_email != value)
                 {
                     _email = value;
+                    _user.Email = value;
                     OnPropertyChanged(nameof(Email));
                 }
             }
@@ -58,10 +62,13 @@ namespace WpfTechnoTester.ViewModels
                 if (_emailVerified != value)
                 {
                     _emailVerified = value;
+                    _user.EmailVerified = value;
                     OnPropertyChanged(nameof(EmailVerified));
                 }
             }
         }
+
+        //public SecureString Password { private get; set; }
 
         public SecureString Password
         {
@@ -71,6 +78,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_password != value)
                 {
                     _password = value;
+                    _user.Password = value;
                     OnPropertyChanged(nameof(Password));
                 }
             }

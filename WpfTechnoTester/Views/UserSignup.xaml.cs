@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using WpfTechnoTester.ViewModels;
 
 namespace WpfTechnoTester.Views
@@ -11,12 +12,15 @@ namespace WpfTechnoTester.Views
         public UserSignup(UserSignupViewModel viewModel)
         {
             InitializeComponent();
-            if(viewModel == null)
-            {
-                viewModel = new UserSignupViewModel();
-            }
-            viewModel.HarvestPassword += (sender, args) => args.Password = this.pwdBox.SecurePassword;
+           
+            //viewModel.HarvestPassword += (sender, args) => args.Password = this.pwdBox.SecurePassword;
             DataContext = viewModel;
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            { ((dynamic)DataContext).Password = ((PasswordBox)sender).SecurePassword; }
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security;
 
 namespace WpfTechnoTester.Models
 {
@@ -30,10 +25,10 @@ namespace WpfTechnoTester.Models
 
         public bool CanSave()
         {
-            CheckIsValid(() => string.IsNullOrEmpty(Email), "Email can not be empty");
-            CheckIsValid(() => string.IsNullOrEmpty(EmailVerified), "EmailVerified can not be empty");
-            CheckIsValid(() => string.IsNullOrEmpty(UserName), "Username can not be empty");
-            CheckIsValid(() => Password?.Length == 0, "Password can not be empty");
+            CheckIsValid(() => !string.IsNullOrEmpty(Email), "Email can not be empty");
+            CheckIsValid(() => !string.IsNullOrEmpty(EmailVerified), "EmailVerified can not be empty");
+            CheckIsValid(() => !string.IsNullOrEmpty(UserName), "Username can not be empty");
+            CheckIsValid(() => Password?.Length != 0, "Password can not be empty");
             CheckIsValid(() => Email != null && Email.Equals(EmailVerified), "Email verification is not correct");
 
             if (IsValid())

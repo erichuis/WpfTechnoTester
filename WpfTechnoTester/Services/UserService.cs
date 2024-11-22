@@ -19,7 +19,7 @@ namespace WpfTechnoTester.Services
 
         public async Task AddUserAsync(User user)
         {
-            throw new NotImplementedException();
+            await _httpAppClient.CreateUser(user);
         }
 
         public async Task UpdateUserAsync(User user)

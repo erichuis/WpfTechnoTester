@@ -1,9 +1,8 @@
 ﻿using IdentityModel.Client;
-using System.DirectoryServices.ActiveDirectory;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Windows.Xps;
+using WpfTechnoTester.Models;
 
 namespace WpfTechnoTester.Clients
 {
@@ -189,6 +188,50 @@ namespace WpfTechnoTester.Clients
                 throw new Exception("No Task found");
             }
             return result;
+        }
+
+        public Task<bool> Login()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<User> CreateUser(User newUser)
+        {
+            string jsonContent = JsonSerializer.Serialize(newUser);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync($"users", content);
+
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var user = JsonSerializer.Deserialize<User>(json);
+            if (user == null)
+            {
+                throw new Exception("No user found");
+            }
+            return user;
+        }
+
+        public Task<bool> DeleteUser(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateUser(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<User>> GetAllUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserByIdAsync(string id)
+        {
+            throw new NotImplementedException();
         }
 
         //public static async Task<string> GetAccessTokenAsync()

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System.Windows;
 using WpfTechnoTester.Clients;
+using WpfTechnoTester.ViewModels;
 
 namespace WpfTechnoTester
 {
@@ -20,6 +21,7 @@ namespace WpfTechnoTester
                     services.AddScoped(typeof(IHttpAppClient), typeof(HttpAppClient));
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<TodoItemViewModel>();
+                    services.AddSingleton<UserSignupViewModel>();
                 })
                 .Build();
         }
