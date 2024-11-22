@@ -36,7 +36,7 @@
                 <TextBox  Grid.Column="1"
                     Grid.Row="1"
                     Name="UserName"
-                    Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, Path=UserName}"
+                    Text="{Binding UserName}"
                     Style="{StaticResource LoginTextBox}" />
                 <TextBlock Text="Email" 
                     Grid.Row="2"
