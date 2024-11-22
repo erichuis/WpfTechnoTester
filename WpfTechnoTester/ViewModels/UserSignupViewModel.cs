@@ -21,7 +21,7 @@ namespace WpfTechnoTester.ViewModels
 
         public UserSignupViewModel(/*IUserService userService*/)
         {
-            SaveCommand = new RelayCommand((param) => _user.Save(), (param) => _user.CanSave());
+            SaveCommand = new RelayCommand((param) =>  _user.Save(), (param) => _user.CanSave());
             //_userService = userService;
         }
 

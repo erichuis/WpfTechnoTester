@@ -2,13 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:WpfTechnoTester.Views"
         xmlns:styles="clr-namespace:WpfTechnoTester.Views"
         mc:Ignorable="d"
         Title="UserLogin" Height="450" Width="320" 
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
         Background="Transparent"
@@ -70,9 +71,20 @@
                     </StackPanel>
                 </Border>
             </Grid>
-            <Button x:Name="SignUpButton" 
+            <Button x:Name="SignUpButton"
                     Style="{StaticResource LoginButtonStyle}"
-                    Content="Save" Command="{Binding SaveCommand}" />
+                    Content="Save" >
+                <!--Command="{Binding SaveCommand}" >-->
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding}"/>
+                        <i:CallMethodAction MethodName="Close"
+                            TargetObject="{Binding RelativeSource={RelativeSource
+                            Mode=FindAncestor,
+                            AncestorType=Window}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
         </StackPanel>
     </Border>
 </Window>
