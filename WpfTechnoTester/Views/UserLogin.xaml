@@ -56,7 +56,11 @@
             <TextBlock Text="Not a member?"
                        Style="{StaticResource SignUpTextBlock}"/>
             <TextBlock Text="Sign Up"
-                       Style="{StaticResource SignUpTextBlock}"/>
+                       Style="{StaticResource SignUpTextBlock}">
+                <!--<TextBlock.InputBindings>
+                    <MouseBinding Command="SignupCommand" MouseAction="LeftClick" />
+                </TextBlock.InputBindings>-->
+            </TextBlock>
         </StackPanel>
     </Border>
 </Window>

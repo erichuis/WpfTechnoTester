@@ -1,6 +1,6 @@
 ﻿namespace WpfTechnoTester.Clients
 {
-    public interface ITaskClient
+    public interface IHttpAppClient
     {
         Task<IEnumerable<TodoItem>> GetAllTasksAsync();
         Task<TodoItem> GetTaskByIdAsync(string id);

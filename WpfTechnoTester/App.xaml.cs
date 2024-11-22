@@ -17,7 +17,7 @@ namespace WpfTechnoTester
             _host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddScoped(typeof(ITaskClient), typeof(TaskClient));
+                    services.AddScoped(typeof(IHttpAppClient), typeof(HttpAppClient));
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<TodoItemViewModel>();
                 })

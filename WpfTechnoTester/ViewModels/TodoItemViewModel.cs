@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Navigation;
 using WpfTechnoTester.Clients;
 using WpfTechnoTester.Commands;
 using WpfTechnoTester.Views;
@@ -7,7 +8,7 @@ using WpfTechnoTester.Views;
 
 public class TodoItemViewModel : INotifyPropertyChanged
 {
-    private readonly ITaskClient _taskClient;
+    private readonly IHttpAppClient _taskClient;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -25,18 +26,20 @@ public class TodoItemViewModel : INotifyPropertyChanged
     public RelayCommand LoadTasksCommand { get; }
     public RelayCommand LoginCommand { get; }
     public RelayCommand LogoutCommand { get; }
+    public SignUpCommand SignUpCommand { get; }
 
-                
-    public TodoItemViewModel(ITaskClient taskClient)
+
+    public TodoItemViewModel(IHttpAppClient taskClient)
     {
         TodoItems = [];
         SelectedTodoItems = [];
-        AddTodoItemCommand = new RelayCommand (AddTodoItem, () => CanExecute());
-        DeleteTaskCommand = new RelayCommand(DeleteTask, () => CanExecute());
-        UpdateTaskCommand = new RelayCommand(UpdateTask, () => CanExecute());
-        LoadTasksCommand = new RelayCommand(RetrieveTodoItems, () => CanRetrieve());
-        LoginCommand = new RelayCommand(Login, () => { return true; });
-        LogoutCommand = new RelayCommand(Logout, () => { return true; });
+        AddTodoItemCommand = new RelayCommand((param) => AddTodoItem(), null);
+        DeleteTaskCommand = new RelayCommand((param) => DeleteTask(), null);
+        UpdateTaskCommand = new RelayCommand((param) => UpdateTask(), null);
+        LoadTasksCommand = new RelayCommand((param) => RetrieveTodoItems(), null);
+        LoginCommand = new RelayCommand((param) => Login(), null);
+        LogoutCommand = new RelayCommand((param) => Logout(), null);
+        SignUpCommand = new SignUpCommand((param) => SignUp(), (param) => true);
         _title = string.Empty;
         _description = string.Empty;
         _taskClient = taskClient;
@@ -62,7 +65,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
     protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        AddTodoItemCommand.OnCanExecuteChanged();
+        //AddTodoItemCommand.OnCanExecuteChanged();
     }
 
     public string Title
@@ -106,9 +109,23 @@ public class TodoItemViewModel : INotifyPropertyChanged
     private async void RetrieveTodoItems()
     {
         TodoItems.Clear();
-       
+
         var tasks = await _taskClient.GetAllTasksAsync();
         foreach (var task in tasks) TodoItems.Add(task);
+    }
+
+    private void SignUp()
+    {
+        if (_taskClient != null)
+        {
+
+            //UserLogin login = new UserLogin();
+            _taskClient.GetToken();
+            UserSignup signup = new UserSignup(null);
+            signup.ShowDialog();
+            //by machine
+
+        }
     }
 
     private void Login()
@@ -134,12 +151,12 @@ public class TodoItemViewModel : INotifyPropertyChanged
             return;
 
         var newTask = new TodoItem()
-        { 
+        {
             Description = Description,
             Title = Title
         };
-        
-        var response =  _taskClient.CreateTaskAsync(newTask).GetAwaiter().GetResult();
+
+        var response = _taskClient.CreateTaskAsync(newTask).GetAwaiter().GetResult();
         if (response != null)
         {
             TodoItems.Add(response);
@@ -148,12 +165,12 @@ public class TodoItemViewModel : INotifyPropertyChanged
 
     private async void DeleteTask()
     {
-        if(SelectedTodoItems.Count == 0)
+        if (SelectedTodoItems.Count == 0)
         {
             return;
         }
 
-        foreach(var item in SelectedTodoItems)
+        foreach (var item in SelectedTodoItems)
         {
             await _taskClient.DeleteTaskByIdAsync(item.Id);
             TodoItems.Remove(item);
@@ -174,6 +191,6 @@ public class TodoItemViewModel : INotifyPropertyChanged
         item.IsCompleted = IsCompleted;
 
         await _taskClient.UpdateTaskAsync(item);
-        
+
     }
 }

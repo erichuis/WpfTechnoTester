@@ -1,67 +1,45 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace WpfTechnoTester.Commands
 {
+
     public class RelayCommand : ICommand
     {
-        private readonly Action _execute;
+        readonly Action<object?> _execute;
+        readonly Predicate<object?> _canExecute;
 
-        private readonly Func<bool> _canExecute;
-
-        private event EventHandler? CanExecuteChangedInternal;
-
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        public RelayCommand(Action<object> execute) : this(execute, null) { }
+        public RelayCommand(Action<object> execute, Predicate<object?> canExecute)
         {
-            ArgumentNullException.ThrowIfNull(execute);
+            if (execute == null)
+                throw new ArgumentNullException("execute");
 
-            ArgumentNullException.ThrowIfNull(canExecute);
-
-            _execute = execute;
+            _execute = execute; 
             _canExecute = canExecute;
+        }
+ 
+        [DebuggerStepThrough]
+        public bool CanExecute(object? parameter)
+        {
+            return _canExecute == null ? true : _canExecute(parameter);
         }
 
         public event EventHandler? CanExecuteChanged
         {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-                CanExecuteChangedInternal += value;
-            }
-
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-                CanExecuteChangedInternal -= value;
-            }
-        }
-
-        public bool CanExecute(object? parameter)
-        {
-            
-            return  _canExecute.Invoke();
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
         }
 
         public void Execute(object? parameter)
         {
-            _execute();
-        }
-
-        public void OnCanExecuteChanged()
-        {
-            EventHandler handler = CanExecuteChangedInternal;
-            if (handler != null)
+            if(parameter == null)
             {
-                //DispatcherHelper.BeginInvokeOnUIThread(() => handler.Invoke(this, EventArgs.Empty));
-                handler.Invoke(this, EventArgs.Empty);
+                return;
             }
+            _execute(parameter); 
         }
-
-        //public void Destroy()
-        //{
-        //    _canExecute = _ => false;
-        //    _execute = _ => { return; };
-        //}
 
     }
 }

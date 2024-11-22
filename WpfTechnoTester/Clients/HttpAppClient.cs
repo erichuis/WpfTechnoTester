@@ -7,10 +7,10 @@ using System.Windows.Xps;
 
 namespace WpfTechnoTester.Clients
 {
-    class TaskClient : ITaskClient
+    class HttpAppClient : IHttpAppClient
     {
         //Todo retrieve this from config
-        private readonly HttpClient _httpClient = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
+        private readonly System.Net.Http.HttpClient _httpClient = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
         private DiscoveryDocumentResponse _disco = new DiscoveryDocumentResponse();
         private TokenResponse _tokenResponse;
         const string ClientId = "WpfTodo";
@@ -18,14 +18,14 @@ namespace WpfTechnoTester.Clients
         const string Scope = "TodoApi";
         const string GrantType = "client_credentials";
 
-        public TaskClient()
+        public HttpAppClient()
         {
             
         }
 
         public async Task GetToken()
         {
-            var client = new HttpClient();
+            var client = new System.Net.Http.HttpClient();
             _disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
 
             if (_disco.IsError) 
@@ -84,7 +84,7 @@ namespace WpfTechnoTester.Clients
 
         private async void CheckError(string token)
         {
-            var client = new HttpClient();
+            var client = new System.Net.Http.HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:5001/connect/introspect");
             request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {

@@ -34,7 +34,7 @@
                 <Button Margin="5,0,0,0" Content="Delete Task" Command="{Binding DeleteTaskCommand}" />
                 <Button Margin="5,0,0,0" Content="Login" Command="{Binding LoginCommand}" />
                 <Button Margin="5,0,0,0" Content="Logout" Command="{Binding LogoutCommand}" />
-     
+                <Button Margin="5,0,0,0" Content="SignUp" Command="{Binding SignUpCommand}" />
             </StackPanel>
         </StackPanel>
     </Grid>

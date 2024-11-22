@@ -18,9 +18,9 @@
                                         Height="16"
                                         Margin="0,5,10,10"
                                         Kind="User" />
-                            <ContentPresenter Content="{TemplateBinding Text}"
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"/>
+                            <ContentPresenter Content="{TemplateBinding Text }"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </ControlTemplate>
