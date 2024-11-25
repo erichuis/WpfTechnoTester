@@ -6,13 +6,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:WpfTechnoTester.Views"
-        xmlns:styles="clr-namespace:WpfTechnoTester.Views"
+        xmlns:styles="clr-namespace:WpfTechnoTester.Views" 
+        xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:UserSignupViewModel}"
         mc:Ignorable="d"
         Title="UserLogin" Height="450" Width="320" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
         Background="Transparent"
+        Closing="Window_Closing"
         >
     <Border Style="{StaticResource BorderStyle}">
         <StackPanel Orientation="Vertical"
@@ -71,9 +73,11 @@
                     </StackPanel>
                 </Border>
             </Grid>
+            <StackPanel Orientation="Horizontal">
+                
             <Button x:Name="SignUpButton"
                     Style="{StaticResource LoginButtonStyle}"
-                    Content="Save" >
+                    Content="Submit">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding}"/>
@@ -84,6 +88,21 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
+            <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource LoginButtonStyle}"/>
+            <Button 
+                Content="Cancel" 
+                Style="{StaticResource LoginButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding CancelCommand}" CommandParameter="{Binding}"/>
+                            <i:CallMethodAction MethodName="Close"
+                            TargetObject="{Binding RelativeSource={RelativeSource
+                            Mode=FindAncestor,
+                            AncestorType=Window}}" />
+                    </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
         </StackPanel>
     </Border>
 </Window>

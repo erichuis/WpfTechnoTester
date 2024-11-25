@@ -9,15 +9,33 @@ namespace WpfTechnoTester.ViewModels
     {
         private readonly IUserService _userService;
         private readonly User _user = new();
+        private bool _cancelForm = false;
 
-        public RelayCommand SaveCommand { get; }
+        public RelayCommand SubmitCommand { get; }
+        public RelayCommand ResetCommand { get; }
+        public RelayCommand CancelCommand { get; }
 
         //public event EventHandler<HarvestPasswordEventArgs>? HarvestPassword;
 
         public UserSignupViewModel(IUserService userService)
         {
             _userService = userService;
-            SaveCommand = new RelayCommand(async (param) =>  await userService.AddUserAsync(_user), (param) => _user.CanSave());
+            SubmitCommand = new RelayCommand(async (param) =>  await userService.AddUserAsync(_user), (param) => _user.CanSave());
+            ResetCommand = new RelayCommand((param) => ResetForm());
+            CancelCommand = new RelayCommand((param) => CancelForm());
+        }
+
+        private void CancelForm()
+        {
+            _cancelForm = true;
+        }
+
+        private void ResetForm()
+        {
+            Email = string.Empty;
+            EmailVerified = string.Empty;
+            UserName = string.Empty;
+            _user.Password?.Clear();
         }
 
         public string UserName
@@ -58,7 +76,13 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
-        //public SecureString Password { private get; set; }
+        public bool CanClose
+        {
+            get
+            {
+                return _cancelForm || _user.CanSave();
+            }
+        }
 
         public SecureString Password
         {
