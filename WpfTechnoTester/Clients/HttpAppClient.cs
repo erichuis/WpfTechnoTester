@@ -9,7 +9,7 @@ namespace WpfTechnoTester.Clients
     class HttpAppClient : IHttpAppClient
     {
         //Todo retrieve this from config
-        private readonly System.Net.Http.HttpClient _httpClient = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
+        private readonly HttpClient _httpClient = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
         private DiscoveryDocumentResponse _disco = new DiscoveryDocumentResponse();
         private TokenResponse _tokenResponse;
         const string ClientId = "WpfTodo";
@@ -19,7 +19,7 @@ namespace WpfTechnoTester.Clients
 
         public HttpAppClient()
         {
-            
+
         }
 
         public async Task GetToken()
@@ -27,7 +27,7 @@ namespace WpfTechnoTester.Clients
             var client = new System.Net.Http.HttpClient();
             _disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
 
-            if (_disco.IsError) 
+            if (_disco.IsError)
             {
                 Console.WriteLine(_disco.Error);
                 return;
@@ -54,12 +54,12 @@ namespace WpfTechnoTester.Clients
                 return;
             }
 
-            _httpClient.SetBearerToken(_tokenResponse.AccessToken);  
+            _httpClient.SetBearerToken(_tokenResponse.AccessToken);
         }
 
         public async Task<bool> Logout()
         {
-            if(_tokenResponse == null || string.IsNullOrEmpty(_tokenResponse.AccessToken))
+            if (_tokenResponse == null || string.IsNullOrEmpty(_tokenResponse.AccessToken))
             {
                 //todo logsomething
                 return false;
@@ -71,8 +71,8 @@ namespace WpfTechnoTester.Clients
                 ClientSecret = ClientSecret,
                 Token = _tokenResponse.AccessToken
             });
-               
-            if(response.HttpStatusCode != System.Net.HttpStatusCode.OK)
+
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
             {
                 //Todo log something
                 return false;
@@ -94,13 +94,13 @@ namespace WpfTechnoTester.Clients
 
             var response = await client.SendAsync(request);
             var content = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(content);  
+            Console.WriteLine(content);
         }
 
         public async Task<IEnumerable<TodoItem>> GetAllTasksAsync()
         {
             var response = await _httpClient.GetAsync("Tasks/GetAllTasks");
-            if(!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
+            if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
             {
                 return Enumerable.Empty<TodoItem>();
             }
@@ -234,34 +234,35 @@ namespace WpfTechnoTester.Clients
             throw new NotImplementedException();
         }
 
-        //public static async Task<string> GetAccessTokenAsync()
-        //{
-        //    using var client = new HttpClient();
-
-        //    // Prepare the token request content
-        //    var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:5001");
-        //    request.Content = new FormUrlEncodedContent(new[]
+        //    public static async Task<string> GetAccessTokenAsync()
         //    {
-        //        new KeyValuePair<string, string>("grant_type", "client_credentials"),
-        //        new KeyValuePair<string, string>("client_id", "WpfTodo"),
-        //        new KeyValuePair<string, string>("client_secret", "secret"),
-        //        new KeyValuePair<string, string>("scope", "TodoApi")
-        //    });
+        //        using var client = new HttpClient();
 
-        //    // Send the request and handle the response
-        //    var response = await client.SendAsync(request).ConfigureAwait(false);
-        //    response.EnsureSuccessStatusCode();
+        //        Prepare the token request content
+        //       var request = new HttpRequestMessage(HttpMethod.Post, "https://localhost:5001");
+        //        request.Content = new FormUrlEncodedContent(new[]
+        //        {
+        //            new KeyValuePair<string, string>("grant_type", "client_credentials"),
+        //            new KeyValuePair<string, string>("client_id", "WpfTodo"),
+        //            new KeyValuePair<string, string>("client_secret", "secret"),
+        //            new KeyValuePair<string, string>("scope", "TodoApi")
+        //        });
 
-        //    var responseBody = await response.Content.ReadAsStringAsync();
-        //    var tokenResponse = System.Text.Json.JsonSerializer.Deserialize<TokenResponse>(responseBody);
+        //        Send the request and handle the response
+        //       var response = await client.SendAsync(request).ConfigureAwait(false);
+        //        response.EnsureSuccessStatusCode();
 
-        //    return tokenResponse.AccessToken;
+        //        var responseBody = await response.Content.ReadAsStringAsync();
+        //        var tokenResponse = System.Text.Json.JsonSerializer.Deserialize<TokenResponse>(responseBody);
+
+        //        return tokenResponse.AccessToken;
+        //    }
+
         //}
-
+        //public class TokenResponse
+        //{
+        //    public string AccessToken { get; set; }
+        //    public int ExpiresIn { get; set; }
+        //}
     }
-    //public class TokenResponse
-    //{
-    //    public string AccessToken { get; set; }
-    //    public int ExpiresIn { get; set; }
-    //}
 }

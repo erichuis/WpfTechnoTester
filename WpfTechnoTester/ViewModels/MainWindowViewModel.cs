@@ -1,14 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Navigation;
 using WpfTechnoTester.Clients;
 using WpfTechnoTester.Commands;
+using WpfTechnoTester.Services;
+using WpfTechnoTester.ViewModels;
 using WpfTechnoTester.Views;
 
 
 public class TodoItemViewModel : INotifyPropertyChanged
 {
     private readonly IHttpAppClient _taskClient;
+    private readonly IWindowService _windowService;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -29,7 +31,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
     public SignUpCommand SignUpCommand { get; }
 
 
-    public TodoItemViewModel(IHttpAppClient taskClient)
+    public TodoItemViewModel(IHttpAppClient taskClient, IWindowService windowService)
     {
         TodoItems = [];
         SelectedTodoItems = [];
@@ -43,6 +45,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
         _title = string.Empty;
         _description = string.Empty;
         _taskClient = taskClient;
+        _windowService = windowService;
     }
 
     private bool CanRetrieve()
@@ -121,10 +124,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
 
             //UserLogin login = new UserLogin();
             _taskClient.GetToken();
-            UserSignup signup = new UserSignup(null);
-            signup.ShowDialog();
-            //by machine
-
+            _windowService.ShowNewUserSignup();
         }
     }
 

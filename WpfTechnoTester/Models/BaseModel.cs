@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WpfTechnoTester.Models
+﻿namespace WpfTechnoTester.Models
 {
     public class BaseModel
     {
-        private List<string> _failMessages = [];
+        private readonly List<string> _failMessages = [];
         public void CheckIsValid(Func<bool> check, string failMessage)
         {
             if(check == null) throw new ArgumentNullException(nameof(check));
@@ -31,7 +25,12 @@ namespace WpfTechnoTester.Models
 
         public bool IsValid()
         {
-            return _failMessages.Any();
+            return !_failMessages.Any();
+        }
+
+        public void Reset()
+        {
+            _failMessages.Clear();
         }
 
         public List<string> FailMessages()

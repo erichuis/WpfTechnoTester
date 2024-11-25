@@ -25,6 +25,7 @@ namespace WpfTechnoTester.Models
 
         public bool CanSave()
         {
+            Reset();
             CheckIsValid(() => !string.IsNullOrEmpty(Email), "Email can not be empty");
             CheckIsValid(() => !string.IsNullOrEmpty(EmailVerified), "EmailVerified can not be empty");
             CheckIsValid(() => !string.IsNullOrEmpty(UserName), "Username can not be empty");

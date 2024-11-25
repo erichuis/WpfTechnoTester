@@ -14,8 +14,7 @@
                     Height="100"  
                      Background="Yellow" 
                      ItemsSource="{Binding TodoItems}" 
-                     DisplayMemberPath="Title" 
-                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionChanged="ListView_SelectionChanged"/>
+                     DisplayMemberPath="Title" />
             <StackPanel Margin="10" Orientation="Vertical" Background="AliceBlue">
                 <uc:UcLabelTextbox  Background="Lavender" x:Name="Title"  Width="550" HorizontalAlignment="Left" LabelText="Title"  
                                     TextboxText="{Binding Title, Mode=TwoWay}" 
@@ -29,7 +28,7 @@
             </StackPanel>
             <StackPanel Background="Green" Orientation="Horizontal">
                 <Button Margin="5,0,100,0" Content="Load Tasks" Command="{Binding LoadTasksCommand}" />
-                <Button Margin="5,0,0,0" Content="Add Task" Command="{Binding AddTaskCommand}" />
+                <Button Margin="5,0,0,0" Content="Add Task" Command="{Binding AddTodoItemCommand}" />
                 <Button Margin="5,0,0,0" Content="Update Task" Command="{Binding UpdateTaskCommand}" />
                 <Button Margin="5,0,0,0" Content="Delete Task" Command="{Binding DeleteTaskCommand}" />
                 <Button Margin="5,0,0,0" Content="Login" Command="{Binding LoginCommand}" />

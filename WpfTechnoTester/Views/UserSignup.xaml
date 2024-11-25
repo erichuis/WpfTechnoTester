@@ -74,7 +74,6 @@
             <Button x:Name="SignUpButton"
                     Style="{StaticResource LoginButtonStyle}"
                     Content="Save" >
-                <!--Command="{Binding SaveCommand}" >-->
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction Command="{Binding SaveCommand}" CommandParameter="{Binding}"/>

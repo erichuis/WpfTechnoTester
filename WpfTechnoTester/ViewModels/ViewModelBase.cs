@@ -37,7 +37,7 @@ namespace WpfTechnoTester.ViewModels
         {
             // Verify that the property name matches a real, 
             // public, instance property on this object. 
-            if (TypeDescriptor.GetProperties(this)[propertyName] == null)
+            if (propertyName != "Password" && TypeDescriptor.GetProperties(this)[propertyName] == null)
             {
                 string msg = "Invalid property name: " + propertyName;
                 throw new Exception(msg);

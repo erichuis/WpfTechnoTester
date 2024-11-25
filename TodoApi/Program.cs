@@ -1,7 +1,5 @@
 
 //using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Security.Claims;
 using TodoApi.Data;
 using TodoApi.Middleware;
 
@@ -13,7 +11,7 @@ Console.WriteLine("Starting up");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<TaskService>();//builder.Configuration);
+builder.Services.AddSingleton<TodoItemService>();//builder.Configuration);
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -29,11 +27,6 @@ builder.Logging.AddConsole();
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
-
-// Add endpoints
-app.MapGet("/secure", () => Results.Unauthorized()); // Simulates a 401 Unauthorized
-app.MapGet("/notfound", () => Results.NotFound());   // Simulates a 404 Not Found
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

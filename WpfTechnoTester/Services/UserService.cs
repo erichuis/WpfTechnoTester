@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using WpfTechnoTester.Clients;
+﻿using WpfTechnoTester.Clients;
 using WpfTechnoTester.Models;
 
 namespace WpfTechnoTester.Services
 {
     public class UserService : IUserService
     {
-        IHttpAppClient _httpAppClient;
+        private readonly IHttpAppClient _httpAppClient;
         public UserService(IHttpAppClient client)
         {
             _httpAppClient = client;

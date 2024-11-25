@@ -11,8 +11,6 @@ namespace TodoApi.Middleware
             app.UseAuthentication();
             app.UseAuthorization();
 
-
-
             // Add endpoints
             app.MapGet("/secure", () => Results.Unauthorized()); // Simulates a 401 Unauthorized
             app.MapGet("/notfound", () => Results.NotFound());   // Simulates a 404 Not Found
