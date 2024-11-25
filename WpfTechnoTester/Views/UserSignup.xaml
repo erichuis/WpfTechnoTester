@@ -7,7 +7,8 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:WpfTechnoTester.Views"
         xmlns:styles="clr-namespace:WpfTechnoTester.Views" 
-        xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:UserSignupViewModel}"
+        xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:UserSignupViewModel}"
         mc:Ignorable="d"
         Title="UserLogin" Height="450" Width="320" 
         WindowStartupLocation="CenterScreen"
@@ -75,7 +76,7 @@
             </Grid>
             <StackPanel Orientation="Horizontal">
                 
-            <Button x:Name="SignUpButton"
+            <Button Name="SignUpButton"
                     Style="{StaticResource LoginButtonStyle}"
                     Content="Submit">
                 <i:Interaction.Triggers>
@@ -88,8 +89,18 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Button>
-            <Button Content="Reset" Command="{Binding ResetCommand}" Style="{StaticResource LoginButtonStyle}"/>
-            <Button 
+                <Button 
+                Name="ResetButton" 
+                Content="Reset" 
+                Style="{StaticResource LoginButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ResetCommand}" CommandParameter="{Binding}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button
+                Name="CancelButton"
                 Content="Cancel" 
                 Style="{StaticResource LoginButtonStyle}">
                     <i:Interaction.Triggers>
@@ -99,7 +110,7 @@
                             TargetObject="{Binding RelativeSource={RelativeSource
                             Mode=FindAncestor,
                             AncestorType=Window}}" />
-                    </i:EventTrigger>
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
             </StackPanel>
