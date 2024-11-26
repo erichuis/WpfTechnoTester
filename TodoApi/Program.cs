@@ -11,7 +11,8 @@ Console.WriteLine("Starting up");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<TodoItemRepository>();//builder.Configuration);
+builder.Services.AddTransient(typeof(ITodoItemRepository), typeof(TodoItemRepository));
+builder.Services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

@@ -29,7 +29,7 @@ namespace WpfTechnoTester.Models
             CheckIsValid(() => !string.IsNullOrEmpty(Email), "Email can not be empty");
             CheckIsValid(() => !string.IsNullOrEmpty(EmailVerified), "EmailVerified can not be empty");
             CheckIsValid(() => !string.IsNullOrEmpty(UserName), "Username can not be empty");
-            CheckIsValid(() => Password?.Length != 0, "Password can not be empty");
+            CheckIsValid(() => Password != null && Password.Length != 0, "Password can not be empty");
             CheckIsValid(() => Email != null && Email.Equals(EmailVerified), "Email verification is not correct");
 
             if (IsValid())

@@ -11,9 +11,11 @@ namespace TodoApi.Models
         public string? Id { get; set; }
         public required string Username { get; set; }
         public required string Email { get; set; }
+
+        [BsonIgnore]
         public required SecureString Password { get; set; }
-        public bool IsActive { get; set; }
-        public required string PasswordHash { get; set; }
-        public bool IsAdmin { get; set; }
+        public string? PasswordHashed { get; set; }
+        public bool IsActive { get; set; } = true;
+        public bool IsAdmin { get; set; } = false;
     }
 }

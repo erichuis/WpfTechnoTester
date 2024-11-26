@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Security;
 using TodoApi.Data;
 using TodoApi.Helpers;
 using TodoApi.Models;
@@ -21,10 +23,10 @@ namespace TodoApi.Controllers
         public async Task<IActionResult> Login([FromBody] User loginRequest)
         {
             var user = await _userRepository.GetByNameAsync(loginRequest.Username);
-            if (user == null || !PasswordHelper.VerifyPassword(loginRequest.PasswordHash, user.PasswordHash))
-            {
-                return Unauthorized("Invalid username or password.");
-            }
+            //if (user == null || !PasswordHelper.VerifyPassword(loginRequest.PasswordHash, user.PasswordHash))
+            //{
+            //    return Unauthorized("Invalid username or password.");
+            //}
 
             // In a real-world scenario, generate a token here
             return Ok("Login successful.");
@@ -46,7 +48,7 @@ namespace TodoApi.Controllers
             return Ok(result);
         }
 
-        [Authorize(Policy = "ApiScope")]
+        //[Authorize(Policy = "ApiScope")]
         [HttpPost()]
         public async Task<ActionResult<User>> CreateUserAsync([FromBody] User user)
         {
@@ -58,7 +60,7 @@ namespace TodoApi.Controllers
             }
 
             // Hash the password
-            user.PasswordHash = PasswordHelper.HashPassword(user.PasswordHash);
+            user.PasswordHashed = PasswordHelper.HashPassword(new NetworkCredential(string.Empty, user.Password).Password);
 
             // Save the user
             var result = await _userRepository.CreateAsync(user);

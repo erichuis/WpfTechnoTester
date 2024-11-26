@@ -1,8 +1,10 @@
 ﻿using IdentityModel.Client;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Security;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks.Sources;
 using WpfTechnoTester.Models;
 
 namespace WpfTechnoTester.Clients
@@ -226,18 +228,25 @@ namespace WpfTechnoTester.Clients
             return result;
         }
 
-        public async Task<User> CreateUser(User newUser)
+        public async Task<User> CreateUser(User user)
         {
-            string jsonContent = JsonSerializer.Serialize(newUser);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var newUser = new
+            {
+                username = user.UserName,
+                password = user.Password,
+                email = user.Email,
+            };
 
-            var response = await _httpClient.PostAsync($"users", content);
+            //string jsonContent = JsonSerializer.Serialize(newUser);
+            //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsJsonAsync($"User/CreateUser", newUser);
 
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var user = JsonSerializer.Deserialize<User>(json);
+            var xuser = JsonSerializer.Deserialize<User>(json);
             if (user == null)
             {
                 throw new Exception("No user found");
