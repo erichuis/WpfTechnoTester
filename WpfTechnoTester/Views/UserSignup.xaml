@@ -81,7 +81,7 @@
                     Content="Submit">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding SubmitCommand}"/>
+                            <i:InvokeCommandAction Command="{Binding SubmitCommand}" CommandParameter="{Binding}"/>
                         <i:CallMethodAction MethodName="Close"
                             TargetObject="{Binding RelativeSource={RelativeSource
                             Mode=FindAncestor,

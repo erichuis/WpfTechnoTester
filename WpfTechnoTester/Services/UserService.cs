@@ -11,9 +11,14 @@ namespace WpfTechnoTester.Services
             _httpAppClient = client;
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task<bool> AddUserAsync(User user)
         {
-            await _httpAppClient.CreateUser(user);
+            var response = await _httpAppClient.CreateUser(user);
+            if(response == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task UpdateUserAsync(User user)

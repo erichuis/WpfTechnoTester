@@ -14,7 +14,7 @@ namespace TodoApi.Data
             _todoItems = database.GetCollection<TodoItem>("TodoItems");
         }
 
-        public async Task<IAsyncEnumerable<TodoItem>> GetAllAsync() => (IAsyncEnumerable<TodoItem>)await _todoItems.Find(task => true).ToListAsync();
+        public async Task<List<TodoItem>> GetAllAsync() => await _todoItems.Find(task => true).ToListAsync();
 
         public async Task<TodoItem> GetByIdAsync(string id) => await _todoItems.Find(task => task.Id == id).FirstOrDefaultAsync();
 

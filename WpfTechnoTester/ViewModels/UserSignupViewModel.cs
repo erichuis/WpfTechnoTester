@@ -26,7 +26,7 @@ namespace WpfTechnoTester.ViewModels
 
         private void AddUser()
         {
-            _userService.AddUserAsync(_user).GetAwaiter().GetResult();
+            var response = _userService.AddUserAsync(_user).GetAwaiter().GetResult();
         }
 
         private void CancelForm()

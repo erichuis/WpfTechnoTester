@@ -12,7 +12,7 @@ namespace WpfTechnoTester.Clients
         Task GetToken();
         Task<bool> Logout();
         Task<bool> Login(User user);
-        Task<User> CreateUser(User user);
+        Task<string> CreateUser(User user);
         Task<bool> DeleteUser(User user);
         Task<bool> UpdateUser(User user);
         Task<IEnumerable<User>> GetAllUsers();

@@ -137,11 +137,9 @@ namespace WpfTechnoTester.Clients
 
         public async Task<IEnumerable<TodoItem>> GetAllTasksAsync()
         {
-            var response = await _httpClient.GetAsync("TodoItems/GetAllTasksAsync");
-            if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
-            {
-                return Enumerable.Empty<TodoItem>();
-            }
+            var response = await _httpClient.GetAsync("TodoItem/GetAllTodoItems");
+            
+
 
             var json = await response.Content.ReadAsStringAsync();
             if (json == null)
@@ -158,7 +156,7 @@ namespace WpfTechnoTester.Clients
 
         public async Task<TodoItem> GetTodoItemByIdAsync(string id)
         {
-            var response = await _httpClient.GetAsync($"TodoItems/{id}");
+            var response = await _httpClient.GetAsync($"TodoItem/GetTodoItem{id}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -167,17 +165,17 @@ namespace WpfTechnoTester.Clients
 
             if (task == null)
             {
-                throw new Exception("No Task found");
+                throw new Exception("No TodoItem found");
             }
             return task;
         }
 
         public async Task<TodoItem> CreateTodoItemAsync(TodoItem item)
         {
-            string jsonContent = JsonSerializer.Serialize(item);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            //string jsonContent = JsonSerializer.Serialize(item);
+            //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"TodoItems", content);
+            var response = await _httpClient.PostAsJsonAsync($"TodoItem/CreateTodoItem", item).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
@@ -186,14 +184,14 @@ namespace WpfTechnoTester.Clients
             var task = JsonSerializer.Deserialize<TodoItem>(json);
             if (task == null)
             {
-                throw new Exception("No Task found");
+                throw new Exception("No Todoitem found");
             }
             return task;
         }
 
         public async Task<bool> DeleteTodoItemByIdAsync(string id)
         {
-            var response = await _httpClient.DeleteAsync($"tasks/{id}");
+            var response = await _httpClient.DeleteAsync($"TodoItem/DeleteTodoItem{id}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -206,15 +204,15 @@ namespace WpfTechnoTester.Clients
             return result;
         }
 
-        public async Task<bool> UpdateTodoItemAsync(TodoItem taskItem)
+        public async Task<bool> UpdateTodoItemAsync(TodoItem todoItem)
         {
-            ArgumentNullException.ThrowIfNull(taskItem);
+            ArgumentNullException.ThrowIfNull(todoItem);
 
-            string jsonContent = JsonSerializer.Serialize(taskItem);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            //string jsonContent = JsonSerializer.Serialize(taskItem);
+            //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             // Send the PUT request
-            HttpResponseMessage response = await _httpClient.PutAsync($"TodoItems/UpdateTask{taskItem.Id}", content);
+            HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"TodoItem/UpdateTodoItem{todoItem.Id}", todoItem);
 
             response.EnsureSuccessStatusCode();
 
@@ -228,7 +226,7 @@ namespace WpfTechnoTester.Clients
             return result;
         }
 
-        public async Task<User> CreateUser(User user)
+        public async Task<string> CreateUser(User user)
         {
             var newUser = new
             {
@@ -240,18 +238,23 @@ namespace WpfTechnoTester.Clients
             //string jsonContent = JsonSerializer.Serialize(newUser);
             //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsJsonAsync($"User/CreateUser", newUser);
+            var response = await _httpClient.PostAsJsonAsync($"User/CreateUser", newUser).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var xuser = JsonSerializer.Deserialize<User>(json);
-            if (user == null)
+            if(json == null)
             {
-                throw new Exception("No user found");
+                throw new Exception("No user created");
             }
-            return user;
+
+            var result = JsonSerializer.Deserialize<string>(json);
+            if (result == null)
+            {
+                throw new Exception("No user created");
+            }
+            return result;
         }
 
         public Task<bool> DeleteUser(User user)
