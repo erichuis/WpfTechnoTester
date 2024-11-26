@@ -7,8 +7,10 @@ namespace WpfTechnoTester.Commands
 
     public class RelayCommand : ICommand
     {
-        readonly Action<object?> _execute;
-        readonly Predicate<object?> _canExecute;
+        private readonly Action<object?> _execute;
+        private readonly Predicate<object?> _canExecute;
+        private readonly EventHandler requerySuggested;
+        public event EventHandler? CanExecuteChanged;
 
         public RelayCommand(Action<object> execute) : this(execute, null) { }
         public RelayCommand(Action<object> execute, Predicate<object?> canExecute)
@@ -18,26 +20,22 @@ namespace WpfTechnoTester.Commands
 
             _execute = execute!; 
             _canExecute = canExecute;
+            requerySuggested = (s, e) => RaiseCanExecuteChanged();
+            CommandManager.RequerySuggested += requerySuggested;
         }
  
-        [DebuggerStepThrough]
         public bool CanExecute(object? parameter)
         {
             return _canExecute == null ? true : _canExecute(parameter);
         }
 
-        public event EventHandler? CanExecuteChanged
+        public void RaiseCanExecuteChanged()
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void Execute(object? parameter)
         {
-            if(parameter == null)
-            {
-                return;
-            }
             _execute(parameter); 
         }
 

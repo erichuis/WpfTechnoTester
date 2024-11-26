@@ -9,11 +9,11 @@ namespace TodoApi.Controllers
     [ApiController]
     public class TodoItemController : ControllerBase
     {
-        private readonly ITodoItemService _todoItemService;
+        private readonly ITodoItemRepository _todoItemRepository;
 
-        public TodoItemController(ITodoItemService todoItemService)
+        public TodoItemController(ITodoItemRepository todoItemService)
         {
-            _todoItemService = todoItemService;
+            _todoItemRepository = todoItemService;
         }
 
         [HttpGet()]
@@ -21,18 +21,25 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<List<TodoItem>>> GetAllTodoItemsAsync() => await _todoItemService.GetTodoItems();
+        public async Task<ActionResult<IAsyncEnumerable<TodoItem>>> GetAllTodoItemsAsync()
+        {
+            var result = await _todoItemRepository.GetAllAsync();
+            return Ok(result);
+        }
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<TodoItem>> GetTodoItemAsync(string id) => await _todoItemService.GetTodoItem(id);
+        public async Task<ActionResult<TodoItem>> GetTodoItemAsync(string id)
+        {
+            var result = await _todoItemRepository.GetByIdAsync(id); 
+            return Ok(result);
+        }
 
         [Authorize(Policy = "ApiScope")]
         [HttpPost()]
         public async Task<ActionResult<TodoItem>> CreateTodoItemAsync(TodoItem todoItem)
         {
-            
-            var newTodoItem = await _todoItemService.CreateTodoItem(todoItem);
+            var newTodoItem = await _todoItemRepository.CreateAsync(todoItem);
             var result = CreatedAtAction(nameof(GetTodoItemAsync), new { id = newTodoItem.Id }, newTodoItem);
             var newResult = result.Value as TodoItem;
 
@@ -55,9 +62,7 @@ namespace TodoApi.Controllers
 
             try
             {
-                await _todoItemService.UpdateTodoItem(TodoItem);
-                return true;
-
+                return await _todoItemRepository.UpdateAsync(TodoItem);
             }
             catch (Exception)
             {
@@ -71,8 +76,7 @@ namespace TodoApi.Controllers
         {
             try
             {
-                await _todoItemService.DeleteTodoItem(id);
-                return true;
+                return await _todoItemRepository.DeleteAsync(id);
 
             }
             catch (Exception)

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using WpfTechnoTester.Clients;
 using WpfTechnoTester.Commands;
 using WpfTechnoTester.Services;
-using WpfTechnoTester.ViewModels;
 using WpfTechnoTester.Views;
 
 
@@ -28,7 +27,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
     public RelayCommand LoadTasksCommand { get; }
     public RelayCommand LoginCommand { get; }
     public RelayCommand LogoutCommand { get; }
-    public SignUpCommand SignUpCommand { get; }
+    public RelayCommand SignUpCommand { get; }
 
 
     public TodoItemViewModel(IHttpAppClient taskClient, IWindowService windowService)
@@ -41,7 +40,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
         LoadTasksCommand = new RelayCommand((param) => RetrieveTodoItems(), null);
         LoginCommand = new RelayCommand((param) => Login(), null);
         LogoutCommand = new RelayCommand((param) => Logout(), null);
-        SignUpCommand = new SignUpCommand((param) => SignUp(), (param) => true);
+        SignUpCommand = new RelayCommand((param) => SignUp(), (param) => true);
         _title = string.Empty;
         _description = string.Empty;
         _taskClient = taskClient;
@@ -156,7 +155,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
             Title = Title
         };
 
-        var response = _taskClient.CreateTaskAsync(newTask).GetAwaiter().GetResult();
+        var response = _taskClient.CreateTodoItemAsync(newTask).GetAwaiter().GetResult();
         if (response != null)
         {
             TodoItems.Add(response);
@@ -172,7 +171,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
 
         foreach (var item in SelectedTodoItems)
         {
-            await _taskClient.DeleteTaskByIdAsync(item.Id);
+            await _taskClient.DeleteTodoItemByIdAsync(item.Id);
             TodoItems.Remove(item);
         }
     }
@@ -190,7 +189,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
         item.Description = Description;
         item.IsCompleted = IsCompleted;
 
-        await _taskClient.UpdateTaskAsync(item);
+        await _taskClient.UpdateTodoItemAsync(item);
 
     }
 }

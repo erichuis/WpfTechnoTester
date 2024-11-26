@@ -11,7 +11,7 @@ Console.WriteLine("Starting up");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<TodoItemService>();//builder.Configuration);
+builder.Services.AddSingleton<TodoItemRepository>();//builder.Configuration);
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

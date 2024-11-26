@@ -15,14 +15,18 @@ namespace WpfTechnoTester.ViewModels
         public RelayCommand ResetCommand { get; }
         public RelayCommand CancelCommand { get; }
 
-        //public event EventHandler<HarvestPasswordEventArgs>? HarvestPassword;
-
         public UserSignupViewModel(IUserService userService)
         {
             _userService = userService;
-            SubmitCommand = new RelayCommand(async (param) =>  await userService.AddUserAsync(_user), (param) => _user.CanSave());
+            SubmitCommand = new RelayCommand((param) => AddUser(), (param) => CanSave);
+
             ResetCommand = new RelayCommand((param) => ResetForm());
             CancelCommand = new RelayCommand((param) => CancelForm());
+        }
+
+        private void AddUser()
+        {
+            _userService.AddUserAsync(_user).GetAwaiter().GetResult();
         }
 
         private void CancelForm()
@@ -38,42 +42,60 @@ namespace WpfTechnoTester.ViewModels
             _user.Password?.Clear();
         }
 
+        private string _userName;
         public string UserName
         {
-            get => _user.UserName;
+            get => _userName;
             set
             {
-                if (_user.UserName != value)
+                if (_userName != value)
                 {
+                    _userName = value;
                     _user.UserName = value;
                     OnPropertyChanged(nameof(UserName));
                 }
             }
         }
+        private string _email;
         public string Email
         {
-            get => _user!.Email;
+            get => _email;
             set
             {
-                if (_user.Email != value)
+                if (_email != value)
                 {
+                    _email = value;
                     _user.Email = value;
                     OnPropertyChanged(nameof(Email));
                 }
             }
         }
 
+        private string _emailVerified;
         public string EmailVerified
         {
-            get => _user.EmailVerified;
+            get => _emailVerified;
             set
             {
-                if (_user.EmailVerified != value)
+                if (_emailVerified != value)
                 {
+                    _emailVerified = value;
                     _user.EmailVerified = value;
                     OnPropertyChanged(nameof(EmailVerified));
                 }
             }
+        }
+
+        internal override void RaiseCanExecuteChange()
+        {
+            _canSave = _user.CanSave();
+            SubmitCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool _canSave;
+        public bool CanSave
+        {
+            get { return _canSave; }
         }
 
         public bool CanClose
@@ -84,8 +106,10 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
+        private SecureString _password;
         public SecureString Password
         {
+            get => _password;   
             set
             {
                 if (_user.Password != value)
@@ -95,6 +119,7 @@ namespace WpfTechnoTester.ViewModels
                 }
             }
         }
+
     }
 }
 

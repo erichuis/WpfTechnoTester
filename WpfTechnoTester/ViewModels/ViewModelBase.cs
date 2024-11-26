@@ -29,8 +29,14 @@ namespace WpfTechnoTester.ViewModels
                 PropertyChangedEventHandler handler = PropertyChanged;
                 var e = new PropertyChangedEventArgs(propertyName);
                 handler(this, e);
+                RaiseCanExecuteChange();
             }
         }
+
+        internal virtual void RaiseCanExecuteChange()
+        {
+        }
+
         //[Conditional("DEBUG")]
         //[DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)

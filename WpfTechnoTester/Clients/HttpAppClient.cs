@@ -1,5 +1,6 @@
 ﻿using IdentityModel.Client;
 using System.Net.Http;
+using System.Security;
 using System.Text;
 using System.Text.Json;
 using WpfTechnoTester.Models;
@@ -57,6 +58,41 @@ namespace WpfTechnoTester.Clients
             _httpClient.SetBearerToken(_tokenResponse.AccessToken);
         }
 
+        public async Task<bool> Login(User login)
+        {
+            var loginData = new
+            {
+                username = login.UserName,
+                password = login.Password
+            };
+
+            string json = JsonSerializer.Serialize(loginData);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                HttpResponseMessage response = await _httpClient.PostAsync("Users/Login", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine($"Login successful: {responseBody}");
+                    return true; // Contains token or user details
+                }
+                else
+                {
+                    Console.WriteLine($"Login failed: {response.StatusCode}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return false;
+            }
+        }
+
         public async Task<bool> Logout()
         {
             if (_tokenResponse == null || string.IsNullOrEmpty(_tokenResponse.AccessToken))
@@ -99,7 +135,7 @@ namespace WpfTechnoTester.Clients
 
         public async Task<IEnumerable<TodoItem>> GetAllTasksAsync()
         {
-            var response = await _httpClient.GetAsync("Tasks/GetAllTasks");
+            var response = await _httpClient.GetAsync("TodoItems/GetAllTasksAsync");
             if (!response.EnsureSuccessStatusCode().IsSuccessStatusCode)
             {
                 return Enumerable.Empty<TodoItem>();
@@ -118,9 +154,9 @@ namespace WpfTechnoTester.Clients
             return tasks;
         }
 
-        public async Task<TodoItem> GetTaskByIdAsync(string id)
+        public async Task<TodoItem> GetTodoItemByIdAsync(string id)
         {
-            var response = await _httpClient.GetAsync($"tasks/{id}");
+            var response = await _httpClient.GetAsync($"TodoItems/{id}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
@@ -134,12 +170,12 @@ namespace WpfTechnoTester.Clients
             return task;
         }
 
-        public async Task<TodoItem> CreateTaskAsync(TodoItem item)
+        public async Task<TodoItem> CreateTodoItemAsync(TodoItem item)
         {
             string jsonContent = JsonSerializer.Serialize(item);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"tasks", content);
+            var response = await _httpClient.PostAsync($"TodoItems", content);
 
             response.EnsureSuccessStatusCode();
 
@@ -153,7 +189,7 @@ namespace WpfTechnoTester.Clients
             return task;
         }
 
-        public async Task<bool> DeleteTaskByIdAsync(string id)
+        public async Task<bool> DeleteTodoItemByIdAsync(string id)
         {
             var response = await _httpClient.DeleteAsync($"tasks/{id}");
             response.EnsureSuccessStatusCode();
@@ -168,7 +204,7 @@ namespace WpfTechnoTester.Clients
             return result;
         }
 
-        public async Task<bool> UpdateTaskAsync(TodoItem taskItem)
+        public async Task<bool> UpdateTodoItemAsync(TodoItem taskItem)
         {
             ArgumentNullException.ThrowIfNull(taskItem);
 
@@ -176,7 +212,7 @@ namespace WpfTechnoTester.Clients
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             // Send the PUT request
-            HttpResponseMessage response = await _httpClient.PutAsync($"tasks/UpdateTask{taskItem.Id}", content);
+            HttpResponseMessage response = await _httpClient.PutAsync($"TodoItems/UpdateTask{taskItem.Id}", content);
 
             response.EnsureSuccessStatusCode();
 
@@ -188,11 +224,6 @@ namespace WpfTechnoTester.Clients
                 throw new Exception("No Task found");
             }
             return result;
-        }
-
-        public Task<bool> Login()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<User> CreateUser(User newUser)

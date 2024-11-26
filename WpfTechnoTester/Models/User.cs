@@ -42,13 +42,5 @@ namespace WpfTechnoTester.Models
             }
         }
 
-        public bool Save()
-        {
-            if (CanSave())
-            {
-                return true;
-            }
-            return false;
-        }
     }
 }
