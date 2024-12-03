@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfTechnoTester.Services
+namespace Domain.Services
 {
-    public interface IWindowService
+    internal class DataService
     {
-        void ShowNewUserSignup();
-        void ShowUserLogin();
+
     }
 }

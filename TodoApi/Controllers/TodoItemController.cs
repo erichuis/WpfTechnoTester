@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Cybervision.Dapr.Services;
+using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TodoApi.Data;
-using TodoApi.Models;
 
 namespace TodoApi.Controllers
 {
@@ -10,10 +11,12 @@ namespace TodoApi.Controllers
     public class TodoItemController : ControllerBase
     {
         private readonly ITodoItemRepository _todoItemRepository;
+        private readonly IMapper _mapper;
 
-        public TodoItemController(ITodoItemRepository todoItemService)
+        public TodoItemController(ITodoItemRepository todoItemService, IMapper mapper)
         {
             _todoItemRepository = todoItemService;
+            _mapper = mapper;
         }
 
         [HttpGet()]
@@ -37,11 +40,11 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpPost()]
-        public async Task<ActionResult<TodoItem>> CreateTodoItemAsync(TodoItem todoItem)
+        public async Task<ActionResult<TodoItemDto>> CreateTodoItemAsync(TodoItemDto todoItem)
         {
             var newTodoItem = await _todoItemRepository.CreateAsync(todoItem);
             var result = CreatedAtAction(nameof(GetTodoItemAsync), new { id = newTodoItem.Id }, newTodoItem);
-            var newResult = result.Value as TodoItem;
+            var newResult = result.Value as TodoItemDto;
 
             if (newResult == null)
             {
@@ -53,7 +56,7 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpPut()]
-        public async Task<ActionResult<bool>> UpdateTodoItemAsync(TodoItem TodoItem)
+        public async Task<ActionResult<bool>> UpdateTodoItemAsync(TodoItemDto TodoItem)
         {
             if (TodoItem == null)
             {

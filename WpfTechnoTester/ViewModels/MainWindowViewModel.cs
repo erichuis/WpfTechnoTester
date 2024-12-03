@@ -133,8 +133,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
         {
             //UserLogin login = new UserLogin();
             _taskClient.GetToken();
-            UserLogin login = new UserLogin(new WpfTechnoTester.ViewModels.UserLoginViewModel());
-            login.ShowDialog();
+            _windowService.ShowUserLogin();
             //by machine
         }
     }

@@ -1,5 +1,6 @@
 ﻿using BCrypt.Net;
-namespace TodoApi.Helpers
+
+namespace Domain.Helpers
 {
     public class PasswordHelper
     {

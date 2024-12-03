@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoApi", "TodoApi\TodoApi.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServer", "IdentityServer\IdentityServer.csproj", "{102665EB-4293-45A0-BC32-47D64E5AF4AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{20496FE1-D959-48E7-A801-E1CB46175B06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cybervision.Dapr", "Cybervision.MongoDb\Cybervision.Dapr.csproj", "{0E2F6342-C34B-4B4B-9976-7DCEE4025598}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,14 @@ Global
 		{102665EB-4293-45A0-BC32-47D64E5AF4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{102665EB-4293-45A0-BC32-47D64E5AF4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{102665EB-4293-45A0-BC32-47D64E5AF4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20496FE1-D959-48E7-A801-E1CB46175B06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20496FE1-D959-48E7-A801-E1CB46175B06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20496FE1-D959-48E7-A801-E1CB46175B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20496FE1-D959-48E7-A801-E1CB46175B06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E2F6342-C34B-4B4B-9976-7DCEE4025598}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E2F6342-C34B-4B4B-9976-7DCEE4025598}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E2F6342-C34B-4B4B-9976-7DCEE4025598}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E2F6342-C34B-4B4B-9976-7DCEE4025598}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

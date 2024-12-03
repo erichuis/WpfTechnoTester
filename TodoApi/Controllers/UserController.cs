@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Cybervision.Dapr.Services;
+using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Security;
-using TodoApi.Data;
-using TodoApi.Helpers;
-using TodoApi.Models;
 
 namespace TodoApi.Controllers
 {
@@ -20,7 +17,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] User loginRequest)
+        public async Task<IActionResult> Login([FromBody] UserDto loginRequest)
         {
             var user = await _userRepository.GetByNameAsync(loginRequest.Username);
             //if (user == null || !PasswordHelper.VerifyPassword(loginRequest.PasswordHash, user.PasswordHash))
@@ -34,7 +31,7 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<IAsyncEnumerable<User>>> GetAllUsersAsync()
+        public async Task<ActionResult<IAsyncEnumerable<UserDto>>> GetAllUsersAsync()
         {
             var result = await _userRepository.GetAllAsync();
             return Ok(result);
@@ -42,7 +39,7 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<User>> GetUserAsync(string id)
+        public async Task<ActionResult<UserDto>> GetUserAsync(string id)
         {
             var result = await _userRepository.GetByIdAsync(id);
             return Ok(result);
@@ -50,7 +47,7 @@ namespace TodoApi.Controllers
 
         //[Authorize(Policy = "ApiScope")]
         [HttpPost()]
-        public async Task<ActionResult<User>> CreateUserAsync([FromBody] User user)
+        public async Task<ActionResult<UserDto>> CreateUserAsync([FromBody] UserDto user)
         {
             // Check if the user already exists
             var existingUser = await _userRepository.GetByNameAsync(user.Username);
@@ -58,9 +55,9 @@ namespace TodoApi.Controllers
             {
                 return BadRequest("User already exists.");
             }
-
+            //Todo move it
             // Hash the password
-            user.PasswordHashed = PasswordHelper.HashPassword(new NetworkCredential(string.Empty, user.Password).Password);
+            //user.PasswordHashed = PasswordHelper.HashPassword(new NetworkCredential(string.Empty, user.Password).Password);
 
             // Save the user
             var result = await _userRepository.CreateAsync(user);
@@ -84,7 +81,7 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpPut()]
-        public async Task<ActionResult<bool>> UpdateAsync(User user)
+        public async Task<ActionResult<bool>> UpdateAsync(UserDto user)
         {
             if (user == null)
             {

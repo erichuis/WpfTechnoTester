@@ -1,6 +1,6 @@
 
 //using Microsoft.Extensions.DependencyInjection;
-using TodoApi.Data;
+using Cybervision.Dapr.Services;
 using TodoApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +11,10 @@ Console.WriteLine("Starting up");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient(typeof(ITodoItemRepository), typeof(TodoItemRepository));
+builder.Services.AddTransient<ITodoItemRepository, TodoItemRepository>();
 builder.Services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
+builder.Services.AddAutoMapper();
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

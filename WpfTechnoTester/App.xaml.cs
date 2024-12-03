@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Windows;
+using TodoApi.Services;
 using WpfTechnoTester.Clients;
 using WpfTechnoTester.Services;
 using WpfTechnoTester.ViewModels;
@@ -42,14 +43,17 @@ namespace WpfTechnoTester
             //Register services
             services.AddTransient(typeof(IUserService), typeof(UserService));
             services.AddSingleton<IWindowService, WindowService>();
+            services.AddSingleton<IAuthenticationService, AuthenticationService>();
 
             //Register views
             services.AddTransient<MainWindow>();
             services.AddTransient<UserSignup>();
+            services.AddTransient<UserLogin>();
 
             //register viewmodels
             services.AddTransient<TodoItemViewModel>();
             services.AddTransient<UserSignupViewModel>();
+            services.AddTransient<UserLoginViewModel>();
 
             ServiceProvider = services.BuildServiceProvider();
 

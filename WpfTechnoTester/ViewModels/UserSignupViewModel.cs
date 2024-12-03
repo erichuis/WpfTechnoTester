@@ -37,7 +37,6 @@ namespace WpfTechnoTester.ViewModels
         private void ResetForm()
         {
             Email = string.Empty;
-            EmailVerified = string.Empty;
             UserName = string.Empty;
             _user.Password?.Clear();
         }
@@ -67,21 +66,6 @@ namespace WpfTechnoTester.ViewModels
                     _email = value;
                     _user.Email = value;
                     OnPropertyChanged(nameof(Email));
-                }
-            }
-        }
-
-        private string _emailVerified;
-        public string EmailVerified
-        {
-            get => _emailVerified;
-            set
-            {
-                if (_emailVerified != value)
-                {
-                    _emailVerified = value;
-                    _user.EmailVerified = value;
-                    OnPropertyChanged(nameof(EmailVerified));
                 }
             }
         }
@@ -120,6 +104,19 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
+        private SecureString _passwordVerified;
+        public SecureString PasswordVerified
+        {
+            get => _passwordVerified;
+            set
+            {
+                if (_user.PasswordVerified != value)
+                {
+                    _user.PasswordVerified = value;
+                    OnPropertyChanged(nameof(PasswordVerified));
+                }
+            }
+        }
     }
 }
 

@@ -23,7 +23,15 @@ namespace WpfTechnoTester.Services
             var window = _serviceProvider.GetRequiredService<UserSignup>();
 
             // Optionally set properties or initialize if needed
+            window.Show(); // Open the window
+        }
 
+        public void ShowUserLogin()
+        {
+            // Resolve the NewWindow from the service provider
+            var window = _serviceProvider.GetRequiredService<UserLogin>();
+
+            // Optionally set properties or initialize if needed
             window.Show(); // Open the window
         }
     }

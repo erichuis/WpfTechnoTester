@@ -242,18 +242,18 @@ namespace WpfTechnoTester.Clients
 
             response.EnsureSuccessStatusCode();
 
-            var json = await response.Content.ReadAsStringAsync();
+            var result = await response.Content.ReadAsStringAsync();
 
-            if(json == null)
+            if(result == null)
             {
                 throw new Exception("No user created");
             }
 
-            var result = JsonSerializer.Deserialize<string>(json);
-            if (result == null)
-            {
-                throw new Exception("No user created");
-            }
+            //var result = JsonSerializer.Deserialize<string>(json);
+            //if (result == null)
+            //{
+            //    throw new Exception("No user created");
+            //}
             return result;
         }
 
