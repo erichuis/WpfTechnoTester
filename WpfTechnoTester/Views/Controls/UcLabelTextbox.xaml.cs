@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfTechnoTester.Views
+namespace WpfTechnoTester.Views.Controls
 {
     /// <summary>
     /// Interaction logic for UcLabelTextbox.xaml

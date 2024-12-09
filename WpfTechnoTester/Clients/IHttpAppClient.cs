@@ -1,21 +1,21 @@
-﻿using WpfTechnoTester.Models;
+﻿using Domain.DataTransferObjects;
 
 namespace WpfTechnoTester.Clients
 {
     public interface IHttpAppClient
     {
-        Task<IEnumerable<TodoItem>> GetAllTasksAsync();
-        Task<TodoItem> GetTodoItemByIdAsync(string id);
-        Task<TodoItem> CreateTodoItemAsync(TodoItem item);
-        Task<bool> DeleteTodoItemByIdAsync(string id);
-        Task<bool> UpdateTodoItemAsync(TodoItem item);
+        Task<IEnumerable<TodoItemDto>> GetAllTodoItemsAsync();
+        Task<TodoItemDto> GetTodoItemByIdAsync(Guid id);
+        Task<TodoItemDto> CreateTodoItemAsync(TodoItemDto item);
+        Task<bool> DeleteTodoItemByIdAsync(Guid id);
+        Task<bool> UpdateTodoItemAsync(TodoItemDto item);
         Task GetToken();
         Task<bool> Logout();
-        Task<bool> Login(User user);
-        Task<string> CreateUser(User user);
-        Task<bool> DeleteUser(User user);
-        Task<bool> UpdateUser(User user);
-        Task<IEnumerable<User>> GetAllUsers();
-        Task<User> GetUserByIdAsync(string id);
+        Task<bool> Login(UserDto userDto);
+        Task<UserDto> CreateUserAsync(UserDto userDto);
+        Task<bool> DeleteUserAsync(UserDto userDto);
+        Task<bool> UpdateUserAsync(UserDto userDto);
+        Task<IEnumerable<UserDto>> GetAllUsersAsync();
+        Task<UserDto> GetUserByIdAsync(Guid id);
     }
 }

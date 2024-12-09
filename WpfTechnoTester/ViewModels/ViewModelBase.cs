@@ -5,10 +5,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfTechnoTester.ViewModels.Helpers;
 
 namespace WpfTechnoTester.ViewModels
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : ObservableObject
     {
         public ViewModelBase() { }
         public ViewModelBase(string displayName)
@@ -19,26 +20,11 @@ namespace WpfTechnoTester.ViewModels
         public string? DisplayName { get; set; }
 
         // In ViewModelBase.cs 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            VerifyPropertyName(propertyName);
-
-            if(PropertyChanged != null)
-            {
-                PropertyChangedEventHandler handler = PropertyChanged;
-                var e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
-                RaiseCanExecuteChange();
-            }
-        }
-
+        
         internal virtual void RaiseCanExecuteChange()
         {
         }
 
-        //[Conditional("DEBUG")]
-        //[DebuggerStepThrough]
         public void VerifyPropertyName(string propertyName)
         {
             // Verify that the property name matches a real, 
@@ -50,6 +36,13 @@ namespace WpfTechnoTester.ViewModels
                 //else
                 //    Debug.Fail(msg);
             }
+        }
+
+        protected override void OnPropertyChanged(string propertyName)
+        {
+            VerifyPropertyName(propertyName);
+            base.OnPropertyChanged(propertyName);
+            RaiseCanExecuteChange();
         }
     }
 }

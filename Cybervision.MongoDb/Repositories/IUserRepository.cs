@@ -1,6 +1,6 @@
 ﻿
 
-using Domain.Models;
+using Domain.DataTransferObjects;
 
 namespace Cybervision.Dapr.Services
 {

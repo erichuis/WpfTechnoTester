@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Security;
 
-namespace Domain.Models
+namespace Domain.DataTransferObjects
 {
     public class UserDto
     {

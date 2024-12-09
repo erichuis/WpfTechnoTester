@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Models;
+using Domain.DataTransferObjects;
 
 namespace Cybervision.Dapr.DataModels
 {

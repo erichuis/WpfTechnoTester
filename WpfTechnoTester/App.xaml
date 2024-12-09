@@ -1,8 +1,11 @@
 ﻿<Application x:Class="WpfTechnoTester.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WpfTechnoTester.Views">
-    <!--StartupUri="MainWindow.xaml">-->
+             xmlns:views="clr-namespace:WpfTechnoTester.Views" 
+             xmlns:viewModels="clr-namespace:WpfTechnoTester.ViewModels" 
+             xmlns:uc="clr-namespace:WpfTechnoTester.Views.Controls" 
+             xmlns:local="clr-namespace:WpfTechnoTester">
+    <!--StartupUri="MainView.xaml">-->
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -10,7 +13,18 @@
                 <ResourceDictionary Source="Views/Styles/ButtonStyles.xaml" />
                 <ResourceDictionary Source="Views/Styles/TextBoxStyles.xaml" />
                 <ResourceDictionary Source="Views/Styles/TextBlockStyles.xaml" />
+                <ResourceDictionary Source="Views/Styles/Common.xaml" />
+                <ResourceDictionary Source="Views/Styles/NavigationBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
+                <uc:HomeView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:TodoViewModel}">
+                <uc:TodoView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:JournalViewModel}">
+                <uc:JournalView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

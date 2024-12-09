@@ -1,4 +1,4 @@
-﻿using Domain.Models;
+﻿using Domain.DataTransferObjects;
 using System.Net;
 using System.Security;
 using Domain.Helpers;
@@ -7,7 +7,7 @@ namespace TodoApi.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        public Task<UserDto> Login(string username, string password)
+        public Task<UserDto> Login(string username, SecureString password)
         {
             throw new NotImplementedException();
         }

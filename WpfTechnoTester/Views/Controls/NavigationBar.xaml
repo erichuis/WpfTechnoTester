@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="WpfTechnoTester.Views.Controls.NavigationBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfTechnoTester.Views.Controls"
+             xmlns:nav="clr-namespace:WpfTechnoTester.State"
+             xmlns:style="clr-namespace:WpfTechnoTester.Views"
+             xmlns:vm="clr-namespace:WpfTechnoTester.ViewModels"
+             xmlns:converters="clr-namespace:WpfTechnoTester.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <converters:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" RenderOptions.EdgeMode="Aliased" Background="{StaticResource NonActiveColorBrush}">
+            <Grid.Resources>
+                <Style TargetType="RadioButton" BasedOn="{StaticResource ResourceKey=NavButton}" />
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton Grid.Column="0" Content="Home" 
+                         IsChecked="{Binding CurrentViewModel, 
+                            Converter={StaticResource EqualValueToParameterConverter},
+                            Mode=OneWay,
+                            ConverterParameter={x:Type vm:HomeViewModel}}"
+                         Command="{Binding UpdateCurrentViewModelCommand}" 
+                         CommandParameter="{x:Static nav:ViewType.Home}"/>
+            <RadioButton Grid.Column="1" Content="Dagboek"
+                         Command="{Binding UpdateCurrentViewModelCommand}" 
+                         CommandParameter="{x:Static nav:ViewType.Journal}"/>
+            <RadioButton Grid.Column="2" Content="Te doen"
+                         Command="{Binding UpdateCurrentViewModelCommand}" 
+                         CommandParameter="{x:Static nav:ViewType.Todo}"/>
+            <RadioButton Grid.Column="3" Content="Login"
+                         Command="{Binding UpdateCurrentViewModelCommand}" 
+                         CommandParameter="{x:Static nav:ViewType.Login}"/>
+            <RadioButton Grid.Column="4" Content="Logout"
+                         Command="{Binding UpdateCurrentViewModelCommand}" 
+                         CommandParameter="{x:Static nav:ViewType.Home}"/>
+        </Grid>
+        <TextBlock Padding="1" 
+                   FontSize="18" 
+                   Text="to be bound to..." 
+                   TextAlignment="Center" 
+                   Background="{StaticResource ActiveColorBrush}"
+                   Grid.Row="1" />
+    </Grid>
+</UserControl>

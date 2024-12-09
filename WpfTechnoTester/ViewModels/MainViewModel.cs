@@ -1,15 +1,19 @@
-﻿using System.Collections.ObjectModel;
+﻿using Domain.Models;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using TodoApi.Services;
 using WpfTechnoTester.Clients;
 using WpfTechnoTester.Commands;
 using WpfTechnoTester.Services;
-using WpfTechnoTester.Views;
+using WpfTechnoTester.State;
 
 
-public class TodoItemViewModel : INotifyPropertyChanged
+public class MainViewModel : INotifyPropertyChanged
 {
-    private readonly IHttpAppClient _taskClient;
+    private readonly ITodoItemService _todoItemService;
     private readonly IWindowService _windowService;
+    private readonly INavigator _navigator;
+    private readonly IAuthenticator _authenticator;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -21,6 +25,11 @@ public class TodoItemViewModel : INotifyPropertyChanged
     private string _description;
     private bool _isCompleted;
 
+    public INavigator Navigator
+    {
+        get { return _navigator; }
+    }
+
     public RelayCommand AddTodoItemCommand { get; }
     public RelayCommand DeleteTaskCommand { get; }
     public RelayCommand UpdateTaskCommand { get; }
@@ -30,7 +39,11 @@ public class TodoItemViewModel : INotifyPropertyChanged
     public RelayCommand SignUpCommand { get; }
 
 
-    public TodoItemViewModel(IHttpAppClient taskClient, IWindowService windowService)
+    public MainViewModel(
+        ITodoItemService todoItemService, 
+        IWindowService windowService, 
+        INavigator navigator,
+        IAuthenticator authenticator)
     {
         TodoItems = [];
         SelectedTodoItems = [];
@@ -43,13 +56,16 @@ public class TodoItemViewModel : INotifyPropertyChanged
         SignUpCommand = new RelayCommand((param) => SignUp(), (param) => true);
         _title = string.Empty;
         _description = string.Empty;
-        _taskClient = taskClient;
+        _todoItemService = todoItemService;
         _windowService = windowService;
+        _navigator = navigator;
+        _authenticator  = authenticator;
+        _navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Home);
     }
 
     private bool CanRetrieve()
     {
-        return _taskClient != null;
+        return _authenticator.IsLoggedIn;
     }
 
     /// <summary>
@@ -58,9 +74,8 @@ public class TodoItemViewModel : INotifyPropertyChanged
     /// <returns></returns>
     private bool CanExecute()
     {
-        return _taskClient != null &&
-            string.IsNullOrEmpty(_title) &&
-            string.IsNullOrEmpty(_description);
+        return string.IsNullOrEmpty(_title) &&
+               string.IsNullOrEmpty(_description);
     }
 
 
@@ -112,35 +127,23 @@ public class TodoItemViewModel : INotifyPropertyChanged
     {
         TodoItems.Clear();
 
-        var tasks = await _taskClient.GetAllTasksAsync();
+        var tasks = await _todoItemService.GetAllAsync();
         foreach (var task in tasks) TodoItems.Add(task);
     }
 
     private void SignUp()
     {
-        if (_taskClient != null)
-        {
-
-            //UserLogin login = new UserLogin();
-            _taskClient.GetToken();
-            _windowService.ShowNewUserSignup();
-        }
+        _windowService.ShowNewUserSignup();
     }
 
     private void Login()
     {
-        if (_taskClient != null)
-        {
-            //UserLogin login = new UserLogin();
-            _taskClient.GetToken();
-            _windowService.ShowUserLogin();
-            //by machine
-        }
+        _windowService.ShowUserLogin();
     }
 
     private void Logout()
     {
-        _taskClient.Logout();
+        _authenticator.Logout();
     }
 
     private void AddTodoItem()
@@ -148,13 +151,13 @@ public class TodoItemViewModel : INotifyPropertyChanged
         if (string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(Title))
             return;
 
-        var newTask = new TodoItem()
+        var todoItem = new TodoItem()
         {
             Description = Description,
             Title = Title
         };
 
-        var response = _taskClient.CreateTodoItemAsync(newTask).GetAwaiter().GetResult();
+        var response = _todoItemService.CreateAsync(todoItem).GetAwaiter().GetResult();
         if (response != null)
         {
             TodoItems.Add(response);
@@ -170,7 +173,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
 
         foreach (var item in SelectedTodoItems)
         {
-            await _taskClient.DeleteTodoItemByIdAsync(item.Id);
+            await _todoItemService.DeleteAsync(item.Id);
             TodoItems.Remove(item);
         }
     }
@@ -188,7 +191,7 @@ public class TodoItemViewModel : INotifyPropertyChanged
         item.Description = Description;
         item.IsCompleted = IsCompleted;
 
-        await _taskClient.UpdateTodoItemAsync(item);
+        await _todoItemService.UpdateAsync(item);
 
     }
 }

@@ -1,13 +1,12 @@
-﻿using WpfTechnoTester.Models;
+﻿using Domain.DataTransferObjects;
+using Domain.Models;
+using System.Security;
 
 namespace WpfTechnoTester.Services
 {
-    public interface IUserService
+    public interface IUserService : IDataService<User>
     {
-        Task LoginAsync(User user);
-        Task<bool> AddUserAsync(User user);
-        Task UpdateUserAsync(User user);
-        Task DeleteUserAsync(User user);
-
+        Task<User> Login(string username, SecureString password);
+        Task Logout();
     }
 }

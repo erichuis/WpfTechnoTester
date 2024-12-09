@@ -1,11 +1,9 @@
-﻿using IdentityModel.Client;
+﻿using Domain.DataTransferObjects;
+using IdentityModel.Client;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Security;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks.Sources;
-using WpfTechnoTester.Models;
 
 namespace WpfTechnoTester.Clients
 {
@@ -60,11 +58,11 @@ namespace WpfTechnoTester.Clients
             _httpClient.SetBearerToken(_tokenResponse.AccessToken);
         }
 
-        public async Task<bool> Login(User login)
+        public async Task<bool> Login(UserDto login)
         {
             var loginData = new
             {
-                username = login.UserName,
+                username = login.Username,
                 password = login.Password
             };
 
@@ -135,18 +133,16 @@ namespace WpfTechnoTester.Clients
             Console.WriteLine(content);
         }
 
-        public async Task<IEnumerable<TodoItem>> GetAllTasksAsync()
+        public async Task<IEnumerable<TodoItemDto>> GetAllTodoItemsAsync()
         {
             var response = await _httpClient.GetAsync("TodoItem/GetAllTodoItems");
             
-
-
             var json = await response.Content.ReadAsStringAsync();
             if (json == null)
             {
                 return [];
             }
-            var tasks = JsonSerializer.Deserialize<List<TodoItem>>(json);
+            var tasks = JsonSerializer.Deserialize<List<TodoItemDto>>(json);
             if (tasks == null)
             {
                 return [];
@@ -154,14 +150,14 @@ namespace WpfTechnoTester.Clients
             return tasks;
         }
 
-        public async Task<TodoItem> GetTodoItemByIdAsync(string id)
+        public async Task<TodoItemDto> GetTodoItemByIdAsync(Guid id)
         {
             var response = await _httpClient.GetAsync($"TodoItem/GetTodoItem{id}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var task = JsonSerializer.Deserialize<TodoItem>(json);
+            var task = JsonSerializer.Deserialize<TodoItemDto>(json);
 
             if (task == null)
             {
@@ -170,7 +166,7 @@ namespace WpfTechnoTester.Clients
             return task;
         }
 
-        public async Task<TodoItem> CreateTodoItemAsync(TodoItem item)
+        public async Task<TodoItemDto> CreateTodoItemAsync(TodoItemDto item)
         {
             //string jsonContent = JsonSerializer.Serialize(item);
             //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -181,7 +177,7 @@ namespace WpfTechnoTester.Clients
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var task = JsonSerializer.Deserialize<TodoItem>(json);
+            var task = JsonSerializer.Deserialize<TodoItemDto>(json);
             if (task == null)
             {
                 throw new Exception("No Todoitem found");
@@ -189,7 +185,7 @@ namespace WpfTechnoTester.Clients
             return task;
         }
 
-        public async Task<bool> DeleteTodoItemByIdAsync(string id)
+        public async Task<bool> DeleteTodoItemByIdAsync(Guid id)
         {
             var response = await _httpClient.DeleteAsync($"TodoItem/DeleteTodoItem{id}");
             response.EnsureSuccessStatusCode();
@@ -204,7 +200,7 @@ namespace WpfTechnoTester.Clients
             return result;
         }
 
-        public async Task<bool> UpdateTodoItemAsync(TodoItem todoItem)
+        public async Task<bool> UpdateTodoItemAsync(TodoItemDto todoItem)
         {
             ArgumentNullException.ThrowIfNull(todoItem);
 
@@ -226,11 +222,11 @@ namespace WpfTechnoTester.Clients
             return result;
         }
 
-        public async Task<string> CreateUser(User user)
+        public async Task<UserDto> CreateUserAsync(UserDto user)
         {
             var newUser = new
             {
-                username = user.UserName,
+                username = user.Username,
                 password = user.Password,
                 email = user.Email,
             };
@@ -242,7 +238,7 @@ namespace WpfTechnoTester.Clients
 
             response.EnsureSuccessStatusCode();
 
-            var result = await response.Content.ReadAsStringAsync();
+            var result = await response.Content.ReadFromJsonAsync<UserDto>();
 
             if(result == null)
             {
@@ -252,27 +248,27 @@ namespace WpfTechnoTester.Clients
             //var result = JsonSerializer.Deserialize<string>(json);
             //if (result == null)
             //{
-            //    throw new Exception("No user created");
+            //    throw new Exception("No UserDto created");
             //}
             return result;
         }
 
-        public Task<bool> DeleteUser(User user)
+        public Task<bool> DeleteUserAsync(UserDto user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateUser(User user)
+        public Task<bool> UpdateUserAsync(UserDto user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<User>> GetAllUsers()
+        public Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> GetUserByIdAsync(string id)
+        public Task<UserDto> GetUserByIdAsync(Guid id)
         {
             throw new NotImplementedException();
         }

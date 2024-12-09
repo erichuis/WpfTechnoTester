@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Cybervision.Dapr.Services;
-using Domain.Models;
+using Domain.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TodoApi.Services;
 
 namespace TodoApi.Controllers
 {
@@ -10,12 +10,12 @@ namespace TodoApi.Controllers
     [ApiController]
     public class TodoItemController : ControllerBase
     {
-        private readonly ITodoItemRepository _todoItemRepository;
+        private readonly ITodoItemService _todoItemService;
         private readonly IMapper _mapper;
-
-        public TodoItemController(ITodoItemRepository todoItemService, IMapper mapper)
+        
+        public TodoItemController(ITodoItemService todoItemService, IMapper mapper)
         {
-            _todoItemRepository = todoItemService;
+            _todoItemService = todoItemService;
             _mapper = mapper;
         }
 
@@ -24,17 +24,17 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<IAsyncEnumerable<TodoItem>>> GetAllTodoItemsAsync()
+        public async Task<ActionResult<IAsyncEnumerable<TodoItemDto>>> GetAllTodoItemsAsync()
         {
-            var result = await _todoItemRepository.GetAllAsync();
+            var result = await _todoItemService.GetAll().ConfigureAwait(false);
             return Ok(result);
         }
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<TodoItem>> GetTodoItemAsync(string id)
+        public async Task<ActionResult<TodoItemDto>> GetTodoItemAsync(Guid id)
         {
-            var result = await _todoItemRepository.GetByIdAsync(id); 
+            var result = await _todoItemService.GetAsync(id); 
             return Ok(result);
         }
 
@@ -42,7 +42,7 @@ namespace TodoApi.Controllers
         [HttpPost()]
         public async Task<ActionResult<TodoItemDto>> CreateTodoItemAsync(TodoItemDto todoItem)
         {
-            var newTodoItem = await _todoItemRepository.CreateAsync(todoItem);
+            var newTodoItem = await _todoItemService.CreateAsync(todoItem);
             var result = CreatedAtAction(nameof(GetTodoItemAsync), new { id = newTodoItem.Id }, newTodoItem);
             var newResult = result.Value as TodoItemDto;
 
@@ -60,26 +60,27 @@ namespace TodoApi.Controllers
         {
             if (TodoItem == null)
             {
-                throw new NullReferenceException(nameof(TodoItem));
+                throw new NullReferenceException(nameof(TodoItemDto));
             }
 
             try
             {
-                return await _todoItemRepository.UpdateAsync(TodoItem);
+                var result = await _todoItemService.UpdateAsync(TodoItem);
+                return Ok(result);
             }
             catch (Exception)
             {
-                return false;
+                return new ActionResult<bool>(false);
             }
         }
 
         [Authorize(Policy = "ApiScope")]
         [HttpDelete()]
-        public async Task<ActionResult<bool>> DeleteTodoItemAsync(string id)
+        public async Task<ActionResult<bool>> DeleteTodoItemAsync(Guid id)
         {
             try
             {
-                return await _todoItemRepository.DeleteAsync(id);
+                return await _todoItemService.DeleteAsync(id);
 
             }
             catch (Exception)

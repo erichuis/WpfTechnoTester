@@ -1,5 +1,4 @@
 ﻿using System.Windows.Input;
-using WpfTechnoTester.Models;
 
 namespace WpfTechnoTester.Commands
 {

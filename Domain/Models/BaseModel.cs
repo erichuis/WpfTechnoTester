@@ -1,4 +1,4 @@
-﻿namespace WpfTechnoTester.Models
+﻿namespace Domain.Models
 {
     public class BaseModel
     {

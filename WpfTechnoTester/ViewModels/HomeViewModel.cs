@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace WpfTechnoTester.ViewModels
 {
-    internal class DataService
+    public class HomeViewModel : ViewModelBase
     {
-
     }
 }

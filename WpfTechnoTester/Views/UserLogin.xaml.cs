@@ -24,7 +24,11 @@ namespace WpfTechnoTester.Views
         {
             InitializeComponent();
             DataContext = viewModel;
-
+        }
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            { ((dynamic)DataContext).Password = ((PasswordBox)sender).SecurePassword; }
         }
     }
 }

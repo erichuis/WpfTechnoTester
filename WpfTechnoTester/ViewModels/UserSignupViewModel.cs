@@ -1,6 +1,7 @@
-﻿using System.Security;
+﻿using Domain.Models;
+using System.Net;
+using System.Security;
 using WpfTechnoTester.Commands;
-using WpfTechnoTester.Models;
 using WpfTechnoTester.Services;
 
 namespace WpfTechnoTester.ViewModels
@@ -26,7 +27,7 @@ namespace WpfTechnoTester.ViewModels
 
         private void AddUser()
         {
-            var response = _userService.AddUserAsync(_user).GetAwaiter().GetResult();
+            var response = _userService.CreateAsync(_user).GetAwaiter().GetResult();
         }
 
         private void CancelForm()
@@ -41,7 +42,7 @@ namespace WpfTechnoTester.ViewModels
             _user.Password?.Clear();
         }
 
-        private string _userName;
+        private string _userName = string.Empty;
         public string UserName
         {
             get => _userName;
@@ -55,7 +56,7 @@ namespace WpfTechnoTester.ViewModels
                 }
             }
         }
-        private string _email;
+        private string _email = string.Empty;
         public string Email
         {
             get => _email;
@@ -90,7 +91,7 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
-        private SecureString _password;
+        private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
         public SecureString Password
         {
             get => _password;   
@@ -104,7 +105,7 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
-        private SecureString _passwordVerified;
+        private SecureString _passwordVerified = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
         public SecureString PasswordVerified
         {
             get => _passwordVerified;

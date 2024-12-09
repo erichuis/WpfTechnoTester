@@ -1,5 +1,5 @@
 ﻿using Cybervision.Dapr.Services;
-using Domain.Models;
+using Domain.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

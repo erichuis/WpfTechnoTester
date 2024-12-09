@@ -2,19 +2,19 @@
 using System.Security;
 using System.Text.RegularExpressions;
 
-namespace WpfTechnoTester.Models
+namespace Domain.Models
 {
     public class User : BaseModel
     {
         public User() { }
-        public User(string userName, string email, SecureString password, SecureString passwordVerified)
+        public User(string username, string email, SecureString password, SecureString passwordVerified)
         {
-            ArgumentNullException.ThrowIfNull(userName);
+            ArgumentNullException.ThrowIfNull(username);
             ArgumentNullException.ThrowIfNull(email);
             ArgumentNullException.ThrowIfNull(password);
             ArgumentNullException.ThrowIfNull(passwordVerified);
 
-            UserName = userName;
+            UserName = username;
             Email = email;
             Password = password;
             PasswordVerified = passwordVerified;

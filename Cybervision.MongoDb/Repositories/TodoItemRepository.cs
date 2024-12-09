@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Cybervision.Dapr.DataModels;
-using Domain.Models;
+using Domain.DataTransferObjects;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using System.Collections.Generic;
-using WpfTechnoTester.Models;
 
 namespace Cybervision.Dapr.Services
 {

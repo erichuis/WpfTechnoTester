@@ -1,5 +1,6 @@
 
 //using Microsoft.Extensions.DependencyInjection;
+using Cybervision.Dapr.DataModels;
 using Cybervision.Dapr.Services;
 using TodoApi.Middleware;
 
@@ -13,7 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<ITodoItemRepository, TodoItemRepository>();
 builder.Services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
-builder.Services.AddAutoMapper();
+builder.Services.AddAutoMapper(typeof(UserProfile), typeof(TodoItemProfile));
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
