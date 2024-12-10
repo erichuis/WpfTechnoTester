@@ -7,6 +7,6 @@ namespace WpfTechnoTester.Services
     public interface IUserService : IDataService<User>
     {
         Task<User> Login(string username, SecureString password);
-        Task Logout();
+        Task<bool> Logout();
     }
 }

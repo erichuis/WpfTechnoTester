@@ -51,7 +51,7 @@ namespace TodoApi.Controllers
                 return BadRequest();
             }
 
-            return newResult;
+            return Ok(newResult);
         }
 
         [Authorize(Policy = "ApiScope")]

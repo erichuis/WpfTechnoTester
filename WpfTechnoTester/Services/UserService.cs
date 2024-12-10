@@ -25,34 +25,48 @@ namespace WpfTechnoTester.Services
         }
 
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _httpAppClient.DeleteUserAsync(id).ConfigureAwait(false);
         }
 
-        public Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var result = await _httpAppClient.GetAllUsersAsync().ConfigureAwait(false);
+
+            return _mapper.Map<IEnumerable<User>>(result);
         }
 
-        public Task<User> GetAsync(Guid id)
+        public async Task<User> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _httpAppClient.GetUserByIdAsync(id).ConfigureAwait(false);
+            return _mapper.Map<User>(result);
         }
 
         public Task<User> Login(string username, SecureString password)
         {
-            throw new NotImplementedException();
+            var result = _httpAppClient.Login(username, password);
+
+            if (result != null && !result.IsFaulted)
+            {
+                return Task.FromResult(_mapper.Map<User>(result));
+            }
+            else
+            {
+                throw new Exception("Login failed");
+            }
         }
 
-        public Task Logout()
+        public async Task<bool> Logout()
         {
-            throw new NotImplementedException();
+            return await _httpAppClient.Logout();
         }
 
-        public Task<User> UpdateAsync(User entity)
+        public async Task<User> UpdateAsync(User entity)
         {
-            throw new NotImplementedException();
+            var dto = _mapper.Map<UserDto>(entity); 
+            var result = await _httpAppClient.UpdateUserAsync(dto).ConfigureAwait(false);
+            return _mapper.Map<User>(result);
         }
 
         public Task<User> UpdateManyAsync(IEnumerable<User> entities)

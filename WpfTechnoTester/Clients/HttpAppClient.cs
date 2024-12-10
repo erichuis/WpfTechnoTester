@@ -1,7 +1,9 @@
 ﻿using Domain.DataTransferObjects;
+using Domain.Models;
 using IdentityModel.Client;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Security;
 using System.Text;
 using System.Text.Json;
 
@@ -12,20 +14,15 @@ namespace WpfTechnoTester.Clients
         //Todo retrieve this from config
         private readonly HttpClient _httpClient = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
         private DiscoveryDocumentResponse _disco = new DiscoveryDocumentResponse();
-        private TokenResponse _tokenResponse;
+        private TokenResponse? _tokenResponse;
         const string ClientId = "WpfTodo";
         const string ClientSecret = "secret";
         const string Scope = "TodoApi";
         const string GrantType = "client_credentials";
 
-        public HttpAppClient()
-        {
-
-        }
-
         public async Task GetToken()
         {
-            var client = new System.Net.Http.HttpClient();
+            var client = new HttpClient();
             _disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
 
             if (_disco.IsError)
@@ -58,12 +55,12 @@ namespace WpfTechnoTester.Clients
             _httpClient.SetBearerToken(_tokenResponse.AccessToken);
         }
 
-        public async Task<bool> Login(UserDto login)
+        public async Task<UserDto> Login(string username, SecureString password)
         {
             var loginData = new
             {
-                username = login.Username,
-                password = login.Password
+                username,
+                password
             };
 
             string json = JsonSerializer.Serialize(loginData);
@@ -76,20 +73,24 @@ namespace WpfTechnoTester.Clients
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Login successful: {responseBody}");
-                    return true; // Contains token or user details
+                    var responseBody = await response.Content.ReadFromJsonAsync<UserDto>();
+                    Console.WriteLine($"Login successful");
+                    if(responseBody != null)
+                    {
+                        return responseBody; // Contains token or user details
+                    }
+                    throw new Exception("Authenticated user could not be returned");
                 }
                 else
                 {
                     Console.WriteLine($"Login failed: {response.StatusCode}");
-                    return false;
+                    throw new Exception("Login failed");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return false;
+                throw;
             }
         }
 
@@ -157,13 +158,13 @@ namespace WpfTechnoTester.Clients
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var task = JsonSerializer.Deserialize<TodoItemDto>(json);
+            var todoItem = JsonSerializer.Deserialize<TodoItemDto>(json);
 
-            if (task == null)
+            if (todoItem == null)
             {
                 throw new Exception("No TodoItem found");
             }
-            return task;
+            return todoItem;
         }
 
         public async Task<TodoItemDto> CreateTodoItemAsync(TodoItemDto item)
@@ -195,7 +196,7 @@ namespace WpfTechnoTester.Clients
             var result = JsonSerializer.Deserialize<bool>(json);
             if (!result)
             {
-                throw new Exception("No Task found");
+                throw new Exception("No todo item found");
             }
             return result;
         }
@@ -253,24 +254,73 @@ namespace WpfTechnoTester.Clients
             return result;
         }
 
-        public Task<bool> DeleteUserAsync(UserDto user)
+        public async Task<bool> DeleteUserAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.DeleteAsync($"User/DeleteUser{id}");
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var result = JsonSerializer.Deserialize<bool>(json);
+            if (!result)
+            {
+                throw new Exception($"No user found for id '{id}'");
+            }
+            return result;
         }
 
-        public Task<bool> UpdateUserAsync(UserDto user)
+        public async Task<bool> UpdateUserAsync(UserDto user)
         {
-            throw new NotImplementedException();
+            ArgumentNullException.ThrowIfNull(user);
+
+            //string jsonContent = JsonSerializer.Serialize(taskItem);
+            //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            // Send the PUT request
+            HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"TodoItem/UpdateTodoItem{user.Id}", user);
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var result = JsonSerializer.Deserialize<bool>(json);
+            if (!result)
+            {
+                throw new Exception("No user found");
+            }
+            return result;
         }
 
-        public Task<IEnumerable<UserDto>> GetAllUsersAsync()
+        public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync("TodoItem/GetAllUsers");
+
+            var json = await response.Content.ReadAsStringAsync();
+            if (json == null)
+            {
+                return [];
+            }
+            var users = JsonSerializer.Deserialize<List<UserDto>>(json);
+            if (users == null)
+            {
+                return [];
+            }
+            return users;
         }
 
-        public Task<UserDto> GetUserByIdAsync(Guid id)
+        public async Task<UserDto> GetUserByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync($"TodoItem/GetUser{id}");
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var user = JsonSerializer.Deserialize<UserDto>(json);
+
+            if (user == null)
+            {
+                throw new Exception("No user found");
+            }
+            return user;
         }
 
         //    public static async Task<string> GetAccessTokenAsync()

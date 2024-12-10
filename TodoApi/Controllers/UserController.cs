@@ -1,5 +1,6 @@
 ﻿using Cybervision.Dapr.Services;
 using Domain.DataTransferObjects;
+using Domain.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,14 +20,24 @@ namespace TodoApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserDto loginRequest)
         {
+            if(loginRequest == null || loginRequest.PasswordHashed == null)
+            {
+                return BadRequest("loginRequest or password can not be null");
+            }
             var user = await _userRepository.GetByNameAsync(loginRequest.Username);
-            //if (user == null || !PasswordHelper.VerifyPassword(loginRequest.PasswordHash, user.PasswordHash))
-            //{
-            //    return Unauthorized("Invalid username or password.");
-            //}
+
+            if (user == null || user.PasswordHashed == null) 
+            {
+                return BadRequest("loginRequest or password can not be null");
+            }
+
+            if (!PasswordHelper.VerifyPassword(loginRequest.PasswordHashed, user.PasswordHashed))
+            {
+                return Unauthorized("Invalid username or password.");
+            }
 
             // In a real-world scenario, generate a token here
-            return Ok("Login successful.");
+            return Ok(user);
         }
 
         [Authorize(Policy = "ApiScope")]
@@ -62,22 +73,9 @@ namespace TodoApi.Controllers
             // Save the user
             var result = await _userRepository.CreateAsync(user);
 
-            return Ok("User registered successfully.");
+            return Ok(result);
         }
-        //public async Task<ActionResult<TodoItem>> CreateTodoItemAsync(TodoItem todoItem)
-        //{
-
-        //    var newTodoItem = await _todoItemService.CreateTodoItem(todoItem);
-        //    var result = CreatedAtAction(nameof(GetTodoItemAsync), new { id = newTodoItem.Id }, newTodoItem);
-        //    var newResult = result.Value as TodoItem;
-
-        //    if (newResult == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    return newResult;
-        //}
+      
 
         [Authorize(Policy = "ApiScope")]
         [HttpPut()]

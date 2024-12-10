@@ -22,24 +22,30 @@ namespace TodoApi.Services
             return _mapper.Map<TodoItem>(result);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _httpAppClient.DeleteTodoItemByIdAsync(id).ConfigureAwait(false);
         }
 
-        public Task<IEnumerable<TodoItem>> GetAllAsync()
+        public async Task<IEnumerable<TodoItem>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var result = await _httpAppClient.GetAllTodoItemsAsync().ConfigureAwait(false);
+
+            return _mapper.Map<IEnumerable<TodoItem>>( result);
         }
 
-        public Task<TodoItem> GetAsync(Guid id)
+        public async Task<TodoItem> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _httpAppClient.GetTodoItemByIdAsync(id).ConfigureAwait(false);
+            return _mapper.Map<TodoItem>(result);
         }
 
-        public Task<TodoItem> UpdateAsync(TodoItem entity)
+        public async Task<TodoItem> UpdateAsync(TodoItem entity)
         {
-            throw new NotImplementedException();
+            var dto = _mapper.Map<TodoItemDto>(entity);
+            var result = await _httpAppClient.UpdateTodoItemAsync(dto);
+
+            return _mapper.Map<TodoItem>(result);
         }
 
         public Task<TodoItem> UpdateManyAsync(IEnumerable<TodoItem> entities)

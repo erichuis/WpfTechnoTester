@@ -1,4 +1,5 @@
 ﻿using Domain.DataTransferObjects;
+using System.Security;
 
 namespace WpfTechnoTester.Clients
 {
@@ -11,9 +12,9 @@ namespace WpfTechnoTester.Clients
         Task<bool> UpdateTodoItemAsync(TodoItemDto item);
         Task GetToken();
         Task<bool> Logout();
-        Task<bool> Login(UserDto userDto);
+        Task<UserDto> Login(string username, SecureString password);
         Task<UserDto> CreateUserAsync(UserDto userDto);
-        Task<bool> DeleteUserAsync(UserDto userDto);
+        Task<bool> DeleteUserAsync(Guid id);
         Task<bool> UpdateUserAsync(UserDto userDto);
         Task<IEnumerable<UserDto>> GetAllUsersAsync();
         Task<UserDto> GetUserByIdAsync(Guid id);
