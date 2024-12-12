@@ -7,6 +7,7 @@ using System.Windows.Input;
 using WpfTechnoTester.Services;
 using WpfTechnoTester.State;
 using WpfTechnoTester.ViewModels;
+using WpfTechnoTester.ViewModels.Factories;
 using static WpfTechnoTester.State.INavigator;
 
 namespace WpfTechnoTester.Commands
@@ -15,39 +16,24 @@ namespace WpfTechnoTester.Commands
     {
         public event EventHandler? CanExecuteChanged;
         private INavigator _navigator;
+        private IViewModelFactory _viewModelFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator)
+        public UpdateCurrentViewModelCommand(INavigator navigator, IViewModelFactory viewModelFactory)
         {
             _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
         }
         public bool CanExecute(object? parameter)
         {
             return true;
         }
-
+        
         public void Execute(object? parameter)
         {
-            if (parameter is ViewType)
+            if (parameter is ViewType type)
             {
-                var viewType = (ViewType)parameter;
-                switch (viewType)
-                {
-                    case ViewType.Home:
-                        _navigator.CurrentViewModel = new HomeViewModel();
-                        break;
-                    case ViewType.Register:
-                        _navigator.CurrentViewModel = new UserSignupViewModel(null);
-                        break;
-                    case ViewType.Login:
-                        _navigator.CurrentViewModel = new UserLoginViewModel();
-                        break;
-                    case ViewType.Todo:
-                        _navigator.CurrentViewModel = new TodoViewModel();
-                        break;
-                    case ViewType.Journal:
-                        _navigator.CurrentViewModel = new JournalViewModel();
-                        break;
-                }
+                _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(type);
+                
             }
         }
     }

@@ -4,6 +4,7 @@ using WpfTechnoTester.Clients;
 using WpfTechnoTester.Services;
 using WpfTechnoTester.State;
 using WpfTechnoTester.ViewModels;
+using WpfTechnoTester.ViewModels.Factories;
 using WpfTechnoTester.Views;
 
 namespace WpfTechnoTester
@@ -39,10 +40,31 @@ namespace WpfTechnoTester
             // Register clients
             services.AddSingleton(typeof(IHttpAppClient), typeof(HttpAppClient));
 
+            //register viewmodels
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<JournalViewModel>();
+            services.AddTransient<TodoViewModel>();
+            services.AddTransient<UserSignupViewModel>();
+            services.AddTransient<UserLoginViewModel>();
+
             //Register services
             services.AddTransient(typeof(IUserService), typeof(UserService));
             services.AddSingleton<IWindowService, WindowService>();
-           // services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<IAuthenticator, Authenticator>();
+
+            services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+
+            services.AddSingleton<CreateViewModel<HomeViewModel>>(
+                services => { return () => new HomeViewModel(); });
+
+            services.AddSingleton<CreateViewModel<JournalViewModel>>(
+                services => { return () => services.GetRequiredService<JournalViewModel>(); });
+
+            services.AddSingleton<CreateViewModel<TodoViewModel>>(
+                services => { return () => new TodoViewModel(
+                    services.GetRequiredService<ITodoItemService>(),
+                    services.GetRequiredService<IWindowService>()
+                    ); });
 
             //Register states
             services.AddSingleton<INavigator, Navigator>();
@@ -51,11 +73,6 @@ namespace WpfTechnoTester
             services.AddTransient<MainView>();
             services.AddTransient<UserSignup>();
             services.AddTransient<UserLogin>();
-
-            //register viewmodels
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<UserSignupViewModel>();
-            services.AddTransient<UserLoginViewModel>();
 
             ServiceProvider = services.BuildServiceProvider();
 

@@ -3,7 +3,7 @@ using Domain.DataTransferObjects;
 using Domain.Models;
 using WpfTechnoTester.Clients;
 
-namespace TodoApi.Services
+namespace WpfTechnoTester.Services
 {
     public class TodoItemService : ITodoItemService
     {
