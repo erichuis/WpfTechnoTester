@@ -30,5 +30,15 @@ namespace WpfTechnoTester.Views
             if (DataContext != null)
             { ((dynamic)DataContext).Password = ((PasswordBox)sender).SecurePassword; }
         }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                if (!((UserLoginViewModel)DataContext).CanClose)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
     }
 }

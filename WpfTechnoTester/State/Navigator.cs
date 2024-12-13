@@ -1,19 +1,22 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 using WpfTechnoTester.Commands;
+using WpfTechnoTester.Services;
 using WpfTechnoTester.ViewModels;
+using WpfTechnoTester.ViewModels.Factories;
 using WpfTechnoTester.ViewModels.Helpers;
 
 namespace WpfTechnoTester.State
 {
     public class Navigator : ObservableObject, INavigator
     {
-        public Navigator() 
+        public Navigator(IViewModelFactory viewModelFactory, IAuthenticator authenticator, IWindowService windowService) 
         {
-            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this);
+            UpdateCurrentViewModelCommand = 
+                new UpdateCurrentViewModelCommand(this, viewModelFactory, authenticator, windowService);
         }
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel 
+        private ViewModelBase? _currentViewModel;
+        public ViewModelBase? CurrentViewModel 
         {
             get { return _currentViewModel; }
             set

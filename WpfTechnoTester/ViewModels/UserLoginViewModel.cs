@@ -1,84 +1,93 @@
-﻿namespace WpfTechnoTester.ViewModels
+﻿using Domain.Models;
+using System.Net;
+using System.Security;
+using WpfTechnoTester.Commands;
+using WpfTechnoTester.Services;
+using WpfTechnoTester.State;
+
+namespace WpfTechnoTester.ViewModels
 {
     public class UserLoginViewModel : ViewModelBase
     {
-        //    private string _userName = string.Empty;
-        //    private string _email = string.Empty;  
-        //    private string _emailVerified = string.Empty;
-        //    private string _password = string.Empty;
-        //    private _userService
+        
+        private readonly IAuthenticator _authenticator;
+        private readonly IWindowService _windowService;
+        private readonly User _user;
 
-        //    public LoginCommand? _loginCommand { get; set; }
+        public RelayCommand SubmitCommand { get; }
+        public RelayCommand SignupCommand { get; }
+        public RelayCommand CancelCommand { get; }
 
-        //    public UserLoginViewModel(IUserService userService
-        //    {
+        public UserLoginViewModel(IAuthenticator authenticator, IWindowService windowService)
+        {
+            _authenticator = authenticator;
+            _windowService = windowService;
+            _user = new()
+            {
+                UserName = string.Empty
+            };
 
-        //    }
+            SubmitCommand = new RelayCommand((param) => Login(), (param) => CanLogin());
+            SignupCommand = new RelayCommand((param) => ShowSignupView());
+            CancelCommand = new RelayCommand((param) => CancelLogin());
+        }
 
-        //    public ICommand LoginCommand {
-        //        get
-        //        {
-        //            if (_signUpCommand == null)
-        //            {
-        //                var user = new
-        //                _loginCommand = new RelayCommand(param => Signup(), param => CanSignup());
-        //            };
-        //            return _signUpCommand;
-        //        }
-        //    }
+        private void ShowSignupView()
+        {
+            _windowService.ShowNewUserSignupDialog();
+        }
 
-        //    public string UserName
-        //    {
-        //        get => _userName;
-        //        set
-        //        {
-        //            if (_userName != value)
-        //            {
-        //                _userName = value;
-        //                OnPropertyChanged(nameof(UserName));
-        //            }
-        //        }
-        //    }
+        private bool _cancelLogin = false;
+        private void CancelLogin()
+        {
+            _cancelLogin = true;
+        }
 
-        //    public string Email
-        //    {
-        //        get => _email;
-        //        set
-        //        {
-        //            if (_email != value)
-        //            {
-        //                _email = value;
-        //                OnPropertyChanged(nameof(Email));
-        //            }
-        //        }
-        //    }
+        public bool CanClose
+        {
+            get
+            {
+                return _cancelLogin || _user.CanLogin();
+            }
+        }
+        private bool CanLogin()
+        {
+            return _user.CanLogin();
+        }
 
-        //    public string EmailVerified
-        //    {
-        //        get => _emailVerified;
-        //        set
-        //        {
-        //            if (_emailVerified != value)
-        //            {
-        //                _emailVerified = value;
-        //                OnPropertyChanged(nameof(EmailVerified));
-        //            }
-        //        }
-        //    }
+        private void Login()
+        {
+            throw new NotImplementedException();
+        }
 
-        //    public string Password
-        //    {
-        //        get => _password;
-        //        set
-        //        {
-        //            if (_password != value)
-        //            {
-        //                _password = value;
-        //                OnPropertyChanged(nameof(Password));
-        //            }
-        //        }
-        //    }
+        private string _userName = string.Empty;
+        public string UserName
+        {
+            get => _userName;
+            set
+            {
+                if (_userName != value)
+                {
+                    _userName = value;
+                    _user.UserName = value;
+                    OnPropertyChanged(nameof(UserName));
+                }
+            }
+        }
 
-        //}
+        private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
+        public SecureString Password
+        {
+            get => _password;
+            set
+            {
+                if (_password != value)
+                {
+                    _password = value;
+                    _user.Password = value;
+                    OnPropertyChanged(nameof(Password));
+                }
+            }
+        }
     }
 }

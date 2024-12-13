@@ -8,16 +8,20 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewmodels:TodoViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
-
-<ListView Name="lvTodoItems" ItemsSource="{Binding TodoItems}">
-    <ListView.View>
-        <GridView >
-            <GridView.Columns>
-                <GridViewColumn Width="200" Header="Title" DisplayMemberBinding="{Binding Title}"/>
-                <GridViewColumn Width="300" Header="Description" DisplayMemberBinding="{Binding Description}"/>
-                <GridViewColumn Width="100" Header="Is Completed" DisplayMemberBinding="{Binding IsCompleted}"/>
-            </GridView.Columns>
-        </GridView>
-    </ListView.View>
-</ListView>
-
+    <StackPanel Orientation="Vertical">
+        <ListView Name="lvTodoItems" ItemsSource="{Binding TodoItems}">
+            <ListView.View>
+                <GridView >
+                    <GridView.Columns>
+                        <GridViewColumn Width="200" Header="Title" DisplayMemberBinding="{Binding Title}"/>
+                        <GridViewColumn Width="300" Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                        <GridViewColumn Width="100" Header="Is Completed" DisplayMemberBinding="{Binding IsCompleted}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="RetrieveTodoItemsButton" Content="Retrieve" Style="{StaticResource LoginButtonStyle}" Command="{Binding LoadTasksCommand}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

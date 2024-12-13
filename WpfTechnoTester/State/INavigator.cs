@@ -8,8 +8,8 @@ namespace WpfTechnoTester.State
         Home,
         Todo,
         Journal,
-        Login,
-        Register
+        Image,
+        Game
     }
     public interface INavigator
     {

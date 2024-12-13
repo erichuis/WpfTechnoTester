@@ -20,11 +20,24 @@ namespace Domain.Models
             PasswordVerified = passwordVerified;
 
         }
-        public string? UserName {  get; set; }
+        public string? UserName { get; set; }
         public string? Email { get; set; }
         public SecureString? Password { get; set; }
         public SecureString? PasswordVerified { get; set; }
 
+        public bool CanLogin()
+        {
+            Reset();
+            CheckIsValid(() => !string.IsNullOrEmpty(UserName), "Username can not be empty");
+            CheckIsValid(() => Password != null && Password.Length != 0, "Password can not be empty");
+
+            if (IsValid())
+            {
+                return true;
+            }
+
+            return false;
+        }
         public bool CanSave()
         {
             Reset();
@@ -38,10 +51,8 @@ namespace Domain.Models
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         private static bool CheckPasswordIsStrongEnough(SecureString? password)

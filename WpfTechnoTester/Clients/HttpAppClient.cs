@@ -143,12 +143,12 @@ namespace WpfTechnoTester.Clients
             {
                 return [];
             }
-            var tasks = JsonSerializer.Deserialize<List<TodoItemDto>>(json);
-            if (tasks == null)
+            var todoItems = JsonSerializer.Deserialize<List<TodoItemDto>>(json);
+            if (todoItems == null)
             {
                 return [];
             }
-            return tasks;
+            return todoItems;
         }
 
         public async Task<TodoItemDto> GetTodoItemByIdAsync(Guid id)

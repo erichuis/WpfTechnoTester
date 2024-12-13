@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿//using AutoMapper;
+using Domain.DataModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using WpfTechnoTester.Clients;
 using WpfTechnoTester.Services;
@@ -44,13 +46,17 @@ namespace WpfTechnoTester
             services.AddTransient<MainViewModel>();
             services.AddTransient<JournalViewModel>();
             services.AddTransient<TodoViewModel>();
+            services.AddTransient<GameViewModel>();
+            services.AddTransient<ImageViewModel>();
             services.AddTransient<UserSignupViewModel>();
             services.AddTransient<UserLoginViewModel>();
 
             //Register services
-            services.AddTransient(typeof(IUserService), typeof(UserService));
+            services.AddAutoMapper(typeof(UserProfile));
+            services.AddTransient<IUserService, UserService>();
             services.AddSingleton<IWindowService, WindowService>();
             services.AddSingleton<IAuthenticator, Authenticator>();
+            services.AddSingleton<ITodoItemService, TodoItemService>();
 
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
 
@@ -59,6 +65,12 @@ namespace WpfTechnoTester
 
             services.AddSingleton<CreateViewModel<JournalViewModel>>(
                 services => { return () => services.GetRequiredService<JournalViewModel>(); });
+
+            services.AddSingleton<CreateViewModel<ImageViewModel>>(
+                services => { return () => services.GetRequiredService<ImageViewModel>(); });
+
+            services.AddSingleton<CreateViewModel<GameViewModel>>(
+                services => { return () => services.GetRequiredService<GameViewModel>(); });
 
             services.AddSingleton<CreateViewModel<TodoViewModel>>(
                 services => { return () => new TodoViewModel(

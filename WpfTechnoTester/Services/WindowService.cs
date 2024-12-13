@@ -12,31 +12,33 @@ namespace WpfTechnoTester.Services
             _serviceProvider = serviceProvider;
         }
 
-        public void ShowEditTodoItemView()
+        public void ShowEditTodoItemViewDialog()
         {
             // Resolve the NewWindow from the service provider
             var window = _serviceProvider.GetRequiredService<EditTodoItemView>();
 
             // Optionally set properties or initialize if needed
-            window.Show(); // Open the window
+            window.ShowDialog(); // Open the window modal
         }
 
-        public void ShowNewUserSignup()
+        public void ShowNewUserSignupDialog()
         {
             // Resolve the NewWindow from the service provider
             var window = _serviceProvider.GetRequiredService<UserSignup>();
 
             // Optionally set properties or initialize if needed
-            window.Show(); // Open the window
+            window.ShowDialog(); // Open the window modal
         }
 
-        public void ShowUserLogin()
+        public bool ShowUserLoginDialog()
         {
             // Resolve the NewWindow from the service provider
             var window = _serviceProvider.GetRequiredService<UserLogin>();
 
             // Optionally set properties or initialize if needed
-            window.Show(); // Open the window
+            var result = window.ShowDialog(); // Open the window modal
+
+            return result ?? false;
         }
     }
 }

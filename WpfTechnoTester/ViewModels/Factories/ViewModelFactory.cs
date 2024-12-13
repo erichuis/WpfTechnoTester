@@ -7,15 +7,21 @@ namespace WpfTechnoTester.ViewModels.Factories
         private readonly CreateViewModel<HomeViewModel> _createHomeViewModel;
         private readonly CreateViewModel<JournalViewModel> _createJournalViewModel;
         private readonly CreateViewModel<TodoViewModel> _createTodoViewModel;
+        private readonly CreateViewModel<ImageViewModel> _createImageViewModel;
+        private readonly CreateViewModel<GameViewModel> _createGameViewModel;
 
         public ViewModelFactory(
             CreateViewModel<HomeViewModel> createHomeViewModel, 
             CreateViewModel<JournalViewModel> createJournalViewModel, 
-            CreateViewModel<TodoViewModel> createTodoViewModel)
+            CreateViewModel<TodoViewModel> createTodoViewModel,
+            CreateViewModel<ImageViewModel> createImageViewModel,
+            CreateViewModel<GameViewModel> createGameViewModel)
         {
             _createHomeViewModel = createHomeViewModel;
             _createJournalViewModel = createJournalViewModel;
             _createTodoViewModel = createTodoViewModel;
+            _createImageViewModel = createImageViewModel;
+            _createGameViewModel = createGameViewModel; 
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -24,14 +30,12 @@ namespace WpfTechnoTester.ViewModels.Factories
             {
                 case ViewType.Home:
                     return _createHomeViewModel();
-                //case ViewType.Register:
-                //    _navigator.CurrentViewModel = new UserSignupViewModel(null);
-                //    break;
-                //case ViewType.Login:
-                //    _navigator.CurrentViewModel = new UserLoginViewModel();
-                //    break;
+                case ViewType.Image:
+                    return _createImageViewModel();
+                case ViewType.Game:
+                    return _createGameViewModel();
                 case ViewType.Todo:
-                    return _createHomeViewModel();
+                    return _createTodoViewModel();
                 case ViewType.Journal:
                     return _createJournalViewModel();
                 default:

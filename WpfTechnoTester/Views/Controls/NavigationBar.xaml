@@ -41,15 +41,19 @@
             <RadioButton Grid.Column="1" Content="Dagboek"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
                          CommandParameter="{x:Static nav:ViewType.Journal}"/>
-            <RadioButton Grid.Column="2" Content="Te doen"
+            <RadioButton Grid.Column="2" Content="Todo"
+                         IsChecked="{Binding CurrentViewModel, 
+                            Converter={StaticResource EqualValueToParameterConverter},
+                            Mode=OneWay,
+                            ConverterParameter={x:Type vm:TodoViewModel}}"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
                          CommandParameter="{x:Static nav:ViewType.Todo}"/>
-            <RadioButton Grid.Column="3" Content="Login"
+            <RadioButton Grid.Column="3" Content="Image"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
-                         CommandParameter="{x:Static nav:ViewType.Login}"/>
-            <RadioButton Grid.Column="4" Content="Logout"
+                         CommandParameter="{x:Static nav:ViewType.Image}"/>
+            <RadioButton Grid.Column="4" Content="Game"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
-                         CommandParameter="{x:Static nav:ViewType.Home}"/>
+                         CommandParameter="{x:Static nav:ViewType.Game}"/>
         </Grid>
         <TextBlock Padding="1" 
                    FontSize="18" 

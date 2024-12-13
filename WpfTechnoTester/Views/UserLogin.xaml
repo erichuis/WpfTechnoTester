@@ -6,9 +6,12 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:WpfTechnoTester.Views"
         xmlns:styles="clr-namespace:WpfTechnoTester.Views"
-        mc:Ignorable="d"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" 
+        mc:Ignorable="d" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:UserLoginViewModel}"
         Title="UserLogin" Height="420" Width="320" 
-        WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
         Background="Transparent"
@@ -50,15 +53,27 @@
             </Grid>
             <TextBlock Text="forgot password?" 
                        HorizontalAlignment="Right"/>
-            <Button x:Name="LoginBtn" 
-                    Style="{StaticResource LoginButtonStyle}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="LoginButton" 
+                        Style="{StaticResource LoginButtonStyle}"/>
+                <Button x:Name="CancelButton" Command="{Binding SubmitCommand}" Content="Cancel" 
+                        Style="{StaticResource LoginButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding CancelCommand}" CommandParameter="{Binding}"/>
+                            <i:CallMethodAction MethodName="Close"
+                                TargetObject="{Binding RelativeSource={RelativeSource
+                                Mode=FindAncestor,
+                                AncestorType=Window}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
             <TextBlock Text="Not a member?"
                        Style="{StaticResource SignUpTextBlock}"/>
             <TextBlock Text="Sign Up"
                        Style="{StaticResource SignUpTextBlock}">
-                <!--<TextBlock.InputBindings>
-                    <MouseBinding Command="SignupCommand" MouseAction="LeftClick" />
-                </TextBlock.InputBindings>-->
+                <Hyperlink Command="{Binding SignupCommand}" TextDecorations="None" Foreground="Black">Hello</Hyperlink>
             </TextBlock>
         </StackPanel>
     </Border>

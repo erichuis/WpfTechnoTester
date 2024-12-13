@@ -8,8 +8,8 @@ namespace WpfTechnoTester.Services
 {
     public interface IWindowService
     {
-        void ShowEditTodoItemView();
-        void ShowNewUserSignup();
-        void ShowUserLogin();
+        void ShowEditTodoItemViewDialog();
+        void ShowNewUserSignupDialog();
+        bool ShowUserLoginDialog();
     }
 }

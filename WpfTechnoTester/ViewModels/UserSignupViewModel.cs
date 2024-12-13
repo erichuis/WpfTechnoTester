@@ -19,10 +19,10 @@ namespace WpfTechnoTester.ViewModels
         public UserSignupViewModel(IUserService userService)
         {
             _userService = userService;
-            SubmitCommand = new RelayCommand((param) => AddUser(), (param) => CanSave);
 
+            SubmitCommand = new RelayCommand((param) => AddUser(), (param) => CanSave);
             ResetCommand = new RelayCommand((param) => ResetForm());
-            CancelCommand = new RelayCommand((param) => CancelForm());
+            CancelCommand = new RelayCommand((param) => CancelSignup());
         }
 
         private void AddUser()
@@ -30,7 +30,7 @@ namespace WpfTechnoTester.ViewModels
             var response = _userService.CreateAsync(_user).GetAwaiter().GetResult();
         }
 
-        private void CancelForm()
+        private void CancelSignup()
         {
             _cancelForm = true;
         }

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using WpfTechnoTester.Commands;
 using WpfTechnoTester.Services;
+using WpfTechnoTester.State;
 
 namespace WpfTechnoTester.ViewModels
 {
@@ -15,13 +16,14 @@ namespace WpfTechnoTester.ViewModels
         public RelayCommand UpdateTaskCommand { get; }
         public RelayCommand LoadTasksCommand { get; }
 
-        public TodoViewModel(ITodoItemService todoItemService, IWindowService windowService)
+        public TodoViewModel(ITodoItemService todoItemService, 
+            IWindowService windowService)
         {
             TodoItems = [];
             SelectedTodoItems = [];
             _todoItemService = todoItemService;
             _windowService = windowService;
-
+            
             AddTodoItemCommand = new RelayCommand((param) => AddTodoItem(), null);
             DeleteTaskCommand = new RelayCommand((param) => DeleteTodoItem(), null);
             UpdateTaskCommand = new RelayCommand((param) => EditTodoItem(), null);
@@ -41,14 +43,14 @@ namespace WpfTechnoTester.ViewModels
 
         private void AddTodoItem()
         {
-            _windowService.ShowEditTodoItemView();
+            _windowService.ShowEditTodoItemViewDialog();
             //Todo TodoItems.Add(response); or requery
         }
 
         private void EditTodoItem()
         {
             //Todo pass the item to be edited
-            _windowService.ShowEditTodoItemView();
+            _windowService.ShowEditTodoItemViewDialog();
         }
 
         private async void DeleteTodoItem()
