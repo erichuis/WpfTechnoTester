@@ -57,7 +57,7 @@ namespace WpfTechnoTester.ViewModels
 
         private void Login()
         {
-            throw new NotImplementedException();
+            _authenticator.Login(_user.UserName!, _user.Password!);
         }
 
         private string _userName = string.Empty;

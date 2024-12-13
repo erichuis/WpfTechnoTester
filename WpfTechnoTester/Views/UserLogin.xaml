@@ -33,13 +33,13 @@
                     Style="{StaticResource DefaultTextBlock}"/>
                 <TextBox  Grid.Column="1"
                   Grid.Row="1"
-                  Text=""        
+                  Text="{Binding UserName}"        
                   Style="{StaticResource LoginTextBox}"/>
-                <PasswordBox Name="pwdBox" PasswordChanged="PasswordBox_PasswordChanged"
-                    Style="{StaticResource LoginPasswordBox}" />
+                <TextBlock Grid.Row="2" Text="Password"
+                           Style="{StaticResource DefaultTextBlock}"/>
                 <Border BorderBrush="Gray"
-        Grid.Row="3"
-        BorderThickness="0,0,0,1">
+                    Grid.Row="3"
+                    BorderThickness="0,0,0,1">
                     <StackPanel Orientation="Horizontal"
                      HorizontalAlignment="Left">
                         <iconPacks:PackIconModern Width="16"
@@ -47,16 +47,17 @@
                                     Margin="0,2,10,0"
                                     Kind="Lock" />
                         <PasswordBox Password=""                             
-                             Style="{StaticResource LoginPasswordBox}"/>
+                             Style="{StaticResource LoginPasswordBox}" 
+                             PasswordChanged="PasswordBox_PasswordChanged"/>
                     </StackPanel>
                 </Border>
             </Grid>
             <TextBlock Text="forgot password?" 
                        HorizontalAlignment="Right"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="LoginButton" 
+                <Button x:Name="LoginButton" Command="{Binding SubmitCommand}"
                         Style="{StaticResource LoginButtonStyle}"/>
-                <Button x:Name="CancelButton" Command="{Binding SubmitCommand}" Content="Cancel" 
+                <Button x:Name="CancelButton" Content="Cancel" 
                         Style="{StaticResource LoginButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
@@ -71,9 +72,8 @@
             </StackPanel>
             <TextBlock Text="Not a member?"
                        Style="{StaticResource SignUpTextBlock}"/>
-            <TextBlock Text="Sign Up"
-                       Style="{StaticResource SignUpTextBlock}">
-                <Hyperlink Command="{Binding SignupCommand}" TextDecorations="None" Foreground="Black">Hello</Hyperlink>
+            <TextBlock Style="{StaticResource SignUpTextBlock}">
+                <Hyperlink Command="{Binding SignupCommand}" TextDecorations="None" Foreground="Black">Sign Up</Hyperlink>
             </TextBlock>
         </StackPanel>
     </Border>
