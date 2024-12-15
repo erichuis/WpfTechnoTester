@@ -1,5 +1,4 @@
 ﻿using Domain.DataTransferObjects;
-using Domain.Models;
 using IdentityModel.Client;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -14,7 +13,7 @@ namespace WpfTechnoTester.Clients
         //Todo retrieve this from config
         private readonly HttpClient _httpClient = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
         private DiscoveryDocumentResponse _disco = new DiscoveryDocumentResponse();
-        private TokenResponse? _tokenResponse;
+        private string _accessToken = string.Empty;
         const string ClientId = "WpfTodo";
         const string ClientSecret = "secret";
         const string Scope = "TodoApi";
@@ -30,7 +29,7 @@ namespace WpfTechnoTester.Clients
                 Console.WriteLine(_disco.Error);
                 return;
             }
-            _tokenResponse = await client.RequestClientCredentialsTokenAsync(
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(
                 new ClientCredentialsTokenRequest
                 {
                     Address = _disco.TokenEndpoint,
@@ -40,36 +39,42 @@ namespace WpfTechnoTester.Clients
                     GrantType = GrantType
                 });
 
-            if (_tokenResponse.IsError)
+            if (tokenResponse.IsError)
             {
-                Console.WriteLine($"{_tokenResponse.Error}");
+                Console.WriteLine($"{tokenResponse.Error}");
                 return;
             }
 
-            if (string.IsNullOrEmpty(_tokenResponse.AccessToken))
+            if (string.IsNullOrEmpty(tokenResponse.AccessToken))
             {
                 //context.Response.StatusCode = 401;
                 return;
             }
 
-            _httpClient.SetBearerToken(_tokenResponse.AccessToken);
+            _httpClient.SetBearerToken(tokenResponse.AccessToken);
+            _accessToken = tokenResponse.AccessToken;
         }
 
         public async Task<UserDto> Login(string username, SecureString password)
         {
-            var loginData = new
+            if(string.IsNullOrEmpty(_accessToken))
             {
-                username,
-                password
+                await GetToken().ConfigureAwait(false);
+            }
+            var loginData = new UserDto()
+            {
+                Username = username,
+                UserId = Guid.Empty, //Todo maybe later use for identiication...
+                Password = password
             };
 
-            string json = JsonSerializer.Serialize(loginData);
+            //string json = JsonSerializer.Serialize(loginData);
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            //var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             try
             {
-                HttpResponseMessage response = await _httpClient.PostAsync("Users/Login", content);
+                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("User/Login", loginData).ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -96,7 +101,7 @@ namespace WpfTechnoTester.Clients
 
         public async Task<bool> Logout()
         {
-            if (_tokenResponse == null || string.IsNullOrEmpty(_tokenResponse.AccessToken))
+            if (string.IsNullOrEmpty(_accessToken))
             {
                 //todo logsomething
                 return false;
@@ -106,7 +111,7 @@ namespace WpfTechnoTester.Clients
                 Address = _disco.RevocationEndpoint,
                 ClientId = ClientId,
                 ClientSecret = ClientSecret,
-                Token = _tokenResponse.AccessToken
+                Token = _accessToken
             });
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
@@ -115,6 +120,7 @@ namespace WpfTechnoTester.Clients
                 return false;
             }
             _httpClient.SetBearerToken("");
+            _accessToken = string.Empty;
             return true;
         }
 
@@ -225,17 +231,17 @@ namespace WpfTechnoTester.Clients
 
         public async Task<UserDto> CreateUserAsync(UserDto user)
         {
-            var newUser = new
-            {
-                username = user.Username,
-                password = user.Password,
-                email = user.Email,
-            };
+            //var newUser = new
+            //{
+            //    username = user.Username,
+            //    password = user.Password,
+            //    email = user.Email,
+            //};
 
             //string jsonContent = JsonSerializer.Serialize(newUser);
             //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsJsonAsync($"User/CreateUser", newUser).ConfigureAwait(false);
+            var response = await _httpClient.PostAsJsonAsync("User/CreateUser", user).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 

@@ -24,6 +24,9 @@ namespace Domain.Models
         public string? Email { get; set; }
         public SecureString? Password { get; set; }
         public SecureString? PasswordVerified { get; set; }
+        public Guid UserId { get; set; }
+        public bool IsAdmin { get; set; }
+
 
         public bool CanLogin()
         {

@@ -2,8 +2,7 @@
 {
     public interface IDataService<T>
     {
-        Task<IEnumerable<T>> GetAll();
-
+        Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetAsync(Guid id);
         Task<bool> DeleteAsync(Guid id);    
         Task<T> UpdateAsync(T entity);

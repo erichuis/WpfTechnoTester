@@ -83,20 +83,19 @@
                 </Border>
             </Grid>
             <StackPanel Orientation="Horizontal">
-                
-            <Button Name="SignUpButton"
+                <Button Name="SignUpButton"
                     Style="{StaticResource LoginButtonStyle}"
                     Content="Submit">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding SubmitCommand}" CommandParameter="{Binding}"/>
-                        <i:CallMethodAction MethodName="Close"
-                            TargetObject="{Binding RelativeSource={RelativeSource
-                            Mode=FindAncestor,
-                            AncestorType=Window}}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
+                            <i:CallMethodAction MethodName="Close"
+                                TargetObject="{Binding RelativeSource={RelativeSource
+                                Mode=FindAncestor,
+                                AncestorType=Window}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
                 <Button 
                 Name="ResetButton" 
                 Content="Reset" 

@@ -25,9 +25,9 @@ namespace Cybervision.Dapr.Services
             return _mapper.Map<IAsyncEnumerable<UserDto>>(list);
         }
 
-        public async Task<UserDto> GetByIdAsync(string id)
+        public async Task<UserDto> GetByIdAsync(Guid id)
         {
-            var user = await _users.Find(user => user.Id == id).FirstOrDefaultAsync();
+            var user = await _users.Find(user => user.UserId == id).FirstOrDefaultAsync();
             return _mapper.Map<UserDto>(user);
         }
 
@@ -46,16 +46,16 @@ namespace Cybervision.Dapr.Services
             return user;
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            var result = await _users.DeleteOneAsync(user => user.Id == id);
+            var result = await _users.DeleteOneAsync(user => user.UserId == id);
             return result.IsAcknowledged;
         }
 
         public async Task<bool> UpdateAsync(UserDto updatedUser)
         {
             var userDocument = _mapper.Map<UserDocument>(updatedUser);
-            var result = await _users.ReplaceOneAsync(user => user.Id == updatedUser.Id, userDocument);
+            var result = await _users.ReplaceOneAsync(user => user.UserId == updatedUser.UserId, userDocument);
             return result.IsAcknowledged;
         }
     }

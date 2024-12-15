@@ -8,7 +8,7 @@ namespace Cybervision.Dapr.Services
     {
         Task<IAsyncEnumerable<UserDto>> GetAllAsync();
 
-        Task<UserDto> GetByIdAsync(string id);
+        Task<UserDto> GetByIdAsync(Guid id);
 
         Task<UserDto> GetByNameAsync(string name);
 
@@ -16,6 +16,6 @@ namespace Cybervision.Dapr.Services
 
         Task<bool> UpdateAsync(UserDto updatedUser);
 
-        Task<bool> DeleteAsync(string id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

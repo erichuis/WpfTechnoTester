@@ -5,7 +5,7 @@ namespace Domain.DataTransferObjects
     public class TodoItemDto
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
 
         [JsonPropertyName("title")]
         public required string Title { get; set; }

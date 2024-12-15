@@ -43,13 +43,13 @@ namespace WpfTechnoTester.Services
             return _mapper.Map<User>(result);
         }
 
-        public Task<User> Login(string username, SecureString password)
+        public async Task<User> Login(string username, SecureString password)
         {
-            var result = _httpAppClient.Login(username, password);
+            var result = await _httpAppClient.Login(username, password).ConfigureAwait(false);
 
-            if (result != null && !result.IsFaulted)
+            if (result != null)
             {
-                return Task.FromResult(_mapper.Map<User>(result));
+                return _mapper.Map<User>(result);
             }
             else
             {

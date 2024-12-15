@@ -22,12 +22,14 @@ namespace WpfTechnoTester.State
                 CurrentUser = await _userService.Login(userName, password);
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Todo add logging
+                ErrorMessage = ex.Message;
                 return false;
             }
         }
+
+        public string ErrorMessage { get; private set; }
 
         public void Logout()
         {

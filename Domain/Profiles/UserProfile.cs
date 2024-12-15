@@ -9,6 +9,7 @@ namespace Domain.DataModels
         public UserProfile()
         {
             CreateMap<User, UserDto>();
+            CreateMap<UserDto, User>();
             // Use CreateMap... Etc.. here (Profile methods are the same as configuration methods)
         }
     }

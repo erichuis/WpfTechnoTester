@@ -53,6 +53,7 @@ namespace WpfTechnoTester
 
             //Register services
             services.AddAutoMapper(typeof(UserProfile));
+            services.AddAutoMapper(typeof(TodoItemProfile));
             services.AddTransient<IUserService, UserService>();
             services.AddSingleton<IWindowService, WindowService>();
             services.AddSingleton<IAuthenticator, Authenticator>();

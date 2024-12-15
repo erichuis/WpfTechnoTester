@@ -12,9 +12,9 @@ namespace WpfTechnoTester.ViewModels
         private readonly IWindowService _windowService;
 
         public RelayCommand AddTodoItemCommand { get; }
-        public RelayCommand DeleteTaskCommand { get; }
-        public RelayCommand UpdateTaskCommand { get; }
-        public RelayCommand LoadTasksCommand { get; }
+        public RelayCommand DeleteTodoItemCommand { get; }
+        public RelayCommand EditTodoItemCommand { get; }
+        public RelayCommand LoadTodoItemsCommand { get; }
 
         public TodoViewModel(ITodoItemService todoItemService, 
             IWindowService windowService)
@@ -25,9 +25,9 @@ namespace WpfTechnoTester.ViewModels
             _windowService = windowService;
             
             AddTodoItemCommand = new RelayCommand((param) => AddTodoItem(), null);
-            DeleteTaskCommand = new RelayCommand((param) => DeleteTodoItem(), null);
-            UpdateTaskCommand = new RelayCommand((param) => EditTodoItem(), null);
-            LoadTasksCommand = new RelayCommand((param) => RetrieveTodoItems(), null);
+            DeleteTodoItemCommand = new RelayCommand((param) => DeleteTodoItem(), null);
+            EditTodoItemCommand = new RelayCommand((param) => EditTodoItem(), null);
+            LoadTodoItemsCommand = new RelayCommand((param) => RetrieveTodoItems(), null);
         }
         public List<TodoItem> SelectedTodoItems { get; set; }
 

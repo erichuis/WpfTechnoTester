@@ -55,8 +55,18 @@
             <TextBlock Text="forgot password?" 
                        HorizontalAlignment="Right"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="LoginButton" Command="{Binding SubmitCommand}"
-                        Style="{StaticResource LoginButtonStyle}"/>
+                <Button x:Name="LoginButton" Content="Submit"
+                        Style="{StaticResource LoginButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding SubmitCommand}" CommandParameter="{Binding}"/>
+                            <i:CallMethodAction MethodName="Close"
+                                TargetObject="{Binding RelativeSource={RelativeSource
+                                Mode=FindAncestor,
+                                AncestorType=Window}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
                 <Button x:Name="CancelButton" Content="Cancel" 
                         Style="{StaticResource LoginButtonStyle}">
                     <i:Interaction.Triggers>

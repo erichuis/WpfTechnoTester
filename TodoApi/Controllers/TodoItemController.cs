@@ -26,7 +26,7 @@ namespace TodoApi.Controllers
         [HttpGet()]
         public async Task<ActionResult<IAsyncEnumerable<TodoItemDto>>> GetAllTodoItemsAsync()
         {
-            var result = await _todoItemService.GetAll().ConfigureAwait(false);
+            var result = await _todoItemService.GetAllAsync().ConfigureAwait(false);
             return Ok(result);
         }
 

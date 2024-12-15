@@ -3,6 +3,7 @@ using Domain.DataTransferObjects;
 using Domain.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TodoApi.Services;
 
 namespace TodoApi.Controllers
 {
@@ -10,31 +11,22 @@ namespace TodoApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserDto loginRequest)
+        [HttpPost()]
+        public async Task<ActionResult<UserDto>> Login(UserDto userDto)
         {
-            if(loginRequest == null || loginRequest.PasswordHashed == null)
-            {
-                return BadRequest("loginRequest or password can not be null");
-            }
-            var user = await _userRepository.GetByNameAsync(loginRequest.Username);
-
-            if (user == null || user.PasswordHashed == null) 
+            if (userDto == null || userDto.Password == null)
             {
                 return BadRequest("loginRequest or password can not be null");
             }
 
-            if (!PasswordHelper.VerifyPassword(loginRequest.PasswordHashed, user.PasswordHashed))
-            {
-                return Unauthorized("Invalid username or password.");
-            }
+            var user = await _userService.Login(userDto).ConfigureAwait(false);
 
             // In a real-world scenario, generate a token here
             return Ok(user);
@@ -44,34 +36,34 @@ namespace TodoApi.Controllers
         [HttpGet()]
         public async Task<ActionResult<IAsyncEnumerable<UserDto>>> GetAllUsersAsync()
         {
-            var result = await _userRepository.GetAllAsync();
+            var result = await _userService.GetAllAsync().ConfigureAwait(false);
             return Ok(result);
         }
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<UserDto>> GetUserAsync(string id)
+        public async Task<ActionResult<UserDto>> GetUserAsync(Guid id)
         {
-            var result = await _userRepository.GetByIdAsync(id);
+            var result = await _userService.GetAsync(id).ConfigureAwait(false);
             return Ok(result);
         }
 
         //[Authorize(Policy = "ApiScope")]
         [HttpPost()]
-        public async Task<ActionResult<UserDto>> CreateUserAsync([FromBody] UserDto user)
+        public async Task<ActionResult<UserDto>> CreateUserAsync(UserDto user)
         {
             // Check if the user already exists
-            var existingUser = await _userRepository.GetByNameAsync(user.Username);
-            if (existingUser != null)
-            {
-                return BadRequest("User already exists.");
-            }
+            //var existingUser = await _userService.GetByNameAsync(user.Username).ConfigureAwait(false);
+            //if (existingUser != null)
+            //{
+            //    return BadRequest("User already exists.");
+            //}
             //Todo move it
             // Hash the password
             //user.PasswordHashed = PasswordHelper.HashPassword(new NetworkCredential(string.Empty, user.Password).Password);
 
             // Save the user
-            var result = await _userRepository.CreateAsync(user);
+            var result = await _userService.CreateAsync(user).ConfigureAwait(false);
 
             return Ok(result);
         }
@@ -88,8 +80,8 @@ namespace TodoApi.Controllers
 
             try
             {
-                return await _userRepository.UpdateAsync(user);
-
+                var result = await _userService.UpdateAsync(user).ConfigureAwait(false);
+                return true;
             }
             catch (Exception)
             {
@@ -99,11 +91,11 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpDelete()]
-        public async Task<ActionResult<bool>> DeleteAsync(string id)
+        public async Task<ActionResult<bool>> DeleteAsync(Guid id)
         {
             try
             {
-                return await _userRepository.DeleteAsync(id);
+                return await _userService.DeleteAsync(id);
 
             }
             catch (Exception)

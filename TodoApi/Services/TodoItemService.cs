@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Cybervision.Dapr.Services;
 using Domain.DataTransferObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TodoApi.Services
 {
@@ -24,32 +19,27 @@ namespace TodoApi.Services
             return result;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TodoItemDto>> GetAll()
+        public async Task<IEnumerable<TodoItemDto>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<TodoItemDto> GetAsync(Guid id)
+        public async Task<TodoItemDto> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TodoItemDto> UpdateAsync(TodoItemDto entity)
+        public async Task<TodoItemDto> UpdateAsync(TodoItemDto entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<TodoItemDto> UpdateManyAsync(IEnumerable<TodoItemDto> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<TodoItemDto> IDataService<TodoItemDto>.CreateAsync(TodoItemDto entity)
+        public async Task<TodoItemDto> UpdateManyAsync(IEnumerable<TodoItemDto> entities)
         {
             throw new NotImplementedException();
         }

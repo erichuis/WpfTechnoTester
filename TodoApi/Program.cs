@@ -3,6 +3,7 @@
 using Cybervision.Dapr.DataModels;
 using Cybervision.Dapr.Services;
 using TodoApi.Middleware;
+using TodoApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 Console.WriteLine("Starting up");
@@ -13,8 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<ITodoItemRepository, TodoItemRepository>();
-builder.Services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
-builder.Services.AddAutoMapper(typeof(UserProfile), typeof(TodoItemProfile));
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITodoItemService, TodoItemService>();
+builder.Services.AddAutoMapper(typeof(UserProfile));
+builder.Services.AddAutoMapper(typeof(TodoItemProfile));
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
