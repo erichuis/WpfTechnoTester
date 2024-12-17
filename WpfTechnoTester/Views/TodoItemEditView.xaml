@@ -1,0 +1,46 @@
+﻿<Window x:Class="WpfTechnoTester.Views.TodoItemEditView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfTechnoTester.Views"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:uc="clr-namespace:WpfTechnoTester.Views.Controls"
+        mc:Ignorable="d" 
+        d:DataContext="{d:DesignInstance Type=viewmodels:UserLoginViewModel}"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="true"
+        Background="Transparent"
+        Title="Add or Edit todoItems" Height="450" Width="800">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"  />
+            <RowDefinition Height="auto"  />
+            <RowDefinition Height="auto"  />
+            <RowDefinition Height="auto"  />
+        </Grid.RowDefinitions>
+        <uc:UcLabelTextbox Grid.Row="0" />
+        <uc:UcLabelTextbox Grid.Row="1" />
+        <uc:UcLabelTextbox Grid.Row="2" />
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Name="SaveButton" Content="Save"
+                    Style="{StaticResource LoginButtonStyle}"/>
+            <Button Content="Save and new"
+                    Style="{StaticResource LoginButtonStyle}"/>
+            <Button x:Name="CancelButton" Content="Cancel" 
+                    Style="{StaticResource LoginButtonStyle}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding CancelCommand}" CommandParameter="{Binding}"/>
+                        <i:CallMethodAction MethodName="Close"
+                                        TargetObject="{Binding RelativeSource={RelativeSource
+                                        Mode=FindAncestor,
+                                        AncestorType=Window}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

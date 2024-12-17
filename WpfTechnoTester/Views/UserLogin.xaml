@@ -10,13 +10,14 @@
         xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" 
         mc:Ignorable="d" 
         d:DataContext="{d:DesignInstance Type=viewmodels:UserLoginViewModel}"
-        Title="UserLogin" Height="420" Width="320" 
+        Title="UserLogin" Height="400" Width="320" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
+        Closing="Window_Closing"
         AllowsTransparency="true"
         Background="Transparent"
         >
-    <Border Style="{StaticResource BorderStyle}">
+    <Border Style="{StaticResource BorderStyleLogin}">
         <StackPanel Orientation="Vertical"
                     Margin="20">
             <TextBlock Text="Login" 
@@ -27,18 +28,34 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="User Name" 
                     Grid.Row="0"
                     Style="{StaticResource DefaultTextBlock}"/>
                 <TextBox  Grid.Column="1"
-                  Grid.Row="1"
-                  Text="{Binding UserName}"        
-                  Style="{StaticResource LoginTextBox}"/>
-                <TextBlock Grid.Row="2" Text="Password"
+                    Grid.Row="1"
+                    Text="{Binding Username, 
+                            UpdateSourceTrigger=PropertyChanged, 
+                            NotifyOnValidationError=True, 
+                            ValidatesOnDataErrors=True}"
+                    Style="{StaticResource LoginTextBox}"/>
+                <!-- Error Notification -->
+                <ItemsControl Grid.Row="2"
+                      Foreground="Red"
+                      ItemsSource="{Binding (Validation.Errors), 
+                                            RelativeSource={RelativeSource AncestorType=TextBox}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ErrorContent}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <TextBlock Grid.Row="3" Text="Password"
                            Style="{StaticResource DefaultTextBlock}"/>
                 <Border BorderBrush="Gray"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     BorderThickness="0,0,0,1">
                     <StackPanel Orientation="Horizontal"
                      HorizontalAlignment="Left">

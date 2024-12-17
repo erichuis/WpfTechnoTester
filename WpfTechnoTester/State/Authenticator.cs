@@ -19,7 +19,7 @@ namespace WpfTechnoTester.State
         {
             try
             {
-                CurrentUser = await _userService.Login(userName, password);
+                CurrentUser = await _userService.Login(userName, password).ConfigureAwait(false);
                 return true;
             }
             catch (Exception ex)
@@ -43,13 +43,13 @@ namespace WpfTechnoTester.State
                 Email = email,
                 Password = password,
                 PasswordVerified = passwordConfirmed,
-                UserName = username
+                Username = username
             };
 
-            if(!user.IsValid())
-            {
-                throw new Exception( user.FailMessages().ToString());
-            }
+            //if(!user.IsValid())
+            //{
+            //    throw new Exception( user.FailMessages().ToString());
+            //}
 
             return await _userService.CreateAsync(user);
         }

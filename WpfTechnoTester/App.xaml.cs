@@ -50,6 +50,7 @@ namespace WpfTechnoTester
             services.AddTransient<ImageViewModel>();
             services.AddTransient<UserSignupViewModel>();
             services.AddTransient<UserLoginViewModel>();
+            services.AddTransient<AdminViewModel>();
 
             //Register services
             services.AddAutoMapper(typeof(UserProfile));
@@ -72,6 +73,9 @@ namespace WpfTechnoTester
 
             services.AddSingleton<CreateViewModel<GameViewModel>>(
                 services => { return () => services.GetRequiredService<GameViewModel>(); });
+
+            services.AddSingleton<CreateViewModel<AdminViewModel>>(
+                services => { return () => services.GetRequiredService<AdminViewModel>(); });
 
             services.AddSingleton<CreateViewModel<TodoViewModel>>(
                 services => { return () => new TodoViewModel(

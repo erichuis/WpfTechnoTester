@@ -9,7 +9,8 @@ namespace WpfTechnoTester.State
         Todo,
         Journal,
         Image,
-        Game
+        Game,
+        Admin
     }
     public interface INavigator
     {

@@ -12,5 +12,7 @@ namespace WpfTechnoTester.State
 
         Task<bool> Login(string userName, SecureString password);
         void Logout();
+
+        string ErrorMessage {  get; }
     }
 }

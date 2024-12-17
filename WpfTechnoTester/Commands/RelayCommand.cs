@@ -26,7 +26,8 @@ namespace WpfTechnoTester.Commands
  
         public bool CanExecute(object? parameter)
         {
-            return _canExecute == null ? true : _canExecute(parameter);
+            var canEx = _canExecute == null ? true : _canExecute(parameter);
+            return canEx;
         }
 
         public void RaiseCanExecuteChanged()

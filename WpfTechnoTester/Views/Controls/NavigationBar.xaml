@@ -54,6 +54,9 @@
             <RadioButton Grid.Column="4" Content="Game"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
                          CommandParameter="{x:Static nav:ViewType.Game}"/>
+            <RadioButton Grid.Column="5" Content="Admin"
+                         Command="{Binding UpdateCurrentViewModelCommand}" 
+                         CommandParameter="{x:Static nav:ViewType.Admin}"/>
         </Grid>
         <TextBlock Padding="1" 
                    FontSize="18" 

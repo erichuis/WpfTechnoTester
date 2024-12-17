@@ -17,7 +17,7 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="FontSize" Value="25" />
-        <Setter Property="Padding" Value="10" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Padding" Value="5" />
     </Style>
 </ResourceDictionary>

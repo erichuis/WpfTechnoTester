@@ -10,14 +10,14 @@
         xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" 
         d:DataContext="{d:DesignInstance Type=viewmodels:UserSignupViewModel}"
         mc:Ignorable="d"
-        Title="UserLogin" Height="450" Width="320" 
+        Title="UserLogin" Height="480" Width="320" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
         Background="Transparent"
-        Closing="Window_Closing"
+        Closing="Window_Closing" SizeToContent="WidthAndHeight"
         >
-    <Border Style="{StaticResource BorderStyle}">
+    <Border Style="{StaticResource BorderStyleSignup}">
         <StackPanel Orientation="Vertical"
                     Margin="20">
             <TextBlock Text="Sign up!" 

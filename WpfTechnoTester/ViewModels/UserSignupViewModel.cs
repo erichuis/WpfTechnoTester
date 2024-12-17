@@ -51,7 +51,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_userName != value)
                 {
                     _userName = value;
-                    _user.UserName = value;
+                    _user.Username = value;
                     OnPropertyChanged(nameof(UserName));
                 }
             }

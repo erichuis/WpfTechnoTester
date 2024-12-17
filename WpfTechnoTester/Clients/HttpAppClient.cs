@@ -22,7 +22,7 @@ namespace WpfTechnoTester.Clients
         public async Task GetToken()
         {
             var client = new HttpClient();
-            _disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
+            _disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001").ConfigureAwait(false);
 
             if (_disco.IsError)
             {
