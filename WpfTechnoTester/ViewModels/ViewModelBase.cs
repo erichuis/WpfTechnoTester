@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel;
-using System.Xml.Linq;
 using WpfTechnoTester.ViewModels.Helpers;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WpfTechnoTester.ViewModels
 {
@@ -16,6 +14,8 @@ namespace WpfTechnoTester.ViewModels
         }
 
         private readonly Dictionary<string, List<string>> _errors = new();
+
+        public Dictionary<string, List<string>> Errors => _errors;
 
         public IEnumerable GetErrors(string? propertyName)
         {

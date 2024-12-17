@@ -14,11 +14,11 @@ namespace WpfTechnoTester.Views
             InitializeComponent();
             DataContext = viewModel;
         }
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null)
-            { ((dynamic)DataContext).Password = ((PasswordBox)sender).SecurePassword; }
-        }
+        //private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        //{
+        //    if (DataContext != null)
+        //    { ((dynamic)DataContext).Password = ((PasswordBox)sender).SecurePassword; }
+        //}
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (DataContext != null)

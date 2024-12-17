@@ -81,7 +81,7 @@ namespace WpfTechnoTester.ViewModels
         {
             //these explicit validations should not be necessary
             ValidateModel(nameof(Username), _user.Username);
-            //ValidateModel(nameof(Password), _user.Password);
+            ValidateModel(nameof(Password), _user.Password!);
             return !HasErrors;
         }
 

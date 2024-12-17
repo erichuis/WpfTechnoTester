@@ -37,7 +37,8 @@ namespace Domain.Models
         [StringLength(80)]
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "Password can not be empty.")]
+        [PasswordNotEmptyValidator]
+        [StrongPasswordValidator]
         public SecureString? Password { get; set; }
 
         [Required(ErrorMessage = "Verification password can not be empty.")]
@@ -45,21 +46,6 @@ namespace Domain.Models
         public Guid UserId { get; set; }
         public bool IsAdmin { get; set; }
 
-
-        //public bool CanLogin()
-        //{
-        //    Reset();
-           
-        //    //CheckIsValid(() => !string.IsNullOrEmpty(UserName), "Username can not be empty");
-        //    //CheckIsValid(() => Password != null && Password.Length != 0, "Password can not be empty");
-
-        //    if (IsValid())
-        //    {
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
         public bool CanSave()
         {
             //Reset();
@@ -75,12 +61,6 @@ namespace Domain.Models
             //}
 
             return false;
-        }
-
-        private static bool CheckPasswordIsStrongEnough(SecureString? password)
-        {
-            Regex validateGuidRegex = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
-            return validateGuidRegex.IsMatch(new NetworkCredential(string.Empty, password).Password);
         }
 
         private static bool CheckPasswordVerified(SecureString? password, SecureString? passwordVerified)
