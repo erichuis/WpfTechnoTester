@@ -38,7 +38,7 @@ namespace Domain.Models
 
         [PasswordNotEmptyValidator]
         [StrongPasswordValidator]
-        [PasswordVerifiedValidator]
+        //[PasswordVerifiedValidator]
         public SecureString? Password { get; set; }
 
         [PasswordNotEmptyValidator]

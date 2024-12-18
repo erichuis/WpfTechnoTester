@@ -11,7 +11,7 @@
         xmlns:helpers="clr-namespace:WpfTechnoTester.ViewModels.Helpers" 
         d:DataContext="{d:DesignInstance Type=viewmodels:UserSignupViewModel}"
         mc:Ignorable="d"
-        Title="UserLogin" Height="480" Width="320" 
+        Title="UserLogin" Height="500" Width="320" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
@@ -27,12 +27,13 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="45"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="70"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="90"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="User Name" 
                     Grid.Row="0"
@@ -44,6 +45,7 @@
                     Style="{StaticResource LoginTextBox}" />
                 <TextBlock Text="Email" 
                     Grid.Row="2"
+                   
                     Style="{StaticResource DefaultTextBlock}"/>
                 <TextBox  Grid.Column="1"
                     Grid.Row="3"
@@ -68,7 +70,7 @@
                     </StackPanel>
                 </Border>
                 <TextBlock Text="Password verified" 
-                    Grid.Row="6"
+                    Grid.Row="6" VerticalAlignment="Bottom"
                     Style="{StaticResource DefaultTextBlock}"/>
                 <Border BorderBrush="Gray"
                     Grid.Row="7"
@@ -84,8 +86,7 @@
                         </PasswordBox>
                     </StackPanel>
                 </Border>
-            </Grid>
-            <StackPanel Orientation="Horizontal">
+                <StackPanel Grid.Row="8" Orientation="Horizontal" VerticalAlignment="Bottom">
                 <Button Name="SignUpButton"
                     Style="{StaticResource LoginButtonStyle}"
                     Content="Submit">
@@ -124,6 +125,7 @@
                     </i:Interaction.Triggers>
                 </Button>
             </StackPanel>
+            </Grid>
         </StackPanel>
     </Border>
 </Window>

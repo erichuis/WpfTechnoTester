@@ -23,6 +23,6 @@
     <Style x:Key="BorderStyleSignup" 
            TargetType="{x:Type Border}"
            BasedOn="{StaticResource BorderStyleLogin}">
-        <Setter Property="Height" Value="425" />
+        <Setter Property="Height" Value="500" />
     </Style>
 </ResourceDictionary>

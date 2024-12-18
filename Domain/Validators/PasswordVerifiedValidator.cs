@@ -18,8 +18,8 @@ namespace Domain.Validators
             }
             else
             {
-                if(new NetworkCredential(string.Empty, value as SecureString).Password.Equals(
-                new NetworkCredential(string.Empty, user.PasswordVerified).Password))
+                if(new NetworkCredential(string.Empty, user.PasswordVerified as SecureString).Password.Equals(
+                new NetworkCredential(string.Empty, user.Password).Password))
                 {
                     return ValidationResult.Success;
                 }
