@@ -18,11 +18,27 @@ namespace WpfTechnoTester.ViewModels.Helpers
 
         public static void SetPassword(DependencyObject obj, SecureString value) => obj.SetValue(PasswordProperty, value);
 
+        private static void OnPasswordBoxPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is PasswordBox passwordBox)
+            {
+                // Update the attached property with the new password value
+                SetPassword(passwordBox, passwordBox.SecurePassword);
+            }
+        }
+
         private static void OnPasswordPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (obj is PasswordBox passwordBox && passwordBox.SecurePassword != (SecureString)e.NewValue)
             {
-                passwordBox.Password = new NetworkCredential(string.Empty, (SecureString)e.NewValue).Password;
+                // Unsubscribe from the PasswordChanged event to avoid recursive calls
+                passwordBox.PasswordChanged -= OnPasswordBoxPasswordChanged;
+
+                SetPassword(obj, e.NewValue as SecureString);
+                //passwordBox.Password = new NetworkCredential(string.Empty, (SecureString)e.NewValue).Password;
+
+                // Resubscribe to PasswordChanged
+                passwordBox.PasswordChanged += OnPasswordBoxPasswordChanged;
             }
         }
     }

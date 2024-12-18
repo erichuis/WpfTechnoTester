@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security;
@@ -129,15 +128,15 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
-        private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
+        //private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
         public SecureString Password
         {
-            get => _password;
+            get => _user.Password;
             set
             {
-                if (_password != value)
+                if (_user.Password != value)
                 {
-                    _password = value;
+                    //_password = value;
                     _user.Password = value;
                     OnPropertyChanged(nameof(Password));
                 }
