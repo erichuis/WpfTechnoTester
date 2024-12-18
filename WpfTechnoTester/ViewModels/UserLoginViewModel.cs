@@ -25,7 +25,8 @@ namespace WpfTechnoTester.ViewModels
             _windowService = windowService;
             _user = new()
             {
-                Username = string.Empty
+                Username = string.Empty,
+                Password = new NetworkCredential(string.Empty, string.Empty).SecurePassword
             };
 
             SubmitCommand = new RelayCommand((param) => Login(), (param) => CanLogin());
@@ -37,31 +38,6 @@ namespace WpfTechnoTester.ViewModels
         {
             _windowService.ShowNewUserSignupDialog();
         }
-
-        //public override bool HasErrors
-        //{
-        //    get
-        //    {
-        //        var context = new ValidationContext(_user);
-        //        var results = new List<ValidationResult>();
-        //        var hasErrors = false;
-        //        var resultsToCheck = new List<string> { nameof(_user.Password), nameof(_user.Username) };
-
-        //        // Perform validation
-        //        if (!Validator.TryValidateObject(_user, context, results, true))
-        //        {
-        //            foreach (var validationResult in results)
-        //            {
-        //                if (validationResult.MemberNames.Intersect(resultsToCheck).Any())
-        //                {
-        //                    hasErrors = true;
-        //                }
-        //                Console.WriteLine(validationResult.ErrorMessage);
-        //            }
-        //        }
-        //        return hasErrors;
-        //    }
-        //}
 
         private bool _cancelLogin = false;
         private void CancelLogin()
@@ -131,7 +107,7 @@ namespace WpfTechnoTester.ViewModels
         //private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
         public SecureString Password
         {
-            get => _user.Password;
+            get => _user.Password!;
             set
             {
                 if (_user.Password != value)

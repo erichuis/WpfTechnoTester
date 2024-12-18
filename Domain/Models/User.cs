@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security;
-using System.Text.RegularExpressions;
 
 namespace Domain.Models
 {
@@ -10,10 +9,10 @@ namespace Domain.Models
     {
         //private const string EmptyPasswordErrorMessage = "Password can not be empty.";
 
-        public User() 
+        public User()
         {
-             Username = string.Empty;
-            //Email = string.Empty;
+            Username = string.Empty;
+            Email = string.Empty;
         }
         public User(string username, string email, SecureString password, SecureString passwordVerified)
         {
@@ -35,38 +34,18 @@ namespace Domain.Models
 
         [Required(ErrorMessage = "Email can not be empty")]
         [StringLength(80)]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [PasswordNotEmptyValidator]
         [StrongPasswordValidator]
+        [PasswordVerifiedValidator]
         public SecureString? Password { get; set; }
 
-        [Required(ErrorMessage = "Verification password can not be empty.")]
+        [PasswordNotEmptyValidator]
+        [StrongPasswordValidator]
+        [PasswordVerifiedValidator]
         public SecureString? PasswordVerified { get; set; }
         public Guid UserId { get; set; }
         public bool IsAdmin { get; set; }
-
-        public bool CanSave()
-        {
-            //Reset();
-            //CheckIsValid(() => !string.IsNullOrEmpty(Email), "Email can not be empty");
-            //CheckIsValid(() => !string.IsNullOrEmpty(Username), "Username can not be empty");
-            //CheckIsValid(() => Password != null && Password.Length != 0, "Password can not be empty");
-            //CheckIsValid(() => CheckPasswordVerified(Password, PasswordVerified), "Passwords are not the same");
-            //CheckIsValid(() => CheckPasswordIsStrongEnough(Password), "Password is not strong enough");
-
-            //if (IsValid())
-            //{
-            //    return true;
-            //}
-
-            return false;
-        }
-
-        private static bool CheckPasswordVerified(SecureString? password, SecureString? passwordVerified)
-        {
-            return new NetworkCredential(string.Empty, password).Password.Equals(
-                new NetworkCredential(string.Empty, passwordVerified).Password);
-        }
     }
 }

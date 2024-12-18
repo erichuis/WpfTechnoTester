@@ -8,6 +8,7 @@
         xmlns:local="clr-namespace:WpfTechnoTester.Views"
         xmlns:styles="clr-namespace:WpfTechnoTester.Views" 
         xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" 
+        xmlns:helpers="clr-namespace:WpfTechnoTester.ViewModels.Helpers" 
         d:DataContext="{d:DesignInstance Type=viewmodels:UserSignupViewModel}"
         mc:Ignorable="d"
         Title="UserLogin" Height="480" Width="320" 
@@ -39,7 +40,7 @@
                 <TextBox  Grid.Column="1"
                     Grid.Row="1"
                     Name="UserName"
-                    Text="{Binding UserName}"
+                    Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnDataErrors=True}"
                     Style="{StaticResource LoginTextBox}" />
                 <TextBlock Text="Email" 
                     Grid.Row="2"
@@ -61,8 +62,9 @@
                                     Height="16"
                                     Margin="0,2,10,0"
                                     Kind="Lock" />
-                        <PasswordBox Name="pwdBox" PasswordChanged="PasswordBox_PasswordChanged"
-                            Style="{StaticResource LoginPasswordBox}" />
+                        <PasswordBox    Name="pwdbox" helpers:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Style="{StaticResource LoginPasswordBox}">
+                        </PasswordBox>
                     </StackPanel>
                 </Border>
                 <TextBlock Text="Password verified" 
@@ -77,8 +79,9 @@
                                     Height="16"
                                     Margin="0,2,10,0"
                                     Kind="Lock" />
-                        <PasswordBox Name="pwdBoxVerified" PasswordChanged="PasswordVerifiedBox_PasswordVerifiedChanged"
-                            Style="{StaticResource LoginPasswordBox}" />
+                        <PasswordBox Name="pwdboxVerified" helpers:PasswordHelper.Password="{Binding PasswordVerified, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource LoginPasswordBox}">
+                        </PasswordBox>
                     </StackPanel>
                 </Border>
             </Grid>

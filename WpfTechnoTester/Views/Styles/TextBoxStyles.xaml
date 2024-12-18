@@ -3,38 +3,83 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
     <Style x:Key="LoginTextBox" TargetType="TextBox">
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="Width" Value="255"/>
-        <Setter Property="Padding" Value="0,5"/>
-        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <!-- Default Properties -->
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Width" Value="255" />
+        <Setter Property="Padding" Value="0,5" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Background" Value="Transparent" />
+
+        <!-- Custom Control Template -->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
-                    <Border BorderBrush="Gray"
-                        BorderThickness="0,0,0,1">
-                        <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Left">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,0,1">
+                        <DockPanel>
+                            <!-- Icon -->
                             <iconPacks:PackIconModern Width="16"
-                                        Height="16"
-                                        Margin="0,5,10,10"
-                                        Kind="User" />
-                            <TextBox Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Center"
-                                     Background="Transparent"
-                                     BorderThickness="0"
-                                     Width="255"/>
-                        </StackPanel>
+                                                  Height="16"
+                                                  Margin="0,5,10,0"
+                                                  Kind="User" 
+                                                  DockPanel.Dock="Left" />
+                            <!-- Text Presenter -->
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </DockPanel>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!-- Validation Error Template -->
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <!-- Placeholder for the original control -->
+                        <AdornedElementPlaceholder />
+                        
+                        <!-- Display Validation Errors -->
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Padding="21,0,0,0"
+                                   Text="{Binding ErrorContent, FallbackValue='No error content available'}"
+                                   Foreground="Red" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
     </Style>
     <Style x:Key="LoginPasswordBox" TargetType="PasswordBox">
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Width" Value="255"/>
         <Setter Property="Padding" Value="0,5"/>
         <Setter Property="BorderThickness" Value="0,0,0,0"/>
+        <!-- Validation Error Template -->
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <!-- Placeholder for the original control -->
+                        <AdornedElementPlaceholder />
+
+                        <!-- Display Validation Errors -->
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Padding="0,0,0,0"
+                           Text="{Binding ErrorContent, FallbackValue='No error content available'}"
+                           Foreground="Red" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
 </ResourceDictionary>

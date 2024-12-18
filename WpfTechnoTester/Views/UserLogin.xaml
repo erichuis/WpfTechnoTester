@@ -44,23 +44,8 @@
                             UpdateSourceTrigger=PropertyChanged, 
                             NotifyOnValidationError=True, 
                             ValidatesOnDataErrors=True}"
-                    Style="{StaticResource LoginTextBox}">
-                    <!-- Error Notification -->
-                    <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <StackPanel Height="auto">
-                                <AdornedElementPlaceholder x:Name="UsernameTextBox" />
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Padding="21,0,0,0" Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
-                </TextBox>
+                    Style="{StaticResource LoginTextBox}" />
+
                 <TextBlock Grid.Row="2" Text="Password"
                            Style="{StaticResource DefaultTextBlock}"/>
                 <Border BorderBrush="Gray"
@@ -74,20 +59,6 @@
                                     Kind="Lock" />
                         <PasswordBox Name="pwdbox" helpers:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource LoginPasswordBox}">
-                            <Validation.ErrorTemplate>
-                                <ControlTemplate>
-                                    <StackPanel>
-                                        <AdornedElementPlaceholder x:Name="pwdbox" />
-                                        <ItemsControl ItemsSource="{Binding}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock HorizontalAlignment="Left" Text="{Binding ErrorContent}" Foreground="Red" />
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </StackPanel>
-                                </ControlTemplate>
-                            </Validation.ErrorTemplate>
                         </PasswordBox>
                     </StackPanel>
                 </Border>

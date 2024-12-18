@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Security;
+﻿using System.Security;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -35,7 +34,6 @@ namespace WpfTechnoTester.ViewModels.Helpers
                 passwordBox.PasswordChanged -= OnPasswordBoxPasswordChanged;
 
                 SetPassword(obj, e.NewValue as SecureString);
-                //passwordBox.Password = new NetworkCredential(string.Empty, (SecureString)e.NewValue).Password;
 
                 // Resubscribe to PasswordChanged
                 passwordBox.PasswordChanged += OnPasswordBoxPasswordChanged;

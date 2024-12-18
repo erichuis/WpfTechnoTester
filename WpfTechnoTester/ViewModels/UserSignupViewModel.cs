@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security;
 using WpfTechnoTester.Commands;
@@ -28,6 +29,7 @@ namespace WpfTechnoTester.ViewModels
         private void AddUser()
         {
             var response = _userService.CreateAsync(_user).GetAwaiter().GetResult();
+            _saveIsSuccesful = true;
         }
 
         private void CancelSignup()
@@ -37,57 +39,65 @@ namespace WpfTechnoTester.ViewModels
 
         private void ResetForm()
         {
-            Email = string.Empty;
-            UserName = string.Empty;
+            _user.Username = string.Empty;
+            _user.Email = string.Empty;
             _user.Password?.Clear();
+            _user.PasswordVerified?.Clear();
         }
 
-        private string _userName = string.Empty;
-        public string UserName
+        //private string _userName = string.Empty;
+        public string Username
         {
-            get => _userName;
+            get => _user.Username;
             set
             {
-                if (_userName != value)
+                if (_user.Username != value)
                 {
-                    _userName = value;
+                    //_userName = value;
                     _user.Username = value;
-                    OnPropertyChanged(nameof(UserName));
+                    OnPropertyChanged(nameof(Username));
+                    ValidateModel(nameof(Username), value);
                 }
             }
         }
-        private string _email = string.Empty;
+        //private string _email = string.Empty;
         public string Email
         {
-            get => _email;
+            get => _user.Email;
             set
             {
-                if (_email != value)
+                if (_user.Email != value)
                 {
-                    _email = value;
                     _user.Email = value;
                     OnPropertyChanged(nameof(Email));
+                    ValidateModel(nameof(Username), value);
                 }
             }
         }
 
         internal override void RaiseCanExecuteChange()
         {
-            _canSave = _user.CanSave();
-            SubmitCommand.RaiseCanExecuteChanged();
+         //   SubmitCommand.RaiseCanExecuteChanged();
         }
 
-        private bool _canSave;
+        private bool _saveIsSuccesful;
         public bool CanSave
         {
-            get { return _canSave; }
+            get {
+                //these explicit validations should not be necessary
+                ValidateModel(nameof(Username), _user.Username);
+                ValidateModel(nameof(Email), _user.Email);
+                ValidateModel(nameof(Password), _user.Password!);
+                ValidateModel(nameof(PasswordVerified), _user.PasswordVerified!);
+                return !HasErrors; 
+            }
         }
 
         public bool CanClose
         {
             get
             {
-                return _cancelForm || _user.CanSave();
+                return _cancelForm || _saveIsSuccesful;
             }
         }
 
@@ -101,6 +111,24 @@ namespace WpfTechnoTester.ViewModels
                 {
                     _user.Password = value;
                     OnPropertyChanged(nameof(Password));
+                }
+            }
+        }
+
+        public void ValidateModel(string propertyName, object value)
+        {
+            var context = new ValidationContext(_user)
+            {
+                MemberName = propertyName,
+            };
+            var results = new List<ValidationResult>();
+
+            // Perform validation
+            if (!Validator.TryValidateProperty(value, context, results))
+            {
+                foreach (var result in results)
+                {
+                    AddError(propertyName, result.ErrorMessage ?? "An error fix this");
                 }
             }
         }

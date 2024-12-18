@@ -17,18 +17,6 @@ namespace WpfTechnoTester.Views
             DataContext = viewModel;
         }
 
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null)
-            { ((dynamic)DataContext).Password = ((PasswordBox)sender).SecurePassword; }
-        }
-
-        private void PasswordVerifiedBox_PasswordVerifiedChanged(object sender, RoutedEventArgs e)
-        {
-            if (DataContext != null)
-            { ((dynamic)DataContext).PasswordVerified = ((PasswordBox)sender).SecurePassword; }
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if(DataContext != null)
