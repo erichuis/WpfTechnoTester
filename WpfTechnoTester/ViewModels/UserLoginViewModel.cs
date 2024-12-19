@@ -39,17 +39,19 @@ namespace WpfTechnoTester.ViewModels
             _windowService.ShowNewUserSignupDialog();
         }
 
-        private bool _cancelLogin = false;
+        //private bool _cancelLogin = false;
         private void CancelLogin()
         {
-            _cancelLogin = true;
+            IsCancelled = true;
         }
+
+        public bool IsCancelled { get; private set; }
 
         public bool CanClose
         {
             get
             {
-                return _cancelLogin || _loginSuccess;
+                return IsCancelled || _loginSuccess;
             }
         }
         private bool CanLogin()
@@ -69,6 +71,7 @@ namespace WpfTechnoTester.ViewModels
                 _loginSuccess = false;
                 return;
             }
+            
             _loginSuccess = true;
         }
 

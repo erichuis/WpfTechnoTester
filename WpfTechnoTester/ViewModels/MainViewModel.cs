@@ -20,27 +20,5 @@ namespace WpfTechnoTester.ViewModels
             _navigator = navigator;
             _navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Home);
         }
-
-        //private bool CanRetrieve()
-        //{
-        //    return _authenticator.IsLoggedIn;
-        //}
-
-        ///// <summary>
-        ///// currently works for add, update, delete
-        ///// </summary>
-        ///// <returns></returns>
-        //private bool CanExecute()
-        //{
-        //    return string.IsNullOrEmpty(_title) &&
-        //           string.IsNullOrEmpty(_description);
-        //}
-
-
-        //protected virtual void OnPropertyChanged(string propertyName)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //    //AddTodoItemCommand.OnCanExecuteChanged();
-        //}
     }
 }

@@ -9,6 +9,7 @@ namespace WpfTechnoTester.State
         public Authenticator(IUserService userService) 
         {
             _userService = userService;
+            ErrorMessage = string.Empty;
         }
         private readonly IUserService _userService;
         public User? CurrentUser { get; private set; }
@@ -28,7 +29,6 @@ namespace WpfTechnoTester.State
                 return false;
             }
         }
-
         public string ErrorMessage { get; private set; }
 
         public void Logout()

@@ -11,6 +11,16 @@ namespace WpfTechnoTester.ViewModels
             _todoItemService = todoItemService;
         }
 
+        private bool _actionSucceeded = false;
+        private bool _cancel { get; set; }
+        public bool CanClose
+        {
+            get
+            {
+                return _cancel || _actionSucceeded;
+            }
+        }
+
         private string _title = string.Empty;
         public string Title
         {

@@ -8,40 +8,60 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:uc="clr-namespace:WpfTechnoTester.Views.Controls"
         mc:Ignorable="d" 
-        d:DataContext="{d:DesignInstance Type=viewmodels:UserLoginViewModel}"
+        d:DataContext="{d:DesignInstance Type=viewmodels:TodoItemEditViewModel}"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
         Background="Transparent"
-        Title="Add or Edit todoItems" Height="450" Width="800">
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"  />
-            <RowDefinition Height="auto"  />
-            <RowDefinition Height="auto"  />
-            <RowDefinition Height="auto"  />
-        </Grid.RowDefinitions>
-        <uc:UcLabelTextbox Grid.Row="0" />
-        <uc:UcLabelTextbox Grid.Row="1" />
-        <uc:UcLabelTextbox Grid.Row="2" />
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button Name="SaveButton" Content="Save"
-                    Style="{StaticResource LoginButtonStyle}"/>
-            <Button Content="Save and new"
-                    Style="{StaticResource LoginButtonStyle}"/>
-            <Button x:Name="CancelButton" Content="Cancel" 
-                    Style="{StaticResource LoginButtonStyle}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding CancelCommand}" CommandParameter="{Binding}"/>
-                        <i:CallMethodAction MethodName="Close"
+        Title="Add or Edit todoItems" Height="410" Width="600"
+        Closing="Window_Closing" SizeToContent="WidthAndHeight">
+
+    <Border Style="{StaticResource BorderStyleEditView}">
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"  />
+                <RowDefinition Height="auto"  />
+                <RowDefinition Height="auto"  />
+                <RowDefinition Height="auto"  />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="Title" 
+                Grid.Row="0"
+                Style="{StaticResource DefaultTextBlock}"/>
+            <TextBox 
+                Grid.Row="1"
+                Text="{Binding Title, 
+                        UpdateSourceTrigger=PropertyChanged, 
+                        NotifyOnValidationError=True, 
+                        ValidatesOnDataErrors=True}"
+                Style="{StaticResource LoginTextBox}"/>
+            <TextBlock Text="Description" 
+                Grid.Row="2"
+                Style="{StaticResource DefaultTextBlock}"/>
+            <TextBox
+                Grid.Row="3"
+                Text="{Binding Title, 
+                        UpdateSourceTrigger=PropertyChanged, 
+                        NotifyOnValidationError=True, 
+                        ValidatesOnDataErrors=True}"
+                Style="{StaticResource LoginTextBox}"/>
+
+            <StackPanel Grid.Row="4" HorizontalAlignment="Stretch" Orientation="Horizontal"  Height="50">
+                <Button Name="SaveButton" Content="Ok"
+                    Style="{StaticResource EditViewButtonStyle}"/>
+                <Button x:Name="CancelButton" Content="Cancel"
+                    Style="{StaticResource EditViewButtonStyle}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding CancelCommand}" CommandParameter="{Binding}"/>
+                            <i:CallMethodAction MethodName="Close"
                                         TargetObject="{Binding RelativeSource={RelativeSource
                                         Mode=FindAncestor,
                                         AncestorType=Window}}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </StackPanel>
-    </Grid>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
 </Window>

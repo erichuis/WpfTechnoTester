@@ -6,7 +6,7 @@
         <Setter Property="Width" Value="70"/>
         <Setter Property="Height" Value="35"/>
         <Setter Property="Margin" Value="5"/>
-        <Setter Property="Content" Value="Login"/>
+        <!--<Setter Property="Content" Value="Login"/>-->
         <Setter Property="Background" Value="Black"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template">
@@ -20,11 +20,6 @@
                             VerticalAlignment="Center">
                             <ContentPresenter HorizontalAlignment="Center" 
                                       VerticalAlignment="Center"/>
-                            <!--<iconPacks:PackIconMaterial Kind="LoginVariant" 
-                                                Width="16"
-                                                Height="16"
-                                                Margin="10,0"
-                                                VerticalAlignment="Center"/>-->
                         </StackPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -36,5 +31,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="EditViewButtonStyle" TargetType="Button"
+        BasedOn="{StaticResource LoginButtonStyle}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 </ResourceDictionary>

@@ -88,6 +88,8 @@ namespace WpfTechnoTester
 
             //Register views
             services.AddTransient<MainView>();
+            services.AddTransient<EditTodoItemView>();
+            services.AddTransient<JournalItemEditView>();
             services.AddTransient<UserSignup>();
             services.AddTransient<UserLogin>();
 

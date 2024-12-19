@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfTechnoTester.ViewModels;
 
 namespace WpfTechnoTester.Views
 {
@@ -19,9 +20,20 @@ namespace WpfTechnoTester.Views
     /// </summary>
     public partial class TodoItemEditView : Window
     {
-        public TodoItemEditView()
+        public TodoItemEditView(TodoItemEditViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
+        }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                if (!((TodoItemEditViewModel)DataContext).CanClose)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }
