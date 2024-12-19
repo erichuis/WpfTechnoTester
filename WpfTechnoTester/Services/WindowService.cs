@@ -12,10 +12,10 @@ namespace WpfTechnoTester.Services
             _serviceProvider = serviceProvider;
         }
 
-        public void ShowEditTodoItemViewDialog()
+        public void ShowTodoItemEditViewDialog()
         {
             // Resolve the NewWindow from the service provider
-            var window = _serviceProvider.GetRequiredService<EditTodoItemView>();
+            var window = _serviceProvider.GetRequiredService<TodoItemEditView>();
 
             // Optionally set properties or initialize if needed
             window.ShowDialog(); // Open the window modal

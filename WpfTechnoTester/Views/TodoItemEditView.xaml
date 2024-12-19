@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
-        Background="Transparent"
+        Background="red"
         Title="Add or Edit todoItems" Height="410" Width="600"
         Closing="Window_Closing" SizeToContent="WidthAndHeight">
 
@@ -40,12 +40,11 @@
                 Style="{StaticResource DefaultTextBlock}"/>
             <TextBox
                 Grid.Row="3"
-                Text="{Binding Title, 
+                Text="{Binding Description, 
                         UpdateSourceTrigger=PropertyChanged, 
                         NotifyOnValidationError=True, 
                         ValidatesOnDataErrors=True}"
                 Style="{StaticResource LoginTextBox}"/>
-
             <StackPanel Grid.Row="4" HorizontalAlignment="Stretch" Orientation="Horizontal"  Height="50">
                 <Button Name="SaveButton" Content="Ok"
                     Style="{StaticResource EditViewButtonStyle}"/>

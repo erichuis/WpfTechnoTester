@@ -46,6 +46,7 @@ namespace WpfTechnoTester
             services.AddTransient<MainViewModel>();
             services.AddTransient<JournalViewModel>();
             services.AddTransient<TodoViewModel>();
+            services.AddTransient<TodoItemEditViewModel>();
             services.AddTransient<GameViewModel>();
             services.AddTransient<ImageViewModel>();
             services.AddTransient<UserSignupViewModel>();
@@ -88,7 +89,7 @@ namespace WpfTechnoTester
 
             //Register views
             services.AddTransient<MainView>();
-            services.AddTransient<EditTodoItemView>();
+            services.AddTransient<TodoItemEditView>();
             services.AddTransient<JournalItemEditView>();
             services.AddTransient<UserSignup>();
             services.AddTransient<UserLogin>();
