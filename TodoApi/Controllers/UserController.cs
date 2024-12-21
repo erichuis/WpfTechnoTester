@@ -3,6 +3,7 @@ using Domain.DataTransferObjects;
 using Domain.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using TodoApi.Services;
 
 namespace TodoApi.Controllers
@@ -34,10 +35,14 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<IAsyncEnumerable<UserDto>>> GetAllUsersAsync()
+        public async IAsyncEnumerable<UserDto> GetAllUsersAsync()
         {
-            var result = await _userService.GetAllAsync().ConfigureAwait(false);
-            return Ok(result);
+            var results = _userService.GetAllAsync();
+            await foreach (var item in results)
+            {
+                yield return item;
+            }
+            //return Ok(result);
         }
 
         [Authorize(Policy = "ApiScope")]

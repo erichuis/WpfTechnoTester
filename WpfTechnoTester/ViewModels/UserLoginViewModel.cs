@@ -10,14 +10,11 @@ namespace WpfTechnoTester.ViewModels
 {
     public class UserLoginViewModel : ViewModelBase
     {
-
         private readonly IAuthenticator _authenticator;
         private readonly IWindowService _windowService;
         private readonly User _user;
 
-        public RelayCommand SubmitCommand { get; }
         public RelayCommand SignupCommand { get; }
-        public RelayCommand CancelCommand { get; }
 
         public UserLoginViewModel(IAuthenticator authenticator, IWindowService windowService)
         {
@@ -28,10 +25,8 @@ namespace WpfTechnoTester.ViewModels
                 Username = string.Empty,
                 Password = new NetworkCredential(string.Empty, string.Empty).SecurePassword
             };
-
-            SubmitCommand = new RelayCommand((param) => Login(), (param) => CanLogin());
+            
             SignupCommand = new RelayCommand((param) => ShowSignupView());
-            CancelCommand = new RelayCommand((param) => CancelLogin());
         }
 
         private void ShowSignupView()
@@ -39,22 +34,7 @@ namespace WpfTechnoTester.ViewModels
             _windowService.ShowNewUserSignupDialog();
         }
 
-        //private bool _cancelLogin = false;
-        private void CancelLogin()
-        {
-            IsCancelled = true;
-        }
-
-        public bool IsCancelled { get; private set; }
-
-        public bool CanClose
-        {
-            get
-            {
-                return IsCancelled || _loginSuccess;
-            }
-        }
-        private bool CanLogin()
+        protected override bool CanDoAction()
         {
             //these explicit validations should not be necessary
             ValidateModel(nameof(Username), _user.Username);
@@ -62,17 +42,16 @@ namespace WpfTechnoTester.ViewModels
             return !HasErrors;
         }
 
-        bool _loginSuccess = false;
-        private void Login()
+        protected override void DoAction()
         {
             var success = _authenticator.Login(_user.Username!, _user.Password!).GetAwaiter().GetResult();
             if (!success)
             {
-                _loginSuccess = false;
+                ActionSucceeded = false;
                 return;
             }
             
-            _loginSuccess = true;
+            ActionSucceeded = true;
         }
 
         public string Username
@@ -107,7 +86,6 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
-        //private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
         public SecureString Password
         {
             get => _user.Password!;

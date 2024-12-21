@@ -11,13 +11,13 @@
         xmlns:helpers="clr-namespace:WpfTechnoTester.ViewModels.Helpers" 
         mc:Ignorable="d" 
         d:DataContext="{d:DesignInstance Type=viewmodels:UserLoginViewModel}"
-        Title="UserLogin" Height="450" Width="320" 
+        Title="UserLogin"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Closing="Window_Closing"
         AllowsTransparency="true"
         Background="Transparent"
-        >
+        SizeToContent="WidthAndHeight">
     <Border Style="{StaticResource BorderStyleLogin}">
         <StackPanel Orientation="Vertical"
                     Margin="20">
@@ -57,7 +57,7 @@
                                     Height="16"
                                     Margin="0,2,10,0"
                                     Kind="Lock" />
-                        <PasswordBox Name="pwdbox" helpers:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <PasswordBox Name="pwdbox" HorizontalAlignment="Stretch" helpers:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource LoginPasswordBox}">
                         </PasswordBox>
                     </StackPanel>
@@ -67,11 +67,11 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"/>
                 <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="LoginButton" Content="Submit"
-                        Style="{StaticResource LoginButtonStyle}">
+                    <Button x:Name="LoginButton" Content="Submit" IsDefault="True"
+                        Style="{StaticResource DefaultButtonStyle}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding SubmitCommand}" CommandParameter="{Binding}"/>
+                                <i:InvokeCommandAction Command="{Binding DoActionCommand}" CommandParameter="{Binding}"/>
                                 <i:CallMethodAction MethodName="Close"
                                 TargetObject="{Binding RelativeSource={RelativeSource
                                 Mode=FindAncestor,
@@ -79,8 +79,8 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button x:Name="CancelButton" Content="Cancel" 
-                        Style="{StaticResource LoginButtonStyle}">
+                    <Button x:Name="CancelButton" Content="Cancel" IsCancel="True"
+                        Style="{StaticResource DefaultButtonStyle}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding CancelCommand}" CommandParameter="{Binding}"/>

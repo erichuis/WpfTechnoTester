@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using WpfTechnoTester.Commands;
 using WpfTechnoTester.Services;
-using WpfTechnoTester.State;
 
 namespace WpfTechnoTester.ViewModels
 {
@@ -24,14 +23,16 @@ namespace WpfTechnoTester.ViewModels
             _todoItemService = todoItemService;
             _windowService = windowService;
             
-            AddTodoItemCommand = new RelayCommand((param) => AddTodoItem(), null);
-            DeleteTodoItemCommand = new RelayCommand((param) => DeleteTodoItem(), null);
-            EditTodoItemCommand = new RelayCommand((param) => EditTodoItem(), null);
-            LoadTodoItemsCommand = new RelayCommand((param) => RetrieveTodoItems(), null);
+            AddTodoItemCommand = new RelayCommand((param) => AddTodoItem());
+            DeleteTodoItemCommand = new RelayCommand((param) => DeleteTodoItem());
+            EditTodoItemCommand = new RelayCommand((param) => EditTodoItem());
+            LoadTodoItemsCommand = new RelayCommand((param) => RetrieveTodoItems());
         }
         public List<TodoItem> SelectedTodoItems { get; set; }
 
         public ObservableCollection<TodoItem> TodoItems { get; set; }
+
+        public TodoItem? SelectedTodoItem { get; set; }
 
         private async void RetrieveTodoItems()
         {
@@ -44,7 +45,7 @@ namespace WpfTechnoTester.ViewModels
         private void AddTodoItem()
         {
             _windowService.ShowTodoItemEditViewDialog();
-            //Todo TodoItems.Add(response); or requery
+            RetrieveTodoItems();
         }
 
         private void EditTodoItem()
@@ -62,7 +63,7 @@ namespace WpfTechnoTester.ViewModels
 
             foreach (var item in SelectedTodoItems)
             {
-                await _todoItemService.DeleteAsync(item.Id);
+                await _todoItemService.DeleteAsync(item.TodoItemId);
                 TodoItems.Remove(item);
             }
         }

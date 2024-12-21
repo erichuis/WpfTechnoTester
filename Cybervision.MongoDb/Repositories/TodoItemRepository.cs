@@ -2,6 +2,7 @@
 using Cybervision.Dapr.DataModels;
 using Domain.DataTransferObjects;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -21,10 +22,14 @@ namespace Cybervision.Dapr.Services
             _mapper = mapper;
         }
 
-        public async Task<IAsyncEnumerable<TodoItemDto>> GetAllAsync()
+        public async IAsyncEnumerable<TodoItemDto> GetAllAsync()
         {
             var list = await _todoItems.Find(task => true).ToListAsync();
-            return _mapper.Map<IAsyncEnumerable<TodoItemDto>>(list);
+            
+            foreach (var item in list)
+            {
+                yield return _mapper.Map<TodoItemDto>(item);
+            }
         }
 
         public async Task<TodoItemDto> GetByIdAsync(Guid id) 
@@ -52,7 +57,7 @@ namespace Cybervision.Dapr.Services
         public async Task<bool> UpdateAsync(TodoItemDto updatedTodoItem)
         {
             var todoItemDocument = _mapper.Map<TodoItemDocument>(updatedTodoItem);
-            var result = await _todoItems.ReplaceOneAsync(todoItem => todoItem.TodoItemId == updatedTodoItem.Id, todoItemDocument);
+            var result = await _todoItems.ReplaceOneAsync(todoItem => todoItem.TodoItemId == updatedTodoItem.TodoItemId, todoItemDocument);
             return result.IsAcknowledged;
         }
 

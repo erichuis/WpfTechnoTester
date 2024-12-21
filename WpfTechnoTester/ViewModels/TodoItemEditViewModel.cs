@@ -11,16 +11,6 @@ namespace WpfTechnoTester.ViewModels
             _todoItemService = todoItemService;
         }
 
-        private bool _actionSucceeded = false;
-        private bool _cancel { get; set; }
-        public bool CanClose
-        {
-            get
-            {
-                return _cancel || _actionSucceeded;
-            }
-        }
-
         private string _title = string.Empty;
         public string Title
         {
@@ -62,7 +52,7 @@ namespace WpfTechnoTester.ViewModels
             }
         }
 
-        private void AddTodoItem()
+        protected override void DoAction()
         {
             if (string.IsNullOrEmpty(Description) || string.IsNullOrEmpty(Title))
                 return;
@@ -74,7 +64,13 @@ namespace WpfTechnoTester.ViewModels
             };
 
             var response = _todoItemService.CreateAsync(todoItem).GetAwaiter().GetResult();
-           
+
+            if(response == null)
+            {
+                return;
+                //Todo do logging and show error dialog...with logging ;-)
+            }
+            ActionSucceeded = true;
         }
     }
 }

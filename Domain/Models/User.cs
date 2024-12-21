@@ -1,6 +1,5 @@
 ﻿using Domain.Validators;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
 using System.Security;
 
 namespace Domain.Models

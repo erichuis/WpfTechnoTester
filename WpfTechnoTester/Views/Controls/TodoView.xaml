@@ -21,10 +21,10 @@
             </ListView.View>
         </ListView>
         <StackPanel Orientation="Horizontal">
-            <Button x:Name="RetrieveTodoItemsButton" Content="Retrieve" Style="{StaticResource LoginButtonStyle}" Command="{Binding LoadTodoItemCommand}" />
-            <Button x:Name="AddTodoItemButton" Content="Add" Style="{StaticResource LoginButtonStyle}" Command="{Binding AddTodoItemCommand}" />
-            <Button x:Name="EditTodoItemButton" Content="Edit" Style="{StaticResource LoginButtonStyle}" Command="{Binding EditTodoItemCommand}" />
-            <Button x:Name="DeleteTodoItemButton" Content="Delete" Style="{StaticResource LoginButtonStyle}" Command="{Binding DeleteTodoItemCommand}" />
+            <Button x:Name="RetrieveTodoItemsButton" Content="Retrieve" Style="{StaticResource DefaultButtonStyle}" Command="{Binding LoadTodoItemsCommand}" />
+            <Button x:Name="AddTodoItemButton" Content="Add" Style="{StaticResource DefaultButtonStyle}" Command="{Binding AddTodoItemCommand}" />
+            <Button x:Name="EditTodoItemButton" Content="Edit" Style="{StaticResource DefaultButtonStyle}" Command="{Binding EditTodoItemCommand}" />
+            <Button x:Name="DeleteTodoItemButton" Content="Delete" Style="{StaticResource DefaultButtonStyle}" Command="{Binding DeleteTodoItemCommand}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

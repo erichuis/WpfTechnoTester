@@ -10,7 +10,6 @@ namespace WpfTechnoTester.State
         {
             _userService = userService;
             ErrorMessage = string.Empty;
-           CurrentUser = new User(); //only for dev purposes
         }
         private readonly IUserService _userService;
         public User? CurrentUser { get; private set; }

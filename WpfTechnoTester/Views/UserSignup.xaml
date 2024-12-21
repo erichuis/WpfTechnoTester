@@ -11,12 +11,13 @@
         xmlns:helpers="clr-namespace:WpfTechnoTester.ViewModels.Helpers" 
         d:DataContext="{d:DesignInstance Type=viewmodels:UserSignupViewModel}"
         mc:Ignorable="d"
-        Title="UserLogin" Height="500" Width="320" 
+        Title="UserLogin"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         AllowsTransparency="true"
         Background="Transparent"
-        Closing="Window_Closing" SizeToContent="WidthAndHeight"
+        Closing="Window_Closing" 
+        SizeToContent="WidthAndHeight"
         >
     <Border Style="{StaticResource BorderStyleSignup}">
         <StackPanel Orientation="Vertical"
@@ -88,11 +89,12 @@
                 </Border>
                 <StackPanel Grid.Row="8" Orientation="Horizontal" VerticalAlignment="Bottom">
                 <Button Name="SignUpButton"
-                    Style="{StaticResource LoginButtonStyle}"
-                    Content="Submit">
+                    Style="{StaticResource DefaultButtonStyle}"
+                    Content="Submit"
+                    IsDefault="True">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding SubmitCommand}" CommandParameter="{Binding}"/>
+                            <i:InvokeCommandAction Command="{Binding DoActionCommand}" CommandParameter="{Binding}"/>
                             <i:CallMethodAction MethodName="Close"
                                 TargetObject="{Binding RelativeSource={RelativeSource
                                 Mode=FindAncestor,
@@ -103,7 +105,7 @@
                 <Button 
                 Name="ResetButton" 
                 Content="Reset" 
-                Style="{StaticResource LoginButtonStyle}">
+                Style="{StaticResource DefaultButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding ResetCommand}" CommandParameter="{Binding}"/>
@@ -113,7 +115,8 @@
                 <Button
                 Name="CancelButton"
                 Content="Cancel" 
-                Style="{StaticResource LoginButtonStyle}">
+                IsCancel="true"
+                Style="{StaticResource DefaultButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding CancelCommand}" CommandParameter="{Binding}"/>

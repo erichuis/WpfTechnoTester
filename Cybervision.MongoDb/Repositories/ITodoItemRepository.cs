@@ -4,7 +4,7 @@ namespace Cybervision.Dapr.Services
 {
     public interface ITodoItemRepository
     {
-        Task<IAsyncEnumerable<TodoItemDto>> GetAllAsync();
+        IAsyncEnumerable<TodoItemDto> GetAllAsync();
         Task<TodoItemDto> GetByIdAsync(Guid id);
         Task<TodoItemDto> GetByTitleAsync(string title);
         Task<TodoItemDto> CreateAsync(TodoItemDto todoItem);

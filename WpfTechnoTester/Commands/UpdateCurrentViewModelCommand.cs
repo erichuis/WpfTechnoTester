@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using WpfTechnoTester.Services;
 using WpfTechnoTester.State;
-using WpfTechnoTester.ViewModels;
 using WpfTechnoTester.ViewModels.Factories;
-using static WpfTechnoTester.State.INavigator;
 
 namespace WpfTechnoTester.Commands
 {

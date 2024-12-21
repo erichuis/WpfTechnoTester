@@ -24,10 +24,13 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
-        public async Task<ActionResult<IAsyncEnumerable<TodoItemDto>>> GetAllTodoItemsAsync()
+        public async IAsyncEnumerable<TodoItemDto> GetAllTodoItemsAsync()
         {
-            var result = await _todoItemService.GetAllAsync().ConfigureAwait(false);
-            return Ok(result);
+            var results = _todoItemService.GetAllAsync();
+            await foreach (var item in results)
+            {
+                yield return item;
+            }
         }
 
         [Authorize(Policy = "ApiScope")]

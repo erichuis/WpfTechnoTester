@@ -15,28 +15,36 @@ namespace TodoApi.Services
         }
         public async Task<TodoItemDto> CreateAsync(TodoItemDto entity)
         {
+            entity.TodoItemId = Guid.NewGuid();
             var result = await _repository.CreateAsync(entity).ConfigureAwait(false);
             return result;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _repository.DeleteAsync(id).ConfigureAwait(false);
+            return result;
         }
 
-        public async Task<IEnumerable<TodoItemDto>> GetAllAsync()
+        public async IAsyncEnumerable<TodoItemDto> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var results = _repository.GetAllAsync().ConfigureAwait(false);
+            await foreach (var item in results)
+            {
+                yield return item;
+            }
         }
 
         public async Task<TodoItemDto> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _repository.GetByIdAsync(id).ConfigureAwait(false);
+            return result;
         }
 
-        public async Task<TodoItemDto> UpdateAsync(TodoItemDto entity)
+        public async Task<bool> UpdateAsync(TodoItemDto entity)
         {
-            throw new NotImplementedException();
+            var result = await _repository.UpdateAsync(entity).ConfigureAwait(false);
+            return result;
         }
 
         public async Task<TodoItemDto> UpdateManyAsync(IEnumerable<TodoItemDto> entities)

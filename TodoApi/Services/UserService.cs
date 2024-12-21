@@ -1,10 +1,8 @@
-﻿using Domain.DataTransferObjects;
-using System.Net;
-using System.Security;
-using Domain.Helpers;
+﻿using AutoMapper;
 using Cybervision.Dapr.Services;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity.Data;
+using Domain.DataTransferObjects;
+using Domain.Helpers;
+using System.Net;
 
 namespace TodoApi.Services
 {
@@ -37,10 +35,13 @@ namespace TodoApi.Services
             return await _userRepository.DeleteAsync(id).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<UserDto>> GetAllAsync()
+        public async IAsyncEnumerable<UserDto> GetAllAsync()
         {
-            var result = await _userRepository.GetAllAsync().ConfigureAwait(false);
-            return _mapper.Map<IEnumerable<UserDto>>(result);
+            var results =  _userRepository.GetAllAsync();
+            await foreach (var item in results)
+            {
+                yield return item;
+            }
         }
 
         public async Task<UserDto> GetAsync(Guid id)
@@ -72,14 +73,16 @@ namespace TodoApi.Services
             return foundUser;
         }
 
-        public async Task<UserDto> Logout(string username)
+        public async Task<bool> Logout(string username)
         {
-            throw new NotImplementedException();
+            //var result = await _userRepository.
+            return true;
         }
 
-        public async Task<UserDto> UpdateAsync(UserDto entity)
+        public async Task<bool> UpdateAsync(UserDto entity)
         {
-            throw new NotImplementedException();
+            var result = await _userRepository.UpdateAsync(entity).ConfigureAwait(false);
+            return result;
         }
 
         public Task<UserDto> UpdateManyAsync(IEnumerable<UserDto> entities)

@@ -19,10 +19,16 @@ namespace Cybervision.Dapr.Services
             _mapper = mapper;
         }
 
-        public async Task<IAsyncEnumerable<UserDto>> GetAllAsync()
+        public async IAsyncEnumerable<UserDto> GetAllAsync()
         {
-            var list = (IAsyncEnumerable<UserDto>)await _users.Find(UserDocument => true).ToListAsync();
-            return _mapper.Map<IAsyncEnumerable<UserDto>>(list);
+            var list = await _users.Find(UserDocument => true).ToListAsync();
+
+            foreach (var item in list)
+            {
+                yield return _mapper.Map<UserDto>(item);
+            }
+
+            //return _mapper.Map<IAsyncEnumerable<UserDto>>(list);
         }
 
         public async Task<UserDto> GetByIdAsync(Guid id)

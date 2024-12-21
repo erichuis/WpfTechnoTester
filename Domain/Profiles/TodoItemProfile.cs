@@ -9,6 +9,7 @@ namespace Domain.DataModels
         public TodoItemProfile()
         {
             CreateMap<TodoItem, TodoItemDto>();
+            CreateMap<TodoItemDto, TodoItem>();
             // Use CreateMap... Etc.. here (Profile methods are the same as configuration methods)
         }
     }

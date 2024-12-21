@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel;
+using WpfTechnoTester.Commands;
 using WpfTechnoTester.ViewModels.Helpers;
 
 namespace WpfTechnoTester.ViewModels
@@ -7,6 +8,9 @@ namespace WpfTechnoTester.ViewModels
     public delegate TViewModel CreateViewModel<TViewModel>() where TViewModel : ViewModelBase;
     public class ViewModelBase : ObservableObject, INotifyDataErrorInfo
     {
+        public RelayCommand DoActionCommand => new((param) => DoAction(), (param) => CanDoAction());
+        public RelayCommand CancelCommand => new((param) => CancelAction());
+
         public ViewModelBase() { }
         public ViewModelBase(string displayName)
         {
@@ -15,7 +19,31 @@ namespace WpfTechnoTester.ViewModels
 
         private readonly Dictionary<string, List<string>> _errors = new();
 
-        public Dictionary<string, List<string>> Errors => _errors;
+        //public Dictionary<string, List<string>> Errors => _errors;
+
+        protected virtual void CancelAction()
+        {
+            IsCancelled = true;
+        }
+
+        protected virtual void DoAction()
+        {
+        }
+        protected virtual bool CanDoAction()
+        {
+            return true;
+        }
+
+        public bool IsCancelled { get; private set; }
+        protected bool ActionSucceeded { get; set; }
+
+        public bool CanClose
+        {
+            get
+            {
+                return IsCancelled || ActionSucceeded;
+            }
+        }
 
         public IEnumerable GetErrors(string? propertyName)
         {
@@ -37,8 +65,6 @@ namespace WpfTechnoTester.ViewModels
 
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-        // In ViewModelBase.cs 
 
         internal virtual void RaiseCanExecuteChange()
         {

@@ -1,20 +1,22 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
-    //Todo...nog nodig?
     public class TodoItem
     {
-        [JsonPropertyName("id")]
-        public Guid Id { get; set; }
+        public Guid TodoItemId { get; set; }
 
-        [JsonPropertyName("title")]
+        [Required(ErrorMessage = "Title can not be empty")]
         public required string Title { get; set; }
 
-        [JsonPropertyName("description")]
+        [Required(ErrorMessage = "Description can not be empty")]
         public required string Description { get; set; }
 
-        [JsonPropertyName("isCompleted")]
-        public bool IsCompleted { get; set; }
+        public DateTime DateStarted { get; set; }
+
+        public DateTime DateCompleted { get; set; }
+
+        public bool InProgress { get; set; }
+
     }
 }

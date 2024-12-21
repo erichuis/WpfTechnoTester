@@ -8,6 +8,9 @@ namespace Cybervision.Dapr.DataModels
         public TodoItemProfile()
         {
             CreateMap<TodoItemDocument, TodoItemDto>();
+            CreateMap<TodoItemDto, TodoItemDocument>();
+            //CreateMap<List<TodoItemDocument>, IAsyncEnumerable<TodoItemDto>>();
+            //CreateMap<IAsyncEnumerable<TodoItemDto>, List<TodoItemDocument>>();
             // Use CreateMap... Etc.. here (Profile methods are the same as configuration methods)
         }
     }

@@ -6,7 +6,7 @@ namespace Cybervision.Dapr.Services
 {
     public interface IUserRepository
     {
-        Task<IAsyncEnumerable<UserDto>> GetAllAsync();
+        IAsyncEnumerable<UserDto> GetAllAsync();
 
         Task<UserDto> GetByIdAsync(Guid id);
 

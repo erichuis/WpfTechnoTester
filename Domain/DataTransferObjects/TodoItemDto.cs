@@ -5,7 +5,10 @@ namespace Domain.DataTransferObjects
     public class TodoItemDto
     {
         [JsonPropertyName("id")]
-        public Guid Id { get; set; }
+        public string? Id { get; set; }
+
+        [JsonPropertyName("todoitemid")]
+        public required Guid TodoItemId { get; set; }
 
         [JsonPropertyName("title")]
         public required string Title { get; set; }
@@ -13,7 +16,13 @@ namespace Domain.DataTransferObjects
         [JsonPropertyName("description")]
         public required string Description { get; set; }
 
-        [JsonPropertyName("isCompleted")]
-        public bool IsCompleted { get; set; }
+        [JsonPropertyName("datestarted")]
+        public DateTime DateStarted { get; set; }
+
+        [JsonPropertyName("datecompleted")]
+        public DateTime DateCompleted { get; set; }
+
+        [JsonPropertyName("inprogress")]
+        public bool InProgress { get; set; }
     }
 }

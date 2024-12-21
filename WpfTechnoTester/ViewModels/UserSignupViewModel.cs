@@ -11,30 +11,20 @@ namespace WpfTechnoTester.ViewModels
     {
         private readonly IUserService _userService;
         private readonly User _user = new();
-        private bool _cancelForm = false;
 
-        public RelayCommand SubmitCommand { get; }
         public RelayCommand ResetCommand { get; }
-        public RelayCommand CancelCommand { get; }
 
         public UserSignupViewModel(IUserService userService)
         {
             _userService = userService;
 
-            SubmitCommand = new RelayCommand((param) => AddUser(), (param) => CanSave);
             ResetCommand = new RelayCommand((param) => ResetForm());
-            CancelCommand = new RelayCommand((param) => CancelSignup());
         }
 
-        private void AddUser()
+        protected override void DoAction()
         {
             var response = _userService.CreateAsync(_user).GetAwaiter().GetResult();
-            _saveIsSuccesful = true;
-        }
-
-        private void CancelSignup()
-        {
-            _cancelForm = true;
+            ActionSucceeded = true;
         }
 
         private void ResetForm()
@@ -45,7 +35,6 @@ namespace WpfTechnoTester.ViewModels
             _user.PasswordVerified?.Clear();
         }
 
-        //private string _userName = string.Empty;
         public string Username
         {
             get => _user.Username;
@@ -53,14 +42,12 @@ namespace WpfTechnoTester.ViewModels
             {
                 if (_user.Username != value)
                 {
-                    //_userName = value;
                     _user.Username = value;
                     OnPropertyChanged(nameof(Username));
                     ValidateModel(nameof(Username), value);
                 }
             }
         }
-        //private string _email = string.Empty;
         public string Email
         {
             get => _user.Email;
@@ -77,34 +64,24 @@ namespace WpfTechnoTester.ViewModels
 
         internal override void RaiseCanExecuteChange()
         {
-         //   SubmitCommand.RaiseCanExecuteChanged();
+            //   SubmitCommand.RaiseCanExecuteChanged();
         }
 
-        private bool _saveIsSuccesful;
-        public bool CanSave
+        protected override bool CanDoAction()
         {
-            get {
-                //these explicit validations should not be necessary
-                ValidateModel(nameof(Username), _user.Username);
-                ValidateModel(nameof(Email), _user.Email);
-                ValidateModel(nameof(Password), _user.Password!);
-                ValidateModel(nameof(PasswordVerified), _user.PasswordVerified!);
-                return !HasErrors; 
-            }
-        }
 
-        public bool CanClose
-        {
-            get
-            {
-                return _cancelForm || _saveIsSuccesful;
-            }
+            //these explicit validations should not be necessary
+            ValidateModel(nameof(Username), _user.Username);
+            ValidateModel(nameof(Email), _user.Email);
+            ValidateModel(nameof(Password), _user.Password!);
+            ValidateModel(nameof(PasswordVerified), _user.PasswordVerified!);
+            return !HasErrors;
         }
 
         private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;
         public SecureString Password
         {
-            get => _password;   
+            get => _password;
             set
             {
                 if (_user.Password != value)
