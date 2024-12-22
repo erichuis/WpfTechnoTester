@@ -4,18 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfTechnoTester.Views.Controls"
+             xmlns:behaviours="clr-namespace:WpfTechnoTester.Behaviours"
              xmlns:viewmodels="clr-namespace:WpfTechnoTester.ViewModels" 
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=viewmodels:TodoViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Orientation="Vertical">
-        <ListView Name="lvTodoItems" ItemsSource="{Binding TodoItems}">
+        <ListView 
+            SelectedItem="{Binding SelectedTodoItem}" 
+            Name="lvTodoItems" 
+            SelectionMode="Extended"
+            ItemsSource="{Binding TodoItems}"
+            behaviours:MultiSelectBehavior.SelectedItems="{Binding SelectedTodoItems}">
             <ListView.View>
-                <GridView >
+                <GridView>
                     <GridView.Columns>
                         <GridViewColumn Width="200" Header="Title" DisplayMemberBinding="{Binding Title}"/>
                         <GridViewColumn Width="300" Header="Description" DisplayMemberBinding="{Binding Description}"/>
-                        <GridViewColumn Width="100" Header="Is Completed" DisplayMemberBinding="{Binding IsCompleted}"/>
+                        <GridViewColumn Width="100" Header="Date started" DisplayMemberBinding="{Binding DateStarted}"/>
+                        <GridViewColumn Width="100" Header="Date completed" DisplayMemberBinding="{Binding DateCompleted}"/>
+                        <GridViewColumn Width="100" Header="In progress" DisplayMemberBinding="{Binding InProgress}"/>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

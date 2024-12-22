@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="DefaultTextBlock" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="Margin" Value="0,15"/>
+        <Setter Property="Margin" Value="10,15"/>
     </Style>
     <Style x:Key="SignUpTextBlock" 
            TargetType="TextBlock" 

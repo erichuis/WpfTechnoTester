@@ -2,8 +2,6 @@
 using Cybervision.Dapr.DataModels;
 using Domain.DataTransferObjects;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Cybervision.Dapr.Services
@@ -46,7 +44,6 @@ namespace Cybervision.Dapr.Services
 
         public async Task<TodoItemDto> CreateAsync(TodoItemDto todoItem)
         {
-
             var todoItemDocument = _mapper.Map<TodoItemDocument>(todoItem);
             await _todoItems.InsertOneAsync(todoItemDocument, new InsertOneOptions { BypassDocumentValidation = true });
             //Todo retrieve Id

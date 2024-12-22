@@ -28,7 +28,7 @@ namespace WpfTechnoTester.ViewModels
             EditTodoItemCommand = new RelayCommand((param) => EditTodoItem());
             LoadTodoItemsCommand = new RelayCommand((param) => RetrieveTodoItems());
         }
-        public List<TodoItem> SelectedTodoItems { get; set; }
+        public ObservableCollection<TodoItem> SelectedTodoItems { get; set; }
 
         public ObservableCollection<TodoItem> TodoItems { get; set; }
 
@@ -51,7 +51,7 @@ namespace WpfTechnoTester.ViewModels
         private void EditTodoItem()
         {
             //Todo pass the item to be edited
-            _windowService.ShowTodoItemEditViewDialog();
+            _windowService.ShowTodoItemEditViewDialog(SelectedTodoItem!);
         }
 
         private async void DeleteTodoItem()
@@ -61,7 +61,9 @@ namespace WpfTechnoTester.ViewModels
                 return;
             }
 
-            foreach (var item in SelectedTodoItems)
+            var itemsToDelete = SelectedTodoItems.ToList();
+
+            foreach (var item in itemsToDelete)
             {
                 await _todoItemService.DeleteAsync(item.TodoItemId);
                 TodoItems.Remove(item);

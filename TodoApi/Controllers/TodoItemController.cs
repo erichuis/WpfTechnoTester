@@ -78,7 +78,7 @@ namespace TodoApi.Controllers
         }
 
         [Authorize(Policy = "ApiScope")]
-        [HttpDelete()]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult<bool>> DeleteTodoItemAsync(Guid id)
         {
             try

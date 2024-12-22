@@ -17,12 +17,12 @@ namespace Domain.DataTransferObjects
         public required string Description { get; set; }
 
         [JsonPropertyName("datestarted")]
-        public DateTime DateStarted { get; set; }
+        public DateTime? DateStarted { get; set; }
 
         [JsonPropertyName("datecompleted")]
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
 
         [JsonPropertyName("inprogress")]
-        public bool InProgress { get; set; }
+        public int InProgress { get; set; }
     }
 }

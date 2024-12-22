@@ -8,7 +8,7 @@ namespace Cybervision.Dapr.DataModels
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [BsonGuidRepresentation(GuidRepresentation.Standard)]
         public Guid UserId { get; set; }

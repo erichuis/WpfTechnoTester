@@ -91,7 +91,6 @@ namespace WpfTechnoTester.ViewModels
                 }
             }
         }
-
         public void ValidateModel(string propertyName, object value)
         {
             var context = new ValidationContext(_user)

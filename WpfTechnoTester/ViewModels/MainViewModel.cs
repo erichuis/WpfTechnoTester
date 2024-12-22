@@ -1,13 +1,10 @@
-﻿using System.ComponentModel;
-using WpfTechnoTester.State;
+﻿using WpfTechnoTester.State;
 
 namespace WpfTechnoTester.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel
     {
         private readonly INavigator _navigator;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public INavigator Navigator
         {

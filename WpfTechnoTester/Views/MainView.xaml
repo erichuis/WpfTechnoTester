@@ -4,7 +4,8 @@
         xmlns:local="clr-namespace:WpfTechnoTester"
         xmlns:uc="clr-namespace:WpfTechnoTester.Views.Controls"
         Title="The 42 application" HorizontalAlignment="Center" Height="408" Width="586"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
 
     <Grid Margin="0,0,0,78" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}">
         <Grid.RowDefinitions>

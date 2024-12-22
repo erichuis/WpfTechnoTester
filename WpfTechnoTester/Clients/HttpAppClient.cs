@@ -194,7 +194,7 @@ namespace WpfTechnoTester.Clients
 
         public async Task<bool> DeleteTodoItemByIdAsync(Guid id)
         {
-            var response = await _httpClient.DeleteAsync($"TodoItem/DeleteTodoItem{id}");
+            var response = await _httpClient.DeleteAsync($"TodoItem/DeleteTodoItem/{id}");
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();

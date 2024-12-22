@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Domain.Models;
+using Microsoft.Extensions.DependencyInjection;
+using WpfTechnoTester.ViewModels;
 using WpfTechnoTester.Views;
 
 namespace WpfTechnoTester.Services
@@ -14,9 +16,18 @@ namespace WpfTechnoTester.Services
 
         public void ShowTodoItemEditViewDialog()
         {
+            ShowTodoItemEditViewDialog(null);
+        }
+
+        public void ShowTodoItemEditViewDialog(TodoItem? todoItem)
+        {
             // Resolve the NewWindow from the service provider
             var window = _serviceProvider.GetRequiredService<TodoItemEditView>();
 
+            if (todoItem != null)
+            {
+                ((TodoItemEditViewModel)window.DataContext).TodoItem = todoItem;
+            }
             // Optionally set properties or initialize if needed
             window.ShowDialog(); // Open the window modal
         }
