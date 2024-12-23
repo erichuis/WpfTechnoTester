@@ -59,16 +59,16 @@ namespace TodoApi.Controllers
 
         [Authorize(Policy = "ApiScope")]
         [HttpPut()]
-        public async Task<ActionResult<bool>> UpdateTodoItemAsync(TodoItemDto TodoItem)
+        public async Task<ActionResult<bool>> UpdateTodoItemAsync([FromBody] TodoItemDto todoItemUpdated)
         {
-            if (TodoItem == null)
+            if (todoItemUpdated == null)
             {
                 throw new NullReferenceException(nameof(TodoItemDto));
             }
 
             try
             {
-                var result = await _todoItemService.UpdateAsync(TodoItem);
+                var result = await _todoItemService.UpdateAsync(todoItemUpdated);
                 return Ok(result);
             }
             catch (Exception)

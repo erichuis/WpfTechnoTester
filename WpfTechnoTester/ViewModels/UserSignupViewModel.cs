@@ -21,6 +21,8 @@ namespace WpfTechnoTester.ViewModels
             ResetCommand = new RelayCommand((param) => ResetForm());
         }
 
+        protected override ValidationContext ValidationCtx => new ValidationContext(_user);
+
         protected override void DoAction()
         {
             var response = _userService.CreateAsync(_user).GetAwaiter().GetResult();
@@ -43,8 +45,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_user.Username != value)
                 {
                     _user.Username = value;
-                    OnPropertyChanged(nameof(Username));
-                    ValidateModel(nameof(Username), value);
+                    OnPropertyChangedExt(nameof(Username), value);
                 }
             }
         }
@@ -56,8 +57,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_user.Email != value)
                 {
                     _user.Email = value;
-                    OnPropertyChanged(nameof(Email));
-                    ValidateModel(nameof(Username), value);
+                    OnPropertyChangedExt(nameof(Email), value);
                 }
             }
         }
@@ -69,12 +69,11 @@ namespace WpfTechnoTester.ViewModels
 
         protected override bool CanDoAction()
         {
-
             //these explicit validations should not be necessary
-            ValidateModel(nameof(Username), _user.Username);
-            ValidateModel(nameof(Email), _user.Email);
-            ValidateModel(nameof(Password), _user.Password!);
-            ValidateModel(nameof(PasswordVerified), _user.PasswordVerified!);
+            //ValidateModel(nameof(Username), _user.Username);
+            //ValidateModel(nameof(Email), _user.Email);
+            //ValidateModel(nameof(Password), _user.Password!);
+            //ValidateModel(nameof(PasswordVerified), _user.PasswordVerified!);
             return !HasErrors;
         }
 
@@ -87,24 +86,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_user.Password != value)
                 {
                     _user.Password = value;
-                    OnPropertyChanged(nameof(Password));
-                }
-            }
-        }
-        public void ValidateModel(string propertyName, object value)
-        {
-            var context = new ValidationContext(_user)
-            {
-                MemberName = propertyName,
-            };
-            var results = new List<ValidationResult>();
-
-            // Perform validation
-            if (!Validator.TryValidateProperty(value, context, results))
-            {
-                foreach (var result in results)
-                {
-                    AddError(propertyName, result.ErrorMessage ?? "An error fix this");
+                    OnPropertyChangedExt(nameof(Password), value);
                 }
             }
         }
@@ -118,7 +100,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_user.PasswordVerified != value)
                 {
                     _user.PasswordVerified = value;
-                    OnPropertyChanged(nameof(PasswordVerified));
+                    OnPropertyChangedExt(nameof(PasswordVerified), value);
                 }
             }
         }

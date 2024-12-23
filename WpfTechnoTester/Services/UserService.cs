@@ -62,11 +62,11 @@ namespace WpfTechnoTester.Services
             return await _httpAppClient.Logout();
         }
 
-        public async Task<User> UpdateAsync(User entity)
+        public async Task<bool> UpdateAsync(User entity)
         {
             var dto = _mapper.Map<UserDto>(entity); 
             var result = await _httpAppClient.UpdateUserAsync(dto).ConfigureAwait(false);
-            return _mapper.Map<User>(result);
+            return result;
         }
 
         public Task<User> UpdateManyAsync(IEnumerable<User> entities)

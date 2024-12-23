@@ -44,14 +44,19 @@ namespace WpfTechnoTester.ViewModels
 
         private void AddTodoItem()
         {
-            _windowService.ShowTodoItemEditViewDialog();
-            RetrieveTodoItems();
+            SelectedTodoItem = new TodoItem() { Description = string.Empty, Title = string.Empty };
+            _windowService.ShowTodoItemEditViewDialog(SelectedTodoItem);
+            TodoItems.Add(SelectedTodoItem);
+            //RetrieveTodoItems();
         }
 
         private void EditTodoItem()
         {
-            //Todo pass the item to be edited
+            if (SelectedTodoItem == null)
+                return;
+
             _windowService.ShowTodoItemEditViewDialog(SelectedTodoItem!);
+            RetrieveTodoItems();
         }
 
         private async void DeleteTodoItem()

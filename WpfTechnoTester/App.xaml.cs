@@ -20,21 +20,6 @@ namespace WpfTechnoTester
 
         public IServiceProvider? ServiceProvider { get; private set; }
 
-        //public App()
-        //{
-        //    //_host = Host.CreateDefaultBuilder()
-        //    //    .ConfigureServices((context, services) =>
-        //    //    {
-        //    //        services.AddSingleton(typeof(IHttpAppClient), typeof(HttpAppClient));
-        //    //        services.AddTransient<MainWindow>();
-        //    //        services.AddTransient<UserSignup>();
-        //    //        services.AddTransient<TodoItemViewModel>();
-        //    //        services.AddTransient(typeof(IUserService), typeof(UserService));
-        //    //        services.AddTransient<UserSignupViewModel>();
-        //    //    })
-        //    //    .Build();
-        //}
-
         protected override void OnStartup(StartupEventArgs e)
         {
             var services = new ServiceCollection();
@@ -44,14 +29,14 @@ namespace WpfTechnoTester
 
             //register viewmodels
             services.AddTransient<MainViewModel>();
-            services.AddTransient<JournalViewModel>();
-            services.AddTransient<TodoViewModel>();
+            services.AddSingleton<JournalViewModel>();
+            services.AddSingleton<TodoViewModel>();
             services.AddTransient<TodoItemEditViewModel>();
-            services.AddTransient<GameViewModel>();
-            services.AddTransient<ImageViewModel>();
+            services.AddSingleton<GameViewModel>();
+            services.AddSingleton<ImageViewModel>();
             services.AddTransient<UserSignupViewModel>();
             services.AddTransient<UserLoginViewModel>();
-            services.AddTransient<AdminViewModel>();
+            services.AddSingleton<AdminViewModel>();
 
             //Register services
             services.AddAutoMapper(typeof(UserProfile));
@@ -79,10 +64,10 @@ namespace WpfTechnoTester
                 services => { return () => services.GetRequiredService<AdminViewModel>(); });
 
             services.AddSingleton<CreateViewModel<TodoViewModel>>(
-                services => { return () => new TodoViewModel(
-                    services.GetRequiredService<ITodoItemService>(),
-                    services.GetRequiredService<IWindowService>()
-                    ); });
+                services => { return () => services.GetRequiredService<TodoViewModel>(); });
+                    //services.GetRequiredService<ITodoItemService>(),
+                    //services.GetRequiredService<IWindowService>()
+                    //); });
 
             //Register states
             services.AddSingleton<INavigator, Navigator>();

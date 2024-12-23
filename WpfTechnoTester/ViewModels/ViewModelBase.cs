@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Domain.Models;
+using System.Collections;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using WpfTechnoTester.Commands;
 using WpfTechnoTester.ViewModels.Helpers;
 
@@ -82,12 +84,32 @@ namespace WpfTechnoTester.ViewModels
                 //    Debug.Fail(msg);
             }
         }
-        protected override void OnPropertyChanged(string propertyName)
+
+        protected void OnPropertyChangedExt(string propertyName, object value)
         {
             VerifyPropertyName(propertyName);
-            base.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             RemoveError(propertyName);
             RaiseCanExecuteChange();
+            ValidateModel(nameof(propertyName), value);
+        }
+
+        protected virtual ValidationContext ValidationCtx { get;}
+
+        protected void ValidateModel(string propertyName, object value)
+        {
+            ValidationCtx.MemberName = propertyName;
+
+            var results = new List<ValidationResult>();
+
+            // Perform validation
+            if (!Validator.TryValidateProperty(value, ValidationCtx, results))
+            {
+                foreach (var result in results)
+                {
+                    AddError(propertyName, result.ErrorMessage ?? "An error fix this");
+                }
+            }
         }
 
         private void RemoveError(string propertyName)

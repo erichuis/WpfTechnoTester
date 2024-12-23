@@ -29,6 +29,8 @@ namespace WpfTechnoTester.ViewModels
             SignupCommand = new RelayCommand((param) => ShowSignupView());
         }
 
+        protected override ValidationContext ValidationCtx => new ValidationContext(_user);
+
         private void ShowSignupView()
         {
             _windowService.ShowNewUserSignupDialog();
@@ -37,8 +39,8 @@ namespace WpfTechnoTester.ViewModels
         protected override bool CanDoAction()
         {
             //these explicit validations should not be necessary
-            ValidateModel(nameof(Username), _user.Username);
-            ValidateModel(nameof(Password), _user.Password!);
+            //ValidateModel(nameof(Username), _user.Username);
+            //ValidateModel(nameof(Password), _user.Password!);
             return !HasErrors;
         }
 
@@ -62,26 +64,7 @@ namespace WpfTechnoTester.ViewModels
                 if (_user.Username != value)
                 {
                     _user.Username = value;
-                    OnPropertyChanged(nameof(Username));
-                    ValidateModel(nameof(Username), value);
-                }
-            }
-        }
-
-        public void ValidateModel(string propertyName, object value)
-        {
-            var context = new ValidationContext(_user)
-            {
-                MemberName = propertyName,
-            };
-            var results = new List<ValidationResult>();
-
-            // Perform validation
-            if (!Validator.TryValidateProperty(value, context, results))
-            {
-                foreach (var result in results)
-                {
-                    AddError(propertyName, result.ErrorMessage ?? "An error fix this");
+                    OnPropertyChangedExt(nameof(Username), value);
                 }
             }
         }
@@ -93,9 +76,8 @@ namespace WpfTechnoTester.ViewModels
             {
                 if (_user.Password != value)
                 {
-                    //_password = value;
                     _user.Password = value;
-                    OnPropertyChanged(nameof(Password));
+                    OnPropertyChangedExt(nameof(Password), value);
                 }
             }
         }

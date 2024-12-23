@@ -215,7 +215,7 @@ namespace WpfTechnoTester.Clients
             //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             // Send the PUT request
-            HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"TodoItem/UpdateTodoItem{todoItem.Id}", todoItem);
+            HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"TodoItem/UpdateTodoItem", todoItem).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 

@@ -7,114 +7,109 @@ namespace WpfTechnoTester.ViewModels
     public class TodoItemEditViewModel : ViewModelBase
     {
         private readonly ITodoItemService _todoItemService;
-        private TodoItem _todoItem = new() { Description = string.Empty, Title = string.Empty };
+        private readonly TodoViewModel _todoViewModel;
 
-        public TodoItemEditViewModel(ITodoItemService todoItemService)
+        public TodoItemEditViewModel(ITodoItemService todoItemService, TodoViewModel todoViewModel)
         {
             _todoItemService = todoItemService;
+            _todoViewModel = todoViewModel;
+            if(_todoViewModel.SelectedTodoItem == null)
+            {
+                throw new ArgumentException("The selected todo Item can not be null");
+            }
         }
 
-        public TodoItem TodoItem
+        protected override ValidationContext ValidationCtx { get { return new ValidationContext(TodoItem); } }
+
+        private TodoItem TodoItem
         {
-            get { return _todoItem; }
-            set { _todoItem = value; }
+            get
+            {
+                if (_todoViewModel.SelectedTodoItem == null)
+                {
+                    throw new Exception("Selected todo item is null"); 
+                }
+                return _todoViewModel.SelectedTodoItem;
+            }
         }
 
         public string Title
         {
-            get => _todoItem.Title;
+            get => TodoItem.Title;
             set
             {
-                if (_todoItem.Title != value)
+                if (TodoItem.Title != value)
                 {
-                    _todoItem.Title = value;
-                    OnPropertyChanged(nameof(Title));
+                    TodoItem.Title = value;
+                    OnPropertyChangedExt(nameof(Title), value);
                 }
             }
         }
         public string Description
         {
-            get => _todoItem.Description;
+            get => TodoItem.Description;
             set
             {
-                if (_todoItem.Description != value)
+                if (TodoItem.Description != value)
                 {
-                    _todoItem.Description = value;
-                    OnPropertyChanged(nameof(Description));
+                    TodoItem.Description = value;
+                    OnPropertyChangedExt(nameof(Description), value);
                 }
             }
         }
 
         public DateTime? DateStarted
         {
-            get => _todoItem.DateStarted;
+            get => TodoItem.DateStarted;
             set
             {
-                if (_todoItem.DateStarted != value)
+                if (TodoItem.DateStarted != value)
                 {
-                    _todoItem.DateStarted = value;
-                    OnPropertyChanged(nameof(DateStarted));
+                    TodoItem.DateStarted = value;
+                    OnPropertyChangedExt(nameof(DateStarted), value);
                 }
             }
         }
 
         public DateTime? DateCompleted
         {
-            get => _todoItem.DateCompleted;
+            get => TodoItem.DateCompleted;
             set
             {
-                if (_todoItem.DateCompleted != value)
+                if (TodoItem.DateCompleted != value)
                 {
-                    _todoItem.DateCompleted = value;
-                    OnPropertyChanged(nameof(DateCompleted));
+                    TodoItem.DateCompleted = value;
+                    OnPropertyChangedExt(nameof(DateCompleted), value);
                 }
             }
         }
 
         public int InProgress
         {
-            get => _todoItem.InProgress;
+            get => TodoItem.InProgress;
             set
             {
-                if (_todoItem.InProgress != value)
+                if (TodoItem.InProgress != value)
                 {
-                    _todoItem.InProgress = value;
-                    OnPropertyChanged(nameof(InProgress));
+                    TodoItem.InProgress = value;
+                    OnPropertyChangedExt(nameof(InProgress), value);
                 }
             }
         }
         protected override bool CanDoAction()
         {
             //these explicit validations should not be necessary
-            ValidateModel(nameof(Description), _todoItem.Description);
-            ValidateModel(nameof(Title), _todoItem.Title);
+            //ValidateModel(nameof(Description), TodoItem.Description);
+            //ValidateModel(nameof(Title), TodoItem.Title);
             return !HasErrors;
-        }
-
-        public void ValidateModel(string propertyName, object value)
-        {
-            var context = new ValidationContext(_todoItem)
-            {
-                MemberName = propertyName,
-            };
-            var results = new List<ValidationResult>();
-
-            // Perform validation
-            if (!Validator.TryValidateProperty(value, context, results))
-            {
-                foreach (var result in results)
-                {
-                    AddError(propertyName, result.ErrorMessage ?? "An error fix this");
-                }
-            }
         }
 
         protected override void DoAction()
         {
-            if (_todoItem.TodoItemId != Guid.Empty)
+            if (TodoItem.TodoItemId != Guid.Empty)
             {
-                var response = _todoItemService.UpdateAsync(_todoItem).GetAwaiter().GetResult();
-                if (response == null)
+                var response = _todoItemService.UpdateAsync(TodoItem).GetAwaiter().GetResult();
+                if (!response )
                 {
                     return;
                     //Todo do logging and show error dialog...with logging ;-)
@@ -136,7 +131,6 @@ namespace WpfTechnoTester.ViewModels
                 }
             }
 
-            
             ActionSucceeded = true;
         }
     }

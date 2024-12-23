@@ -40,12 +40,12 @@ namespace WpfTechnoTester.Services
             return _mapper.Map<TodoItem>(result);
         }
 
-        public async Task<TodoItem> UpdateAsync(TodoItem entity)
+        public async Task<bool> UpdateAsync(TodoItem entity)
         {
             var dto = _mapper.Map<TodoItemDto>(entity);
-            var result = await _httpAppClient.UpdateTodoItemAsync(dto);
+            var result = await _httpAppClient.UpdateTodoItemAsync(dto).ConfigureAwait(false);
 
-            return _mapper.Map<TodoItem>(result);
+            return result;
         }
 
         public Task<TodoItem> UpdateManyAsync(IEnumerable<TodoItem> entities)
