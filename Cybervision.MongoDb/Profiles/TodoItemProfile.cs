@@ -4,7 +4,7 @@ using Domain.DataTransferObjects;
 namespace Cybervision.Dapr.DataModels
 {
     public class TodoItemProfile : Profile
-    {
+    {   
         public TodoItemProfile()
         {
             CreateMap<TodoItemDocument, TodoItemDto>();
