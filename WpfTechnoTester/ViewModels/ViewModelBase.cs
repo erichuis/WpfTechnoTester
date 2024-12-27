@@ -1,5 +1,4 @@
-﻿using Domain.Models;
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using WpfTechnoTester.Commands;
@@ -8,9 +7,23 @@ using WpfTechnoTester.ViewModels.Helpers;
 namespace WpfTechnoTester.ViewModels
 {
     public delegate TViewModel CreateViewModel<TViewModel>() where TViewModel : ViewModelBase;
+
     public class ViewModelBase : ObservableObject, INotifyDataErrorInfo
     {
+        private ValidationContext _validationCtx;
+        public ValidationContext ValidationCtx 
+        {
+            get {
+                if(_validationCtx == null)
+                {
+                    throw new NullReferenceException("The validationContext has not been set.");
+                }
+                return _validationCtx; }
+            set { _validationCtx = value; }
+        }
+
         public RelayCommand DoActionCommand => new((param) => DoAction(), (param) => CanDoAction());
+       
         public RelayCommand CancelCommand => new((param) => CancelAction());
 
         public ViewModelBase() { }
@@ -30,10 +43,11 @@ namespace WpfTechnoTester.ViewModels
 
         protected virtual void DoAction()
         {
+
         }
         protected virtual bool CanDoAction()
         {
-            return true;
+            return ValidateModel(ValidationCtx.ObjectInstance);
         }
 
         public bool IsCancelled { get; private set; }
@@ -91,12 +105,10 @@ namespace WpfTechnoTester.ViewModels
             OnPropertyChanged(propertyName);
             RemoveError(propertyName);
             RaiseCanExecuteChange();
-            ValidateModel(nameof(propertyName), value);
+            ValidateModelProperty(propertyName, value);
         }
 
-        protected virtual ValidationContext ValidationCtx { get;}
-
-        protected void ValidateModel(string propertyName, object value)
+        protected void ValidateModelProperty(string propertyName, object value)
         {
             ValidationCtx.MemberName = propertyName;
 
@@ -110,6 +122,22 @@ namespace WpfTechnoTester.ViewModels
                     AddError(propertyName, result.ErrorMessage ?? "An error fix this");
                 }
             }
+        }
+
+        protected virtual bool ValidateModel(Object instance)
+        {
+            var results = new List<ValidationResult>();
+
+            // Perform validation
+            if (!Validator.TryValidateObject(instance, ValidationCtx, results))
+            {
+                foreach (var result in results)
+                {
+                    AddError(result.MemberNames.FirstOrDefault()!, result.ErrorMessage ?? "An error fix this");
+                }
+                return false;
+            }
+            return true;
         }
 
         private void RemoveError(string propertyName)

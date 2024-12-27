@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\UserSignup.xaml.cs">
+    <Compile Update="Views\UserSignupView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

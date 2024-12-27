@@ -45,7 +45,11 @@ namespace WpfTechnoTester.ViewModels
         private void AddTodoItem()
         {
             SelectedTodoItem = new TodoItem() { Description = string.Empty, Title = string.Empty };
-            _windowService.ShowTodoItemEditViewDialog(SelectedTodoItem);
+            var dialogResult = _windowService.ShowTodoItemEditViewDialog(SelectedTodoItem);
+
+            if (!dialogResult)
+                return;
+
             TodoItems.Add(SelectedTodoItem);
             //RetrieveTodoItems();
         }

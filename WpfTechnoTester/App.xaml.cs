@@ -76,8 +76,8 @@ namespace WpfTechnoTester
             services.AddTransient<MainView>();
             services.AddTransient<TodoItemEditView>();
             services.AddTransient<JournalItemEditView>();
-            services.AddTransient<UserSignup>();
-            services.AddTransient<UserLogin>();
+            services.AddTransient<UserSignupView>();
+            services.AddTransient<UserLoginView>();
 
             ServiceProvider = services.BuildServiceProvider();
 

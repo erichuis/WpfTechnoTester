@@ -4,8 +4,8 @@ namespace WpfTechnoTester.Services
 {
     public interface IWindowService
     {
-        void ShowTodoItemEditViewDialog(TodoItem todoItem);
-        void ShowNewUserSignupDialog();
+        bool ShowTodoItemEditViewDialog(TodoItem todoItem);
+        bool ShowNewUserSignupDialog();
         bool ShowUserLoginDialog();
     }
 }

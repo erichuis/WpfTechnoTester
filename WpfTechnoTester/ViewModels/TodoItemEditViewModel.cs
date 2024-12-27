@@ -17,9 +17,8 @@ namespace WpfTechnoTester.ViewModels
             {
                 throw new ArgumentException("The selected todo Item can not be null");
             }
+            ValidationCtx = new ValidationContext(TodoItem);
         }
-
-        protected override ValidationContext ValidationCtx { get { return new ValidationContext(TodoItem); } }
 
         private TodoItem TodoItem
         {
@@ -96,13 +95,14 @@ namespace WpfTechnoTester.ViewModels
                 }
             }
         }
-        protected override bool CanDoAction()
-        {
-            //these explicit validations should not be necessary
-            //ValidateModel(nameof(Description), TodoItem.Description);
-            //ValidateModel(nameof(Title), TodoItem.Title);
-            return !HasErrors;
-        }
+        //protected override bool CanDoAction()
+        //{
+        //    //these explicit validations should not be necessary
+        //    //ValidateModel(nameof(Description), TodoItem.Description);
+        //    //ValidateModel(nameof(Title), TodoItem.Title);
+        //    ValidateModel(ValidationCtx)
+        //    return !HasErrors;
+        //}
 
         protected override void DoAction()
         {

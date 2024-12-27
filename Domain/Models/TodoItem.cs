@@ -17,6 +17,7 @@ namespace Domain.Models
 
         public DateTime? DateCompleted { get; set; }
 
+        [Range(1, 100, ErrorMessage = "Value must be between 1 and 100.")]
         public int InProgress { get; set; }
 
     }

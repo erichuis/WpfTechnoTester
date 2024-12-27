@@ -12,7 +12,7 @@ namespace WpfTechnoTester.ViewModels
     {
         private readonly IAuthenticator _authenticator;
         private readonly IWindowService _windowService;
-        private readonly User _user;
+        private readonly UserLogin _user;
 
         public RelayCommand SignupCommand { get; }
 
@@ -25,23 +25,13 @@ namespace WpfTechnoTester.ViewModels
                 Username = string.Empty,
                 Password = new NetworkCredential(string.Empty, string.Empty).SecurePassword
             };
-            
+            ValidationCtx = new ValidationContext(_user);
             SignupCommand = new RelayCommand((param) => ShowSignupView());
         }
-
-        protected override ValidationContext ValidationCtx => new ValidationContext(_user);
 
         private void ShowSignupView()
         {
             _windowService.ShowNewUserSignupDialog();
-        }
-
-        protected override bool CanDoAction()
-        {
-            //these explicit validations should not be necessary
-            //ValidateModel(nameof(Username), _user.Username);
-            //ValidateModel(nameof(Password), _user.Password!);
-            return !HasErrors;
         }
 
         protected override void DoAction()

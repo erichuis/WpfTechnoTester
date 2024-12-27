@@ -1,6 +1,5 @@
 ﻿using Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
-using WpfTechnoTester.ViewModels;
 using WpfTechnoTester.Views;
 
 namespace WpfTechnoTester.Services
@@ -14,33 +13,37 @@ namespace WpfTechnoTester.Services
             _serviceProvider = serviceProvider;
         }
 
-        public void ShowTodoItemEditViewDialog(TodoItem todoItem)
+        public bool ShowTodoItemEditViewDialog(TodoItem todoItem)
         {
             // Resolve the NewWindow from the service provider
             var window = _serviceProvider.GetRequiredService<TodoItemEditView>();
 
             // Optionally set properties or initialize if needed
-            window.ShowDialog(); // Open the window modal
+            var dialogResult = window.ShowDialog(); // Open the window modal
+
+            return dialogResult ?? false;
         }
 
-        public void ShowNewUserSignupDialog()
+        public bool ShowNewUserSignupDialog()
         {
             // Resolve the NewWindow from the service provider
-            var window = _serviceProvider.GetRequiredService<UserSignup>();
+            var window = _serviceProvider.GetRequiredService<UserSignupView>();
 
             // Optionally set properties or initialize if needed
-            window.ShowDialog(); // Open the window modal
+            var dialogResult = window.ShowDialog(); // Open the window modal
+
+            return dialogResult ?? false;
         }
 
         public bool ShowUserLoginDialog()
         {
             // Resolve the NewWindow from the service provider
-            var window = _serviceProvider.GetRequiredService<UserLogin>();
+            var window = _serviceProvider.GetRequiredService<UserLoginView>();
 
             // Optionally set properties or initialize if needed
-            var result = window.ShowDialog(); // Open the window modal
+            var dialogResult = window.ShowDialog(); // Open the window modal
 
-            return result ?? false;
+            return dialogResult ?? false;
         }
     }
 }

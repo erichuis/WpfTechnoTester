@@ -3,7 +3,6 @@ using IdentityModel.Client;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security;
-using System.Text;
 using System.Text.Json;
 
 namespace WpfTechnoTester.Clients
@@ -231,16 +230,6 @@ namespace WpfTechnoTester.Clients
 
         public async Task<UserDto> CreateUserAsync(UserDto user)
         {
-            //var newUser = new
-            //{
-            //    username = user.Username,
-            //    password = user.Password,
-            //    email = user.Email,
-            //};
-
-            //string jsonContent = JsonSerializer.Serialize(newUser);
-            //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
             var response = await _httpClient.PostAsJsonAsync("User/CreateUser", user).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

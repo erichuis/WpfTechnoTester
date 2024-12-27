@@ -7,26 +7,27 @@ namespace WpfTechnoTester.Views
     /// <summary>
     /// Interaction logic for UserLogin.xaml
     /// </summary>
-    public partial class UserLogin : Window
+    public partial class UserSignupView : Window
     {
-        public UserLogin(UserLoginViewModel viewModel)
+        public UserSignupView(UserSignupViewModel viewModel)
         {
             InitializeComponent();
+           
+            //viewModel.HarvestPassword += (sender, args) => args.Password = this.pwdBox.SecurePassword;
             DataContext = viewModel;
         }
-       
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (DataContext != null)
+            if(DataContext != null)
             {
-                var vm = ((UserLoginViewModel)DataContext);
-                if (!vm.CanClose)
+                var vm = ((UserSignupViewModel)DataContext);
+                if (!((UserSignupViewModel)DataContext).CanClose)
                 {
                     e.Cancel = true;
                 }
-
-               DialogResult = !vm.IsCancelled;
-            }
+                DialogResult = !vm.IsCancelled;
+            } 
         }
     }
 }

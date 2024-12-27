@@ -19,9 +19,8 @@ namespace WpfTechnoTester.ViewModels
             _userService = userService;
 
             ResetCommand = new RelayCommand((param) => ResetForm());
+            ValidationCtx = new ValidationContext(_user);
         }
-
-        protected override ValidationContext ValidationCtx => new ValidationContext(_user);
 
         protected override void DoAction()
         {
@@ -65,16 +64,6 @@ namespace WpfTechnoTester.ViewModels
         internal override void RaiseCanExecuteChange()
         {
             //   SubmitCommand.RaiseCanExecuteChanged();
-        }
-
-        protected override bool CanDoAction()
-        {
-            //these explicit validations should not be necessary
-            //ValidateModel(nameof(Username), _user.Username);
-            //ValidateModel(nameof(Email), _user.Email);
-            //ValidateModel(nameof(Password), _user.Password!);
-            //ValidateModel(nameof(PasswordVerified), _user.PasswordVerified!);
-            return !HasErrors;
         }
 
         private SecureString _password = new NetworkCredential(string.Empty, string.Empty).SecurePassword;

@@ -22,14 +22,25 @@
                         <GridViewColumn Width="200" Header="Title"> <!--DisplayMemberBinding="{Binding Title}"> -->
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Width="300" Header="Description" DisplayMemberBinding="{Binding Description}"/>
-                        <GridViewColumn Width="100" Header="Date started" DisplayMemberBinding="{Binding DateStarted}"/>
-                        <GridViewColumn Width="100" Header="Date completed" DisplayMemberBinding="{Binding DateCompleted}"/>
-                        <GridViewColumn Width="100" Header="In progress" DisplayMemberBinding="{Binding InProgress}"/>
+                        <GridViewColumn Width="150" Header="Date started" DisplayMemberBinding="{Binding DateStarted}"/>
+                        <GridViewColumn Width="150" Header="Date completed" DisplayMemberBinding="{Binding DateCompleted}"/>
+                        <GridViewColumn Width="350" Header="In progress">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ProgressBar Value="{Binding InProgress}" Minimum="0" Maximum="100" Width="300" />
+                                        <TextBlock Text="{Binding InProgress, StringFormat={}{0:F0}%}" 
+                                            HorizontalAlignment="Center" 
+                                            Margin="0,10,0,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

@@ -56,7 +56,6 @@ namespace TodoApi.Services
 
         public async Task<UserDto> Login(UserDto userDto)
         {
-            
             var foundUser = await _userRepository.GetByNameAsync(userDto.Username).ConfigureAwait(false);
 
             if (foundUser == null || foundUser.PasswordHashed == null)

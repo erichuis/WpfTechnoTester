@@ -20,6 +20,6 @@ namespace Cybervision.Dapr.DataModels
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime? DateCompleted { get; set; }
 
-        public bool InProgress { get; set; }
+        public int InProgress { get; set; }
     }
 }
