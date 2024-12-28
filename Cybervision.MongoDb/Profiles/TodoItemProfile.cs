@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using Cybervision.Dapr.DataModels;
 using Domain.DataTransferObjects;
 
-namespace Cybervision.Dapr.DataModels
+namespace Cybervision.Dapr.Profiles
 {
     public class TodoItemProfile : Profile
     {   
@@ -9,9 +10,6 @@ namespace Cybervision.Dapr.DataModels
         {
             CreateMap<TodoItemDocument, TodoItemDto>();
             CreateMap<TodoItemDto, TodoItemDocument>();
-            //CreateMap<List<TodoItemDocument>, IAsyncEnumerable<TodoItemDto>>();
-            //CreateMap<IAsyncEnumerable<TodoItemDto>, List<TodoItemDocument>>();
-            // Use CreateMap... Etc.. here (Profile methods are the same as configuration methods)
         }
     }
 }

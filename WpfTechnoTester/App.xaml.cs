@@ -33,6 +33,7 @@ namespace WpfTechnoTester
             //register viewmodels
             services.AddTransient<MainViewModel>();
             services.AddSingleton<JournalEntriesViewModel>();
+            services.AddTransient<JournalEntryEditViewModel>();
             services.AddSingleton<TodoItemsViewModel>();
             services.AddTransient<TodoItemEditViewModel>();
             services.AddSingleton<GameViewModel>();
