@@ -24,8 +24,10 @@ namespace WpfTechnoTester
         {
             var services = new ServiceCollection();
 
-            // Register clients
-            services.AddSingleton(typeof(IHttpAppClient), typeof(HttpAppClient));
+            // Register http clients
+            services.AddSingleton(typeof(IHttpTodoItemClient), typeof(HttpTodoItemClient));
+            services.AddSingleton<IHttpJournalEntryClient, HttpJournalEntryClient>();
+            services.AddSingleton<IHttpUserClient, HttpUserClient>();
 
             //register viewmodels
             services.AddTransient<MainViewModel>();
