@@ -8,8 +8,6 @@ namespace WpfTechnoTester.State
     {
         User? CurrentUser { get; }
         bool IsLoggedIn { get; }
-        Task<User> Register(string email, string userName, SecureString password, SecureString passwordConfirmed);
-
         Task<bool> Login(string userName, SecureString password);
         void Logout();
 

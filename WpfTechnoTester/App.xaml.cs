@@ -25,6 +25,7 @@ namespace WpfTechnoTester
             var services = new ServiceCollection();
 
             // Register http clients
+            services.AddSingleton<IHttpAuthenticationClient, HttpAuthenticationClient>();
             services.AddSingleton(typeof(IHttpTodoItemClient), typeof(HttpTodoItemClient));
             services.AddSingleton<IHttpJournalEntryClient, HttpJournalEntryClient>();
             services.AddSingleton<IHttpUserClient, HttpUserClient>();
@@ -44,6 +45,7 @@ namespace WpfTechnoTester
             services.AddAutoMapper(typeof(UserProfile));
             services.AddAutoMapper(typeof(TodoItemProfile));
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<IWindowService, WindowService>();
             services.AddSingleton<IAuthenticator, Authenticator>();
             services.AddSingleton<ITodoItemService, TodoItemService>();

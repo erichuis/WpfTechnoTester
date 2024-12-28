@@ -5,9 +5,17 @@ using System.Text.Json;
 
 namespace WpfTechnoTester.Clients
 {
-    class HttpJournalEntryClient : HttpBaseClient, IHttpJournalEntryClient
+    class HttpJournalEntryClient : IHttpJournalEntryClient
     {
-      
+        private readonly IHttpAuthenticationClient _httpAuthenticationClient;
+        private readonly HttpClient _httpClient;
+        public HttpJournalEntryClient(IHttpAuthenticationClient httpAuthenticationClient) 
+        {
+            _httpAuthenticationClient = httpAuthenticationClient;
+            _httpClient = _httpAuthenticationClient.Client;
+            
+        }
+
         public async Task<IEnumerable<JournalEntryDto>> GetAllAsync()
         {
             var response = await _httpClient.GetAsync("JournalEntry/GetAllJournalEntries");

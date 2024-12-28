@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Domain.DataTransferObjects;
 using Domain.Models;
-using System.Security;
 using WpfTechnoTester.Clients;
 
 namespace WpfTechnoTester.Services
@@ -41,25 +40,6 @@ namespace WpfTechnoTester.Services
         {
             var result = await _httpUserClient.GetByIdAsync(id).ConfigureAwait(false);
             return _mapper.Map<User>(result);
-        }
-
-        public async Task<User> Login(string username, SecureString password)
-        {
-            var result = await _httpUserClient.Login(username, password).ConfigureAwait(false);
-
-            if (result != null)
-            {
-                return _mapper.Map<User>(result);
-            }
-            else
-            {
-                throw new Exception("Login failed");
-            }
-        }
-
-        public async Task<bool> Logout()
-        {
-            return await _httpUserClient.Logout();
         }
 
         public async Task<bool> UpdateAsync(User entity)

@@ -1,80 +1,19 @@
 ﻿using Domain.DataTransferObjects;
-using IdentityModel.Client;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Security;
 using System.Text.Json;
 
 namespace WpfTechnoTester.Clients
 {
-    class HttpUserClient : HttpBaseClient, IHttpUserClient
+    class HttpUserClient : IHttpUserClient
     {
-      
-        public async Task<UserDto> Login(string username, SecureString password)
+        private readonly IHttpAuthenticationClient _httpAuthenticationClient;
+        private readonly HttpClient _httpClient;
+        public HttpUserClient(IHttpAuthenticationClient httpAuthenticationClient)
         {
-            if(string.IsNullOrEmpty(_accessToken))
-            {
-                await GetToken().ConfigureAwait(false);
-            }
-            var loginData = new UserDto()
-            {
-                Username = username,
-                UserId = Guid.Empty, //Todo maybe later use for identiication...
-                Password = password
-            };
-
-
-            try
-            {
-                HttpResponseMessage response = await _httpClient.PostAsJsonAsync("User/Login", loginData).ConfigureAwait(false);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseBody = await response.Content.ReadFromJsonAsync<UserDto>();
-                    Console.WriteLine($"Login successful");
-                    if(responseBody != null)
-                    {
-                        return responseBody; // Contains token or user details
-                    }
-                    throw new Exception("Authenticated user could not be returned");
-                }
-                else
-                {
-                    Console.WriteLine($"Login failed: {response.StatusCode}");
-                    throw new Exception("Login failed");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                throw;
-            }
+            _httpAuthenticationClient = httpAuthenticationClient;
+            _httpClient = _httpAuthenticationClient.Client;
         }
-        public async Task<bool> Logout()
-        {
-            if (string.IsNullOrEmpty(_accessToken))
-            {
-                //todo logsomething
-                return false;
-            }
-            var response = await _httpClient.RevokeTokenAsync(new TokenRevocationRequest
-            {
-                Address = _disco?.RevocationEndpoint,
-                ClientId = ClientId,
-                ClientSecret = ClientSecret,
-                Token = _accessToken
-            });
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK)
-            {
-                //Todo log something
-                return false;
-            }
-            _httpClient.SetBearerToken("");
-            _accessToken = string.Empty;
-            return true;
-        }
-
         public async Task<UserDto> CreateAsync(UserDto user)
         {
             var response = await _httpClient.PostAsJsonAsync("User/CreateUser", user).ConfigureAwait(false);

@@ -6,12 +6,12 @@ namespace WpfTechnoTester.State
 {
     public class Authenticator : IAuthenticator
     {
-        public Authenticator(IUserService userService) 
+        private readonly IAuthenticationService _authenticationService;
+        public Authenticator(IAuthenticationService authenticationService) 
         {
-            _userService = userService;
+            _authenticationService = authenticationService;
             ErrorMessage = string.Empty;
         }
-        private readonly IUserService _userService;
         public User? CurrentUser { get; private set; }
 
         public bool IsLoggedIn => CurrentUser != null;
@@ -20,7 +20,7 @@ namespace WpfTechnoTester.State
         {
             try
             {
-                CurrentUser = await _userService.Login(userName, password).ConfigureAwait(false);
+                CurrentUser = await _authenticationService.Login(userName, password).ConfigureAwait(false);
                 return true;
             }
             catch (Exception ex)
@@ -34,24 +34,6 @@ namespace WpfTechnoTester.State
         public void Logout()
         {
             CurrentUser = null;
-        }
-
-        public async Task<User> Register(string email, string username, SecureString password, SecureString passwordConfirmed)
-        {
-            User user = new()
-            {
-                Email = email,
-                Password = password,
-                PasswordVerified = passwordConfirmed,
-                Username = username
-            };
-
-            //if(!user.IsValid())
-            //{
-            //    throw new Exception( user.FailMessages().ToString());
-            //}
-
-            return await _userService.CreateAsync(user);
         }
     }
 }

@@ -1,26 +1,27 @@
 ﻿using Domain.DataTransferObjects;
-using IdentityModel.Client;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace WpfTechnoTester.Clients
 {
-    class HttpTodoItemClient : IHttpTodoItemClient
+    public class HttpTodoItemClient : IHttpTodoItemClient
     {
-        //Todo retrieve this from config
-        private readonly HttpClient _httpClient = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
-        private DiscoveryDocumentResponse _disco = new DiscoveryDocumentResponse();
-        private string _accessToken = string.Empty;
-        const string ClientId = "WpfTodo";
-        const string ClientSecret = "secret";
-        const string Scope = "TodoApi";
-        const string GrantType = "client_credentials";
+        private readonly IHttpAuthenticationClient _httpAuthenticationClient;
+        private readonly HttpClient _httpClient;
+        public HttpTodoItemClient(IHttpAuthenticationClient httpAuthenticationClient)
+        {
+            _httpAuthenticationClient = httpAuthenticationClient;
+            _httpClient = _httpAuthenticationClient.Client;
 
+        }
+      
         public async Task<IEnumerable<TodoItemDto>> GetAllAsync()
         {
             var response = await _httpClient.GetAsync("TodoItem/GetAllTodoItems");
-            
+
+            //todo make generic check if responses are ok..
+
             var json = await response.Content.ReadAsStringAsync();
             if (json == null)
             {
@@ -51,9 +52,6 @@ namespace WpfTechnoTester.Clients
 
         public async Task<TodoItemDto> CreateAsync(TodoItemDto item)
         {
-            //string jsonContent = JsonSerializer.Serialize(item);
-            //var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
             var response = await _httpClient.PostAsJsonAsync($"TodoItem/CreateTodoItem", item).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();

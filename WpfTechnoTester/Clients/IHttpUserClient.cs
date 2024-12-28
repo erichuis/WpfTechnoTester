@@ -5,8 +5,6 @@ namespace WpfTechnoTester.Clients
 {
     public interface IHttpUserClient
     {
-        Task<bool> Logout();
-        Task<UserDto> Login(string username, SecureString password);
         Task<UserDto> CreateAsync(UserDto userDto);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> UpdateAsync(UserDto userDto);
