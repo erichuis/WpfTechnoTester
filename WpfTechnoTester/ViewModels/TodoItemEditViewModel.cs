@@ -7,12 +7,12 @@ namespace WpfTechnoTester.ViewModels
     public class TodoItemEditViewModel : ViewModelBase
     {
         private readonly ITodoItemService _todoItemService;
-        private readonly TodoViewModel _todoViewModel;
+        private readonly TodoItemsViewModel _todoViewModel;
 
-        public TodoItemEditViewModel(ITodoItemService todoItemService, TodoViewModel todoViewModel)
+        public TodoItemEditViewModel(ITodoItemService todoItemService, TodoItemsViewModel todoItemsViewModel)
         {
             _todoItemService = todoItemService;
-            _todoViewModel = todoViewModel;
+            _todoViewModel = todoItemsViewModel;
             if(_todoViewModel.SelectedTodoItem == null)
             {
                 throw new ArgumentException("The selected todo Item can not be null");

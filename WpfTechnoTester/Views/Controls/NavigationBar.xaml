@@ -38,14 +38,18 @@
                             ConverterParameter={x:Type vm:HomeViewModel}}"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
                          CommandParameter="{x:Static nav:ViewType.Home}"/>
-            <RadioButton Grid.Column="1" Content="Dagboek"
+            <RadioButton Grid.Column="1" Content="Journal"
+                         IsChecked="{Binding CurrentViewModel, 
+                            Converter={StaticResource EqualValueToParameterConverter},
+                            Mode=OneWay,
+                            ConverterParameter={x:Type vm:JournalEntriesViewModel}}"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
                          CommandParameter="{x:Static nav:ViewType.Journal}"/>
             <RadioButton Grid.Column="2" Content="Todo"
                          IsChecked="{Binding CurrentViewModel, 
                             Converter={StaticResource EqualValueToParameterConverter},
                             Mode=OneWay,
-                            ConverterParameter={x:Type vm:TodoViewModel}}"
+                            ConverterParameter={x:Type vm:TodoItemsViewModel}}"
                          Command="{Binding UpdateCurrentViewModelCommand}" 
                          CommandParameter="{x:Static nav:ViewType.Todo}"/>
             <RadioButton Grid.Column="3" Content="Image"

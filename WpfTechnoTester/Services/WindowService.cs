@@ -24,6 +24,17 @@ namespace WpfTechnoTester.Services
             return dialogResult ?? false;
         }
 
+        public bool ShowJournalEntryEditViewDialog(JournalEntry journalEntry)
+        {
+            // Resolve the NewWindow from the service provider
+            var window = _serviceProvider.GetRequiredService<JournalEntryEditView>();
+
+            // Optionally set properties or initialize if needed
+            var dialogResult = window.ShowDialog(); // Open the window modal
+
+            return dialogResult ?? false;
+        }
+
         public bool ShowNewUserSignupDialog()
         {
             // Resolve the NewWindow from the service provider

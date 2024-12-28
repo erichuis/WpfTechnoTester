@@ -20,11 +20,11 @@
             <DataTemplate DataType="{x:Type viewModels:HomeViewModel}">
                 <uc:HomeView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:TodoViewModel}">
-                <uc:TodoView />
+            <DataTemplate DataType="{x:Type viewModels:TodoItemsViewModel}">
+                <uc:TodoItemsView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:JournalViewModel}">
-                <uc:JournalView />
+            <DataTemplate DataType="{x:Type viewModels:JournalEntriesViewModel}">
+                <uc:JournalEntriesView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

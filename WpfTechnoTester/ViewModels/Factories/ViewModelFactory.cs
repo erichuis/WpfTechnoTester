@@ -5,16 +5,16 @@ namespace WpfTechnoTester.ViewModels.Factories
     public class ViewModelFactory : IViewModelFactory
     {
         private readonly CreateViewModel<HomeViewModel> _createHomeViewModel;
-        private readonly CreateViewModel<JournalViewModel> _createJournalViewModel;
-        private readonly CreateViewModel<TodoViewModel> _createTodoViewModel;
+        private readonly CreateViewModel<JournalEntriesViewModel> _createJournalViewModel;
+        private readonly CreateViewModel<TodoItemsViewModel> _createTodoViewModel;
         private readonly CreateViewModel<ImageViewModel> _createImageViewModel;
         private readonly CreateViewModel<GameViewModel> _createGameViewModel;
         private readonly CreateViewModel<AdminViewModel> _createAdminViewModel;
 
         public ViewModelFactory(
             CreateViewModel<HomeViewModel> createHomeViewModel, 
-            CreateViewModel<JournalViewModel> createJournalViewModel,
-            CreateViewModel<TodoViewModel> createTodoViewModel,
+            CreateViewModel<JournalEntriesViewModel> createJournalViewModel,
+            CreateViewModel<TodoItemsViewModel> createTodoViewModel,
             CreateViewModel<ImageViewModel> createImageViewModel,
             CreateViewModel<GameViewModel> createGameViewModel,
             CreateViewModel<AdminViewModel> createAdminViewModel)

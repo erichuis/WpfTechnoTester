@@ -5,7 +5,7 @@ using WpfTechnoTester.Services;
 
 namespace WpfTechnoTester.ViewModels
 {
-    public class TodoViewModel : ViewModelBase
+    public class TodoItemsViewModel : ViewModelBase
     {
         private readonly ITodoItemService _todoItemService;
         private readonly IWindowService _windowService;
@@ -15,7 +15,7 @@ namespace WpfTechnoTester.ViewModels
         public RelayCommand EditTodoItemCommand { get; }
         public RelayCommand LoadTodoItemsCommand { get; }
 
-        public TodoViewModel(ITodoItemService todoItemService, 
+        public TodoItemsViewModel(ITodoItemService todoItemService, 
             IWindowService windowService)
         {
             TodoItems = [];

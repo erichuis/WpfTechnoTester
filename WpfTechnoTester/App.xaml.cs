@@ -32,8 +32,8 @@ namespace WpfTechnoTester
 
             //register viewmodels
             services.AddTransient<MainViewModel>();
-            services.AddSingleton<JournalViewModel>();
-            services.AddSingleton<TodoViewModel>();
+            services.AddSingleton<JournalEntriesViewModel>();
+            services.AddSingleton<TodoItemsViewModel>();
             services.AddTransient<TodoItemEditViewModel>();
             services.AddSingleton<GameViewModel>();
             services.AddSingleton<ImageViewModel>();
@@ -49,14 +49,15 @@ namespace WpfTechnoTester
             services.AddSingleton<IWindowService, WindowService>();
             services.AddSingleton<IAuthenticator, Authenticator>();
             services.AddSingleton<ITodoItemService, TodoItemService>();
+            services.AddSingleton<IJournalEntryService, JournalEntryService>();
 
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
 
             services.AddSingleton<CreateViewModel<HomeViewModel>>(
                 services => { return () => new HomeViewModel(); });
 
-            services.AddSingleton<CreateViewModel<JournalViewModel>>(
-                services => { return () => services.GetRequiredService<JournalViewModel>(); });
+            services.AddSingleton<CreateViewModel<JournalEntriesViewModel>>(
+                services => { return () => services.GetRequiredService<JournalEntriesViewModel>(); });
 
             services.AddSingleton<CreateViewModel<ImageViewModel>>(
                 services => { return () => services.GetRequiredService<ImageViewModel>(); });
@@ -67,11 +68,14 @@ namespace WpfTechnoTester
             services.AddSingleton<CreateViewModel<AdminViewModel>>(
                 services => { return () => services.GetRequiredService<AdminViewModel>(); });
 
-            services.AddSingleton<CreateViewModel<TodoViewModel>>(
-                services => { return () => services.GetRequiredService<TodoViewModel>(); });
-                    //services.GetRequiredService<ITodoItemService>(),
-                    //services.GetRequiredService<IWindowService>()
-                    //); });
+            services.AddSingleton<CreateViewModel<TodoItemsViewModel>>(
+                services => { return () => services.GetRequiredService<TodoItemsViewModel>(); });
+            //services.GetRequiredService<ITodoItemService>(),
+            //services.GetRequiredService<IWindowService>()
+            //); });
+
+            services.AddSingleton<CreateViewModel<JournalEntriesViewModel>>(
+                services => { return () => services.GetRequiredService<JournalEntriesViewModel>(); });
 
             //Register states
             services.AddSingleton<INavigator, Navigator>();
@@ -79,7 +83,7 @@ namespace WpfTechnoTester
             //Register views
             services.AddTransient<MainView>();
             services.AddTransient<TodoItemEditView>();
-            services.AddTransient<JournalItemEditView>();
+            services.AddTransient<JournalEntryEditView>();
             services.AddTransient<UserSignupView>();
             services.AddTransient<UserLoginView>();
 
