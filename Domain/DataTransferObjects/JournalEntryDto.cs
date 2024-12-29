@@ -2,7 +2,7 @@
 
 namespace Domain.DataTransferObjects
 {
-    public class JournalEntryDto
+    public class JournalEntryDto : ISearchable
     {
         [JsonPropertyName("id")]
         public string? Id { get; set; }
@@ -18,5 +18,9 @@ namespace Domain.DataTransferObjects
 
         [JsonPropertyName("dateentry")]
         public DateTime DateStarted { get; set; }
+
+        public string SearchKey => Entry;
+
+        public Guid SearchIdKey => JournalEntryId;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cybervision.Dapr.Services;
+using Cybervision.Dapr.Repositories;
 using Domain.DataTransferObjects;
 using Domain.Helpers;
 using System.Net;
@@ -51,12 +51,12 @@ namespace TodoApi.Services
 
         public async Task<UserDto> GetByName(string username)
         {
-            return await _userRepository.GetByNameAsync(username).ConfigureAwait(false);
+            return await _userRepository.GetBySearchKey(username).ConfigureAwait(false);
         }
 
         public async Task<UserDto> Login(UserDto userDto)
         {
-            var foundUser = await _userRepository.GetByNameAsync(userDto.Username).ConfigureAwait(false);
+            var foundUser = await _userRepository.GetBySearchKey(userDto.Username).ConfigureAwait(false);
 
             if (foundUser == null || foundUser.PasswordHashed == null)
             {

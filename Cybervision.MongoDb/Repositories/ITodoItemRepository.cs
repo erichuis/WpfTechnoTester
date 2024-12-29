@@ -1,14 +1,9 @@
-﻿using Domain.DataTransferObjects;
+﻿using Cybervision.Dapr.DataModels;
+using Domain.DataTransferObjects;
 
-namespace Cybervision.Dapr.Services
+namespace Cybervision.Dapr.Repositories
 {
-    public interface ITodoItemRepository
+    public interface ITodoItemRepository : IBaseRepository<TodoItemDto, TodoItemDocument>
     {
-        IAsyncEnumerable<TodoItemDto> GetAllAsync();
-        Task<TodoItemDto> GetByIdAsync(Guid id);
-        Task<TodoItemDto> GetByTitleAsync(string title);
-        Task<TodoItemDto> CreateAsync(TodoItemDto todoItem);
-        Task<bool> UpdateAsync(TodoItemDto updatedTodoItem);
-        Task<bool> DeleteAsync(Guid id);
     }
 }

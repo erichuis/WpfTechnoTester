@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cybervision.Dapr.DataModels
 {
-    public class JournalEntryDocument
+    public class JournalEntryDocument : ISearchable
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -17,5 +17,9 @@ namespace Cybervision.Dapr.DataModels
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime DateEntry { get; set; }
+
+        public string SearchKey => Entry;
+
+        public Guid SearchIdKey => JournalEntryId;
     }
 }

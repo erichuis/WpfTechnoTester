@@ -4,7 +4,7 @@ using System.Security;
 
 namespace Cybervision.Dapr.DataModels
 {
-    public class UserDocument
+    public class UserDocument : ISearchable
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -21,5 +21,12 @@ namespace Cybervision.Dapr.DataModels
         public bool IsActive { get; set; } = true;
         public bool IsAdmin { get; set; } = false;
         public DateTime DateJoined { get; set; }
+
+        [BsonIgnore]
+        [BsonElement("Username")]
+        public string SearchKey => Username;
+
+        [BsonIgnore]
+        public Guid SearchIdKey => UserId;
     }
 }

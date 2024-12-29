@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Cybervision.Dapr.DataModels
 {
-    public class TodoItemDocument
+    public class TodoItemDocument : ISearchable
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -21,5 +21,9 @@ namespace Cybervision.Dapr.DataModels
         public DateTime? DateCompleted { get; set; }
 
         public int InProgress { get; set; }
+
+        public string SearchKey => Title;
+
+        public Guid SearchIdKey => TodoItemId;
     }
 }

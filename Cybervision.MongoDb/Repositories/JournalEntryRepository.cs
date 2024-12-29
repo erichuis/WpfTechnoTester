@@ -2,90 +2,53 @@
 using Cybervision.Dapr.DataModels;
 using Domain.DataTransferObjects;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Driver;
 
-namespace Cybervision.Dapr.Services
+namespace Cybervision.Dapr.Repositories
 {
-    public class JournalEntryRepository : IJournalEntryRepository
+    public class JournalEntryRepository : BaseRepository<TodoItemDto, TodoItemDocument>, IJournalEntryRepository
     {
-        private readonly IMongoCollection<JournalEntryDocument> _journalEntries;
-        private readonly IMapper _mapper;
-
-        public JournalEntryRepository(IConfiguration config, IMapper mapper)
+        public JournalEntryRepository(IConfiguration config, IMapper mapper) : base(config, mapper, "JournalEntries")
         {
-            var client = new MongoClient(config.GetConnectionString("TodoAppDb"));
-            var database = client.GetDatabase("TodoApp");
-           
-            _journalEntries = database.GetCollection<JournalEntryDocument>("JournalEntries");
-            _mapper = mapper;
         }
 
-        public async IAsyncEnumerable<JournalEntryDto> GetAllAsync()
+        public Task<JournalEntryDto> CreateAsync(JournalEntryDto itemToCreate)
         {
-            var list = await _journalEntries.Find(entry => true).ToListAsync();
-            
-            foreach (var item in list)
-            {
-                yield return _mapper.Map<JournalEntryDto>(item);
-            }
+            throw new NotImplementedException();
         }
 
-        public async IAsyncEnumerable<JournalEntryDto> GetAllByCategoryAsync(string category)
+        public IAsyncEnumerable<JournalEntryDto> FindAll(string search)
         {
-            var list = await _journalEntries.Find(journalEntry => journalEntry.Category == category).ToListAsync();
-            
-            foreach (var item in list)
-            {
-                yield return _mapper.Map<JournalEntryDto>(item);
-            }
+            throw new NotImplementedException();
         }
 
-        public async IAsyncEnumerable<JournalEntryDto> GetAllByDateAsync(DateTime date)
+        public IAsyncEnumerable<JournalEntryDto> GetAllByCategoryAsync(string category)
         {
-            var list = await _journalEntries.Find(journalEntry => journalEntry.DateEntry == date).ToListAsync();
-
-            foreach (var item in list)
-            {
-                yield return _mapper.Map<JournalEntryDto>(item);
-            }
+            throw new NotImplementedException();
         }
 
-        public async IAsyncEnumerable<JournalEntryDto> FindAll(string search)
+        public IAsyncEnumerable<JournalEntryDto> GetAllByDateAsync(DateTime date)
         {
-            var list = await _journalEntries.Find(journalEntry => journalEntry.Entry.Contains(search, StringComparison.OrdinalIgnoreCase)).ToListAsync();
-
-            foreach (var item in list)
-            {
-                yield return _mapper.Map<JournalEntryDto>(item);
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<JournalEntryDto> GetByIdAsync(Guid id) 
+        public Task<bool> UpdateAsync(JournalEntryDto itemToUpdate)
         {
-            var journalEntry = await _journalEntries.Find(task => task.JournalEntryId == id).FirstOrDefaultAsync();
-            return _mapper.Map<JournalEntryDto>(journalEntry);
+            throw new NotImplementedException();
         }
 
-        public async Task<JournalEntryDto> CreateAsync(JournalEntryDto journalEntry)
+        IAsyncEnumerable<JournalEntryDto> IBaseRepository<JournalEntryDto, JournalEntryDocument>.GetAllAsync()
         {
-            var journalEntryDocument = _mapper.Map<JournalEntryDocument>(journalEntry);
-            await _journalEntries.InsertOneAsync(journalEntryDocument, new InsertOneOptions { BypassDocumentValidation = true });
-            //Todo retrieve Id
-
-            return journalEntry;
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdateAsync(JournalEntryDto updatedjournalEntry)
+        Task<JournalEntryDto> IBaseRepository<JournalEntryDto, JournalEntryDocument>.GetByIdAsync(Guid id)
         {
-            var journalEntryDocument = _mapper.Map<JournalEntryDocument>(updatedjournalEntry);
-            var result = await _journalEntries.ReplaceOneAsync(journalEntry => journalEntry.JournalEntryId == updatedjournalEntry.JournalEntryId, journalEntryDocument);
-            return result.IsAcknowledged;
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        Task<JournalEntryDto> IBaseRepository<JournalEntryDto, JournalEntryDocument>.GetBySearchKey(string searchKey)
         {
-            var result = await _journalEntries.DeleteOneAsync(journalEntry => journalEntry.JournalEntryId == id);
-            return result.IsAcknowledged;
+            throw new NotImplementedException();
         }
     }
 }

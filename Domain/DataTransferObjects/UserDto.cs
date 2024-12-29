@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Domain.DataTransferObjects
 {
-    public class UserDto
+    public class UserDto : ISearchable
     {
         [JsonPropertyName("id")]
         public string? Id { get; set; }
@@ -23,5 +23,9 @@ namespace Domain.DataTransferObjects
         public bool IsAdmin { get; set; } = false;
         [JsonPropertyName("datejoined")]
         public DateTime DateJoined { get; set; }
+        [JsonIgnore]
+        public string SearchKey => Username;
+        [JsonIgnore]
+        public Guid SearchIdKey => UserId;
     }
 }

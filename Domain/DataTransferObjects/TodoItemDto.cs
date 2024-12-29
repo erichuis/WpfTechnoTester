@@ -2,7 +2,7 @@
 
 namespace Domain.DataTransferObjects
 {
-    public class TodoItemDto
+    public class TodoItemDto : ISearchable
     {
         [JsonPropertyName("id")]
         public string? Id { get; set; }
@@ -24,5 +24,9 @@ namespace Domain.DataTransferObjects
 
         [JsonPropertyName("inprogress")]
         public int InProgress { get; set; }
+        [JsonIgnore]
+        public string SearchKey => Title;
+        [JsonIgnore]
+        public Guid SearchIdKey => TodoItemId;
     }
 }

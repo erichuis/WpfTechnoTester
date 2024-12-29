@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Cybervision.Dapr.Services;
+using Cybervision.Dapr.Repositories;
 using Domain.DataTransferObjects;
 
 namespace TodoApi.Services
