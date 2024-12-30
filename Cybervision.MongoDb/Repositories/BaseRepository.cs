@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Cybervision.Dapr.DataModels;
 using Cybervision.Dapr.Helpers;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
@@ -54,7 +53,8 @@ namespace Cybervision.Dapr.Repositories
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            var result = await _collection.Find(item => item.SearchIdKey == id).FirstOrDefaultAsync();
+            var filter = SearchKeyHelper.CreateSearchIdKeyFilter<U>(id);
+            var result = await _collection.Find(filter).FirstOrDefaultAsync();
             return _mapper.Map<T>(result);
         }
 
@@ -70,13 +70,15 @@ namespace Cybervision.Dapr.Repositories
         public async Task<bool> UpdateAsync(T itemToUpdate)
         {
             var document = _mapper.Map<U>(itemToUpdate);
-            var result = await _collection.ReplaceOneAsync(item => item.SearchIdKey == itemToUpdate.SearchIdKey, document);
+            var filter = SearchKeyHelper.CreateSearchIdKeyFilter<U>(itemToUpdate.SearchIdKey);
+            var result = await _collection.ReplaceOneAsync(filter, document);
             return result.IsAcknowledged;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var result = await _collection.DeleteOneAsync(item => item.SearchIdKey == id);
+            var filter = SearchKeyHelper.CreateSearchIdKeyFilter<U>(id);
+            var result = await _collection.DeleteOneAsync(filter);
             return result.IsAcknowledged;
         }
 

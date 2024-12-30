@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Domain.Models;
+using System.Text.Json.Serialization;
 
 namespace Domain.DataTransferObjects
 {
@@ -21,6 +22,11 @@ namespace Domain.DataTransferObjects
 
         public string SearchKey => Entry;
 
-        public Guid SearchIdKey => JournalEntryId;
+        [JsonIgnore]
+        public Guid SearchIdKey
+        {
+            get { return JournalEntryId; }
+            set { JournalEntryId = value; }
+        }
     }
 }

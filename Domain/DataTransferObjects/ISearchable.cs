@@ -3,6 +3,6 @@
     public interface ISearchable
     {
         string SearchKey { get; }
-        Guid SearchIdKey { get; }
+        Guid SearchIdKey { get; set; }
     }
 }

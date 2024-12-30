@@ -1,4 +1,4 @@
-﻿namespace TodoApi.Services
+﻿namespace Cybervision.Dapr.Services
 {
     public interface IDataService<T>
     {

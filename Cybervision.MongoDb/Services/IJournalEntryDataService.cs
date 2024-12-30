@@ -1,9 +1,8 @@
-﻿using Cybervision.Dapr.Services;
-using Domain.DataTransferObjects;
+﻿using Domain.DataTransferObjects;
 
-namespace TodoApi.Services
+namespace Cybervision.Dapr.Services
 {
-    public interface IJournalEntryService : IDataService<JournalEntryDto>
+    public interface IJournalEntryDataService : IDataService<JournalEntryDto>
     {
         IAsyncEnumerable<JournalEntryDto> GetAllByCategoryAsync(string category);
         IAsyncEnumerable<JournalEntryDto> GetAllByDateAsync(DateTime date);

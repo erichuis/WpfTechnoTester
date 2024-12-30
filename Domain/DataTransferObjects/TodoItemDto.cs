@@ -26,7 +26,12 @@ namespace Domain.DataTransferObjects
         public int InProgress { get; set; }
         [JsonIgnore]
         public string SearchKey => Title;
+
         [JsonIgnore]
-        public Guid SearchIdKey => TodoItemId;
+        public Guid SearchIdKey
+        {
+            get { return TodoItemId; }
+            set { TodoItemId = value; }
+        }
     }
 }

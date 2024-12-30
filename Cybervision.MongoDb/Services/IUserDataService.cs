@@ -1,9 +1,8 @@
-﻿using Cybervision.Dapr.Services;
-using Domain.DataTransferObjects;
+﻿using Domain.DataTransferObjects;
 
-namespace TodoApi.Services
+namespace Cybervision.Dapr.Services
 {
-    public interface IUserService : IDataService<UserDto>
+    public interface IUserDataService : IDataService<UserDto>
     {
         Task<UserDto> Login(UserDto userDto);
         Task<bool> Logout(string username);

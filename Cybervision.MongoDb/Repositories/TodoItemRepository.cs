@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Cybervision.Dapr.DataModels;
-using Cybervision.Dapr.Repositories;
 using Domain.DataTransferObjects;
 using Microsoft.Extensions.Configuration;
 
-namespace Cybervision.Dapr.Services
+namespace Cybervision.Dapr.Repositories
 {
     public class TodoItemRepository : BaseRepository<TodoItemDto, TodoItemDocument>, ITodoItemRepository
     {

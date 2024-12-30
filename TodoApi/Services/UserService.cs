@@ -1,62 +1,28 @@
 ﻿using AutoMapper;
-using Cybervision.Dapr.Repositories;
+using Cybervision.Dapr.Services;
 using Domain.DataTransferObjects;
 using Domain.Helpers;
-using System.Net;
 
 namespace TodoApi.Services
 {
-    public class UserService : IUserService
+    public class UserService : BaseDataService<UserDto, UserDataService>, IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserDataService _dataService;
         private readonly IMapper _mapper;
-        public UserService(IUserRepository userRepository, IMapper mapper) 
+        public UserService(UserDataService dataService, IMapper mapper) :base(dataService, mapper)
         {
-            _userRepository = userRepository;
+            _dataService = dataService;
             _mapper = mapper;
         }
-        public Task<UserDto> CreateAsync(UserDto user)
-        {
-            user.DateJoined = DateTime.Now;
-            user.IsActive = true;
-            user.UserId = Guid.NewGuid();
-          
-            // Hash the password
-            user.PasswordHashed = PasswordHelper.HashPassword(new NetworkCredential(string.Empty, user.Password).Password);
-            
-            var result = _userRepository.CreateAsync(user);
-
-            //check if id exists
-            return result;
-        }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            return await _userRepository.DeleteAsync(id).ConfigureAwait(false);
-        }
-
-        public async IAsyncEnumerable<UserDto> GetAllAsync()
-        {
-            var results =  _userRepository.GetAllAsync();
-            await foreach (var item in results)
-            {
-                yield return item;
-            }
-        }
-
-        public async Task<UserDto> GetAsync(Guid id)
-        {
-            return await _userRepository.GetByIdAsync(id).ConfigureAwait(false);
-        }
-
+    
         public async Task<UserDto> GetByName(string username)
         {
-            return await _userRepository.GetBySearchKey(username).ConfigureAwait(false);
+            return await _dataService.GetByName(username).ConfigureAwait(false);
         }
 
         public async Task<UserDto> Login(UserDto userDto)
         {
-            var foundUser = await _userRepository.GetBySearchKey(userDto.Username).ConfigureAwait(false);
+            var foundUser = await _dataService.GetByName(userDto.Username).ConfigureAwait(false);
 
             if (foundUser == null || foundUser.PasswordHashed == null)
             {
@@ -76,12 +42,6 @@ namespace TodoApi.Services
         {
             //var result = await _userRepository.
             return true;
-        }
-
-        public async Task<bool> UpdateAsync(UserDto entity)
-        {
-            var result = await _userRepository.UpdateAsync(entity).ConfigureAwait(false);
-            return result;
         }
 
         public Task<UserDto> UpdateManyAsync(IEnumerable<UserDto> entities)
