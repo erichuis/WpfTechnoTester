@@ -3,6 +3,7 @@ using Cybervision.Dapr.DataModels;
 using Cybervision.Dapr.Profiles;
 using Cybervision.Dapr.Repositories;
 using Cybervision.Dapr.Services;
+using MongoDB.Bson.Serialization;
 using TodoApi.Middleware;
 using TodoApi.Services;
 
@@ -30,6 +31,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
     });
+
+//RegisterClassMaps();
 
 builder.Services.AddCustomAuthentication(builder.Configuration);
 
@@ -60,3 +63,17 @@ catch (Exception ex)
 }
 
 app.Run();
+
+//static void RegisterClassMaps()
+//{
+//    if (!BsonClassMap.IsClassMapRegistered(typeof(UserDocument)))
+//    {
+//        BsonClassMap.RegisterClassMap<UserDocument>(cm =>
+//        {
+//            cm.AutoMap();
+//            cm.MapMember(c => c.SearchKey)
+//                .SetIsRequired(false)
+//                .SetSerializer(new SearchKeyAliasSerializer("Username"));
+//        });
+//    }
+//}

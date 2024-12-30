@@ -12,6 +12,8 @@ namespace Cybervision.Dapr.DataModels
 
         [BsonGuidRepresentation(GuidRepresentation.Standard)]
         public Guid UserId { get; set; }
+
+        [BsonElement("Username")]
         public required string Username { get; set; }
         public required string Email { get; set; }
 
@@ -23,7 +25,6 @@ namespace Cybervision.Dapr.DataModels
         public DateTime DateJoined { get; set; }
 
         [BsonIgnore]
-        [BsonElement("Username")]
         public string SearchKey => Username;
 
         [BsonIgnore]

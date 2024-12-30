@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
+using Cybervision.Dapr.DataModels;
+using Cybervision.Dapr.Helpers;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 
 namespace Cybervision.Dapr.Repositories
 {
@@ -13,11 +18,28 @@ namespace Cybervision.Dapr.Repositories
 
         public BaseRepository(IConfiguration config, IMapper mapper, string collectionName)
         {
-            var client = new MongoClient(config.GetConnectionString("TodoAppDb"));
+            var serverInfo = new MongoServerAddress(config.GetConnectionString("TodoAppDb"));
+
+            var client = new MongoClient(new MongoClientSettings
+            {
+                Server = serverInfo,
+                ClusterConfigurator = cb =>
+                {
+                    cb.Subscribe<CommandStartedEvent>(e => InterceptCommand(e));
+                }
+            });
+
             var database = client.GetDatabase("TodoApp");
 
             _collection = database.GetCollection<U>(collectionName);
             _mapper = mapper;
+
+        }
+
+        private void InterceptCommand(CommandStartedEvent e)
+        {
+            Console.WriteLine($"{e.CommandName} - {e.Command.ToJson(new JsonWriterSettings { Indent = true })}");
+            Console.WriteLine(new String('-', 32));
         }
 
         public async IAsyncEnumerable<T> GetAllAsync()
@@ -60,7 +82,8 @@ namespace Cybervision.Dapr.Repositories
 
         public async Task<T> GetBySearchKey(string searchKey)
         {
-            var result = await _collection.Find(item => item.SearchKey == searchKey).FirstOrDefaultAsync();
+            var filter = SearchKeyHelper.CreateSearchKeyFilter<U>(searchKey);
+            var result = await _collection.Find(filter).FirstOrDefaultAsync();
             return _mapper.Map<T>(result);
         }
     }
