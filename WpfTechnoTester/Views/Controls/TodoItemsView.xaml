@@ -27,8 +27,8 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Width="300" Header="Description" DisplayMemberBinding="{Binding Description}"/>
-                        <GridViewColumn Width="150" Header="Date started" DisplayMemberBinding="{Binding DateStarted}"/>
-                        <GridViewColumn Width="150" Header="Date completed" DisplayMemberBinding="{Binding DateCompleted}"/>
+                        <GridViewColumn Width="150" Header="Date started" DisplayMemberBinding="{Binding DateStarted, StringFormat='yyyy-MM-dd'}"/>
+                        <GridViewColumn Width="150" Header="Date completed" DisplayMemberBinding="{Binding DateCompleted, StringFormat='yyyy-MM-dd'}"/>
                         <GridViewColumn Width="350" Header="In progress">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

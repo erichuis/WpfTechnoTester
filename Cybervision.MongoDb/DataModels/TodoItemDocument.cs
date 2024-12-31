@@ -14,10 +14,10 @@ namespace Cybervision.Dapr.DataModels
         public required string Title { get; set; }
         public required string Description { get; set; }
 
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? DateStarted{ get; set; }
 
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? DateCompleted { get; set; }
 
         public int InProgress { get; set; }

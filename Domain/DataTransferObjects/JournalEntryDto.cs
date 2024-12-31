@@ -18,7 +18,7 @@ namespace Domain.DataTransferObjects
         public string? Category { get; set; }
 
         [JsonPropertyName("dateentry")]
-        public DateTime DateStarted { get; set; }
+        public DateTime? DateEntry{ get; set; }
 
         public string SearchKey => Entry;
 

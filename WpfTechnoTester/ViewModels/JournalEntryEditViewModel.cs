@@ -44,7 +44,7 @@ namespace WpfTechnoTester.ViewModels
                 }
             }
         }
-        public DateTime DateEntry
+        public DateTime? DateEntry
         {
             get => JournalEntry.DateEntry;
             set

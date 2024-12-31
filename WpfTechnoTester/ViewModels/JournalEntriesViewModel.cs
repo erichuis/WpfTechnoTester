@@ -32,7 +32,6 @@ namespace WpfTechnoTester.ViewModels
             LoadCommand = new RelayCommand((param) => RetrieveItems());
         }
       
-
         private async void RetrieveItems()
         {
             JournalEntries?.Clear();

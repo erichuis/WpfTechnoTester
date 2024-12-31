@@ -19,9 +19,9 @@
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
-                        <GridViewColumn Width="200" Header="Date" DisplayMemberBinding="{Binding Date}" />
-                        <GridViewColumn Width="300" Header="Entry" DisplayMemberBinding="{Binding Category}"/>
-                        <GridViewColumn Width="150" Header="Date started" DisplayMemberBinding="{Binding Entry}"/>
+                        <GridViewColumn Width="200" Header="Date" DisplayMemberBinding="{Binding DateEntry, StringFormat='yyyy-MM-dd'}" />
+                        <GridViewColumn Width="300" Header="Category" DisplayMemberBinding="{Binding Category}"/>
+                        <GridViewColumn Width="150" Header="Entry" DisplayMemberBinding="{Binding Entry}"/>
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

@@ -13,6 +13,7 @@ namespace Domain.Models
         [Required(ErrorMessage = "Category can not be empty")]
         public required string Category { get; set; }
 
-        public DateTime DateEntry { get; set; }
+        [Required(ErrorMessage = "Date can not be empty")]
+        public DateTime? DateEntry { get; set; }
     }
 }

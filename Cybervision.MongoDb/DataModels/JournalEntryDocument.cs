@@ -15,8 +15,8 @@ namespace Cybervision.Dapr.DataModels
 
         public string? Category { get; set; }
 
-        [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
-        public DateTime DateEntry { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime? DateEntry { get; set; }
 
         public string SearchKey => Entry;
 
