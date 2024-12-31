@@ -40,6 +40,12 @@ namespace Cybervision.Dapr.Services
             return result;
         }
 
+        public async Task<T> GetBySearchKeyAsync(string search)
+        {
+            var result = await _repository.GetBySearchKey(search).ConfigureAwait(false);
+            return result;
+        }
+
         public async Task<bool> UpdateAsync(T entity)
         {
             var result = await _repository.UpdateAsync(entity).ConfigureAwait(false);

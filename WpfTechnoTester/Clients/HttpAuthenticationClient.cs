@@ -43,7 +43,7 @@ namespace WpfTechnoTester.Clients
 
             try
             {
-                HttpResponseMessage response = await Client.PostAsJsonAsync("User/Login", loginData).ConfigureAwait(false);
+                HttpResponseMessage response = await Client.PostAsJsonAsync("Authentication/Login", loginData).ConfigureAwait(false);
 
                 if (response.IsSuccessStatusCode)
                 {

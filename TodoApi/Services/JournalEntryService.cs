@@ -4,14 +4,12 @@ using Domain.DataTransferObjects;
 
 namespace TodoApi.Services
 {
-    public class JournalEntryService : BaseDataService<JournalEntryDto, JournalEntryDataService>, IJournalEntryService
+    public class JournalEntryService : BaseDataService<JournalEntryDto, IJournalEntryDataService>, IJournalEntryService
     {
         private readonly IJournalEntryDataService _dataService;
-        private readonly IMapper _mapper;
-        public JournalEntryService(JournalEntryDataService dataService, IMapper mapper) :base(dataService, mapper)
+        public JournalEntryService(IJournalEntryDataService dataService, IMapper mapper) :base(dataService, mapper)
         {
             _dataService = dataService;
-            _mapper = mapper;
         }
 
         public async IAsyncEnumerable<JournalEntryDto> FindAllAsync(string search)
@@ -24,14 +22,24 @@ namespace TodoApi.Services
             }
         }
 
-        public IAsyncEnumerable<JournalEntryDto> GetAllByCategoryAsync(string category)
+        public async IAsyncEnumerable<JournalEntryDto> GetAllByCategoryAsync(string category)
         {
-            throw new NotImplementedException();
+            var results = _dataService.GetAllByCategoryAsync(category).ConfigureAwait(false);
+
+            await foreach (var item in results)
+            {
+                yield return item;
+            }
         }
 
-        public IAsyncEnumerable<JournalEntryDto> GetAllByDateAsync(DateTime date)
+        public async IAsyncEnumerable<JournalEntryDto> GetAllByDateAsync(DateTime date)
         {
-            throw new NotImplementedException();
+            var results = _dataService.GetAllByDateAsync(date).ConfigureAwait(false);
+
+            await foreach (var item in results)
+            {
+                yield return item;
+            }
         }
 
         public async Task<JournalEntryDto> UpdateManyAsync(IEnumerable<JournalEntryDto> entities)

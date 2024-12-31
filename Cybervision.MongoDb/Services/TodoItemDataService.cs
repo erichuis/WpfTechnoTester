@@ -4,9 +4,9 @@ using Domain.DataTransferObjects;
 
 namespace Cybervision.Dapr.Services
 {
-    public class TodoItemDataService : BaseDataService<TodoItemDto, TodoItemRepository, TodoItemDocument>, ITodoItemDataService
+    public class TodoItemDataService : BaseDataService<TodoItemDto, ITodoItemRepository, TodoItemDocument>, ITodoItemDataService
     {
-        public TodoItemDataService(TodoItemRepository repository):base(repository)
+        public TodoItemDataService(ITodoItemRepository repository):base(repository)
         {
 
         }

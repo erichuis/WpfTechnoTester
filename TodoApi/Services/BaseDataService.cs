@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cybervision.Dapr.Services;
+using Domain.DataTransferObjects;
 
 namespace TodoApi.Services
 {
@@ -41,6 +42,12 @@ namespace TodoApi.Services
         {
             var result = await _dataService.GetAsync(id).ConfigureAwait(false);
             return result;
+        }
+
+
+        public async Task<T> GetBySearchKeyAsync(string search)
+        {
+            return await _dataService.GetBySearchKeyAsync(search).ConfigureAwait(false);
         }
 
         public async Task<bool> UpdateAsync(T entity)

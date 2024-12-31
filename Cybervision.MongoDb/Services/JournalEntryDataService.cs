@@ -4,9 +4,9 @@ using Domain.DataTransferObjects;
 
 namespace Cybervision.Dapr.Services
 {
-    public class JournalEntryDataService : BaseDataService<JournalEntryDto, JournalEntryRepository, JournalEntryDocument>, IJournalEntryDataService
+    public class JournalEntryDataService : BaseDataService<JournalEntryDto, IJournalEntryRepository, JournalEntryDocument>, IJournalEntryDataService
     {
-        public JournalEntryDataService(JournalEntryRepository repository):base(repository)
+        public JournalEntryDataService(IJournalEntryRepository repository):base(repository)
         {
 
         }

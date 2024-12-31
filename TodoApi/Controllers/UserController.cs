@@ -1,9 +1,6 @@
-﻿using Cybervision.Dapr.Services;
-using Domain.DataTransferObjects;
-using Domain.Helpers;
+﻿using Domain.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using TodoApi.Services;
 
 namespace TodoApi.Controllers
@@ -19,19 +16,19 @@ namespace TodoApi.Controllers
             _userService = userService;
         }
 
-        [HttpPost()]
-        public async Task<ActionResult<UserDto>> Login(UserDto userDto)
-        {
-            if (userDto == null || userDto.Password == null)
-            {
-                return BadRequest("loginRequest or password can not be null");
-            }
+        //[HttpPost()]
+        //public async Task<ActionResult<UserDto>> Login(UserDto userDto)
+        //{
+        //    if (userDto == null || userDto.Password == null)
+        //    {
+        //        return BadRequest("loginRequest or password can not be null");
+        //    }
 
-            var user = await _userService.Login(userDto).ConfigureAwait(false);
+        //    var user = await _userService.Login(userDto).ConfigureAwait(false);
 
-            // In a real-world scenario, generate a token here
-            return Ok(user);
-        }
+        //    // In a real-world scenario, generate a token here
+        //    return Ok(user);
+        //}
 
         [Authorize(Policy = "ApiScope")]
         [HttpGet()]
