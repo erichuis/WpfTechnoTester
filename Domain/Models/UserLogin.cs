@@ -4,7 +4,7 @@ using System.Security;
 
 namespace Domain.Models
 {
-    public class UserLogin : BaseModel
+    public class UserLogin
     {
         public UserLogin()
         {

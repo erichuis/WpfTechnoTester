@@ -25,6 +25,7 @@ namespace WpfTechnoTester
             var services = new ServiceCollection();
 
             // Register http clients
+            services.AddTransient<OidcLoginService>(); //todo use interface
             services.AddSingleton<IHttpAuthenticationClient, HttpAuthenticationClient>();
             services.AddSingleton(typeof(IHttpTodoItemClient), typeof(HttpTodoItemClient));
             services.AddSingleton<IHttpJournalEntryClient, HttpJournalEntryClient>();
@@ -86,7 +87,7 @@ namespace WpfTechnoTester
             services.AddTransient<TodoItemEditView>();
             services.AddTransient<JournalEntryEditView>();
             services.AddTransient<UserSignupView>();
-            services.AddTransient<UserLoginView>();
+            services.AddTransient<UserLoginBrowserView>();
 
             ServiceProvider = services.BuildServiceProvider();
 

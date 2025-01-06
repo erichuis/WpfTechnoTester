@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Runtime.CompilerServices;
 
 public static class AuthenticationConfig
 {
@@ -10,15 +11,15 @@ public static class AuthenticationConfig
         
         services.AddAuthentication(opt =>
         {
-            opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            //opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
             .AddJwtBearer("Bearer", options =>
             {
                 options.Authority = authority;
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = false;
-                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidAudience = $"{authority}/resources",
                     ValidateAudience = true,
@@ -35,6 +36,6 @@ public static class AuthenticationConfig
                 policy.RequireClaim("scope", audience);
             });
         });
-
+        
     }
 }

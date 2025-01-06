@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Microsoft.Extensions.DependencyInjection;
+using WpfTechnoTester.Clients;
 using WpfTechnoTester.Views;
 
 namespace WpfTechnoTester.Services
@@ -48,13 +49,16 @@ namespace WpfTechnoTester.Services
 
         public bool ShowUserLoginDialog()
         {
-            // Resolve the NewWindow from the service provider
-            var window = _serviceProvider.GetRequiredService<UserLoginView>();
+            var oidcClient = new OidcLoginService();
+            var result = oidcClient.LoginAsync().GetAwaiter().GetResult();
+            return true;
+            //// Resolve the NewWindow from the service provider
+            //var window = _serviceProvider.GetRequiredService<UserLoginBrowserView>();
 
-            // Optionally set properties or initialize if needed
-            var dialogResult = window.ShowDialog(); // Open the window modal
+            //// Optionally set properties or initialize if needed
+            //var dialogResult = window.ShowDialog(); // Open the window modal
 
-            return dialogResult ?? false;
+            //return dialogResult ?? false;
         }
     }
 }

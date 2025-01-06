@@ -1,8 +1,10 @@
 ﻿using Domain.DataTransferObjects;
 using IdentityModel.Client;
+using IdentityModel.OidcClient;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security;
+using System.Windows;
 
 namespace WpfTechnoTester.Clients
 {
@@ -18,22 +20,32 @@ namespace WpfTechnoTester.Clients
         public string AccessToken { get; private set; }
 
         public HttpClient Client { get; private set; }
-
+        private OidcLoginService _oidcLoginService;
         private DiscoveryDocumentResponse _disco = new();
 
-        public HttpAuthenticationClient()
+        public HttpAuthenticationClient(OidcLoginService oidcLoginService)
         {
             AccessToken = string.Empty;
             Client = new() { BaseAddress = new Uri("https://localhost:7116/api/") };
+            _oidcLoginService = oidcLoginService;
         }
+
 
         public async Task<UserDto> Login(string username, SecureString password)
         {
             if (string.IsNullOrEmpty(AccessToken))
             {
-                AccessToken =  await GetToken().ConfigureAwait(false);
+                var result = await _oidcLoginService.LoginAsync();
+                if (result.IsError)
+                {
+                    MessageBox.Show($"Login failed: {result.Error}");
+                    AccessToken =  string.Empty;
+                  
+                }
+                AccessToken = result.AccessToken;
                 Client.SetBearerToken(AccessToken);
             }
+            //Todo this is being handled by identity server...should be removed
             var loginData = new UserDto()
             {
                 Username = username,
@@ -94,38 +106,60 @@ namespace WpfTechnoTester.Clients
 
         public async Task<string> GetToken()
         {
-            var client = new HttpClient();
-
-            _disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001").ConfigureAwait(false);
-
-            if (_disco.IsError)
+            var options = new OidcClientOptions
             {
-                Console.WriteLine(_disco.Error);
-                return string.Empty;
-            }
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(
-                new ClientCredentialsTokenRequest
-                {
-                    Address = _disco.TokenEndpoint,
-                    ClientId = ClientId,
-                    ClientSecret = ClientSecret,
-                    Scope = Scope,
-                    GrantType = GrantType
-                });
+                Authority = "https://localhost:5001",
+                ClientId = ClientId,
+                RedirectUri = "http://localhost:7890/",
+                ClientSecret = ClientSecret,
+                Scope = Scope,
+                Browser = new SystemBrowser(7890)
+            };
+            var oidcClient = new OidcClient(options);
 
-            if (tokenResponse.IsError)
+            var result = await oidcClient.LoginAsync(new LoginRequest());
+
+            if (result.IsError)
             {
-                Console.WriteLine($"{tokenResponse.Error}");
+                MessageBox.Show($"Login failed: {result.Error}");
                 return string.Empty;
             }
 
-            if (string.IsNullOrEmpty(tokenResponse.AccessToken))
-            {
-                //context.Response.StatusCode = 401;
-                return string.Empty;
-            }
+            return result.AccessToken;
+            //MessageBox.Show("Login successful!");
 
-            return tokenResponse.AccessToken;
+            //var client = new HttpClient();
+
+            //_disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001").ConfigureAwait(false);
+
+            //if (_disco.IsError)
+            //{
+            //    Console.WriteLine(_disco.Error);
+            //    return string.Empty;
+            //}
+            //var tokenResponse = await client.RequestClientCredentialsTokenAsync(
+            //    new ClientCredentialsTokenRequest
+            //    {
+            //        Address = _disco.TokenEndpoint,
+            //        ClientId = ClientId,
+            //        ClientSecret = ClientSecret,
+            //        Scope = Scope,
+            //        GrantType = GrantType
+            //    });
+
+            //if (tokenResponse.IsError)
+            //{
+            //    Console.WriteLine($"{tokenResponse.Error}");
+            //    return string.Empty;
+            //}
+
+            //if (string.IsNullOrEmpty(tokenResponse.AccessToken))
+            //{
+            //    //context.Response.StatusCode = 401;
+            //    return string.Empty;
+            //}
+
+            //return tokenResponse.AccessToken;
         }
 
         private async void CheckError(string token)

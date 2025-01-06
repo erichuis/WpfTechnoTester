@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="IdentityModel" Version="7.0.0" />
+    <PackageReference Include="IdentityModel.OidcClient" Version="6.0.0" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
@@ -32,6 +33,7 @@
 
   <ItemGroup>
     <Folder Include="EventArgs\" />
+    <Folder Include="ViewModels\Decorators\" />
   </ItemGroup>
 
   <ItemGroup>

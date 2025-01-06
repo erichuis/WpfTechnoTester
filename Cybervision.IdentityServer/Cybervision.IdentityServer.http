@@ -1,0 +1,6 @@
+@Cybervision.IdentityServer_HostAddress = http://localhost:5228
+
+GET {{Cybervision.IdentityServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

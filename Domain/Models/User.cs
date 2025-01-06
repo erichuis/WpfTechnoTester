@@ -4,7 +4,7 @@ using System.Security;
 
 namespace Domain.Models
 {
-    public class User : BaseModel
+    public class User
     {
         //private const string EmptyPasswordErrorMessage = "Password can not be empty.";
 
